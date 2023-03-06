@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+	<name>Hospitality: Casino</name>
+	<author>Adamas</author>
+	<packageId>Adamas.HospitalityCasino</packageId>
+	<supportedVersions>
+		<li>1.4</li>
+	</supportedVersions>
+	<modDependencies>
+		<li>
+			<packageId>Orion.Hospitality</packageId>
+			<displayName>Hospitality</displayName>
+			<steamWorkshopUrl>steam://url/CommunityFilePage/2553700067</steamWorkshopUrl>
+		</li>
+	</modDependencies>
+	<loadAfter>
+		<li>Orion.Hospitality</li>
+	</loadAfter>
+	<description>
+		Want to squeeze some more silver out of the pockets of your guests? Build your casino and let them have a happy stay while loading your slot machines.
+	</description>
+</ModMetaData>

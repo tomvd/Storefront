@@ -1,0 +1,10 @@
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Source\Storefront\obj\Debug\Storefront.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Source\Storefront\obj\Debug\Storefront.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Assemblies\Storefront.dll.config
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Assemblies\Storefront.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Assemblies\Storefront.pdb
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Source\Storefront\obj\Debug\Storefront.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Source\Storefront\obj\Debug\Storefront.pdb
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\1.4\Assemblies\Storefront.dll.config
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\1.4\Assemblies\Storefront.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\1.4\Assemblies\Storefront.pdb

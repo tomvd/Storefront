@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<!-- Add tab to cash register -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>/Defs/ThingDef[defName = "CashRegister_CashRegister"]/inspectorTabs</xpath>
+		<value>
+			<li>Storefront.Store.ITab_Register_Store</li>		
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationInsert">
+		<xpath>*/DutyDef[defName = "Relax"]/thinkNode[@Class="ThinkNode_Priority"]/subNodes/li[@Class="Hospitality.ThinkNode_OnlyAllowed"]/subNodes/li[@Class="ThinkNode_Tagger"]/subNodes/li[@Class="ThinkNode_PrioritySorter"]/subNodes//li[1]</xpath>
+		<value>
+			<li Class="Storefront.Shopping.JobGiver_BuyFood" />
+		</value>
+	</Operation>		
+</Patch>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <WorkTypeDef>
+    <defName>Storefront_Selling</defName>
+    <labelShort>Selling</labelShort>
+    <pawnLabel>Cashier</pawnLabel>
+    <gerundLabel>selling</gerundLabel>
+    <description>Sell items to customers.</description>
+    <verb>Sell</verb>
+    <naturalPriority>1065</naturalPriority>
+    <relevantSkills>
+      <li>Social</li>
+    </relevantSkills>
+    <workTags>
+      <li>Commoner</li>
+      <li>Social</li>
+      <li>AllWork</li>
+    </workTags>
+  </WorkTypeDef>
+
+</Defs>

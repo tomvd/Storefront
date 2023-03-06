@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <JobDef>
+    <defName>Storefront_StandBy</defName>
+    <driverClass>Storefront.Selling.JobDriver_StandBy</driverClass>
+    <reportString>waiting for sales work.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+  <!--
+  <JobDef>
+    <defName>Storefront_Sell</defName>
+    <driverClass>Storefront.JobDriver_Sell</driverClass>
+    <reportString>selling TargetB to TargetA.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+-->
+</Defs>

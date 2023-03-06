@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <JoyGiverDef>
+    <defName>Play_SlotMachine</defName>
+    <giverClass>HospitalityCasino.JoyGiver_PlaySlotMachine</giverClass>
+    <baseChance>4</baseChance>
+    <thingDefs>
+      <li>HC_SlotMachineRed</li>
+      <li>HC_SlotMachineGreen</li>
+      <li>HC_SlotMachineBlue</li>
+    </thingDefs>
+    <jobDef>Play_SlotMachine</jobDef>
+    <joyKind>Gaming_Cerebral</joyKind>
+    <requireChair>true</requireChair>
+    <requiredCapacities>
+      <li>Sight</li>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </JoyGiverDef>
+</Defs>

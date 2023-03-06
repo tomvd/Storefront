@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="59041366-69e9-4557-a444-2030c2709c61" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../.vscode/mod.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../.vscode/mod.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../1.4/Assemblies/HospitalityCasino.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../1.4/Defs/Buildings/Buildings_Joy.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../1.4/Defs/JobDefs/Jobs_Joy.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../1.4/Defs/Joy/JoyGivers.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../1.4/Defs/Joy/JoyGivers.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../1.4/Defs/Misc/Things_Special.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../1.4/Defs/SoundDefs/Interact_Oneshots_Misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../1.4/Defs/Thoughts/Thoughts_Memory_Misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../About/About.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../About/About.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README" beforeDir="false" afterPath="$PROJECT_DIR$/../README" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Sounds/coin.ogg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Sounds/jackpot.ogg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Sounds/reelstop.ogg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HospitalityCasino.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SlotMachineJob.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SlotMachineThing.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Textures/Things/Building/SlotMachineBlue_east.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Textures/Things/Building/SlotMachineBlue_north.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Textures/Things/Building/SlotMachineBlue_south.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Textures/Things/Building/SlotMachineGreen_east.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Textures/Things/Building/SlotMachineGreen_north.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Textures/Things/Building/SlotMachineGreen_south.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Textures/Things/Building/SlotMachineRed_east.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Textures/Things/Building/SlotMachineRed_north.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Textures/Things/Building/SlotMachineRed_south.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Textures/Things/Special/Mote_ReelBlurA.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Textures/Things/Special/Mote_ReelBlurB.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Textures/Things/Special/Mote_ReelBlurC.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Textures/Things/Special/Mote_ReelOutcomeBar.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Textures/Things/Special/Mote_ReelOutcomeFruit.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Textures/Things/Special/Mote_ReelOutcomeSeven.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Textures/UI/Icons/SlotMachineBlue.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Textures/UI/Icons/SlotMachineGreen.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Textures/UI/Icons/SlotMachineRed.png" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectId" id="2MazXwoZxuswOdGOCKldx0AFuHq" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="59041366-69e9-4557-a444-2030c2709c61" name="Changes" comment="" />
+      <created>1678020525124</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1678020525124</updated>
+      <workItem from="1678020526744" duration="149000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+</project>
