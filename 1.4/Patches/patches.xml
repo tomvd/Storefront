@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Patch>
 	<!-- Add tab to cash register -->
+	<!-- TODO: add recreation type shopping to the register?? It avoids the need recreation variety if you have just a shop -->
 	<Operation Class="PatchOperationAdd">
 		<xpath>/Defs/ThingDef[defName = "CashRegister_CashRegister"]/inspectorTabs</xpath>
 		<value>

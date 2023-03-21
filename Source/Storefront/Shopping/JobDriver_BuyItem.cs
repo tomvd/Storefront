@@ -1,29 +1,34 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Hospitality;
 using RimWorld;
-using UnityEngine;
+using Storefront.Utilities;
 using Verse;
 using Verse.AI;
-using Verse.Sound;
-using ItemUtility = Hospitality.ItemUtility;
-using CashRegister;
 
 namespace Storefront.Shopping
 {
+    public enum CustomerState
+    {
+        FetchingProduct,
+        WaitingToBeServed,
+        BeingServed,
+        Leaving
+    } 
+    
+
+    
     public class JobDriver_BuyItem : JobDriver
     {
+        public CustomerState CustomerState = CustomerState.FetchingProduct;
         //Constants
-        public const int MinShoppingDuration = 75;
-        public const int MaxShoppingDuration = 300;
+        public const int MinShoppingDuration = 50;
+        public const int MaxShoppingDuration = 100;
 
         //Properties
-        private Thing Item => job.GetTarget(TargetIndex.A).Thing;
-        private Thing Register => job.GetTarget(TargetIndex.B).Thing;
-        
-        private const TargetIndex IndexSpot = TargetIndex.B;
-        private const TargetIndex IndexStanding = TargetIndex.A;
+      
+        private TargetIndex ItemInd = TargetIndex.A;
+        private TargetIndex RegisterInd = TargetIndex.B;
+        private TargetIndex QueueInd = TargetIndex.C;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
@@ -32,11 +37,11 @@ namespace Storefront.Shopping
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
+            //this.FailOnDespawnedNullOrForbidden(ItemInd);
             
-            Log.Message($"{pawn.NameShortColored} is buying {Item.LabelShort} at {IndexSpot}.");
+            Log.Message($"{pawn.NameShortColored} is buying {TargetThingA.LabelShort} .");
 
-            this.FailOn(() => !ItemUtility.IsBuyableNow(pawn, Item));
+            this.FailOn(() => !ItemUtility.IsBuyableNow(pawn, TargetThingA));
             //AddEndCondition(() =>
             //{
             //    if (Deliveree.health.ShouldGetTreatment)
@@ -46,140 +51,26 @@ namespace Storefront.Shopping
 
             if (TargetThingA != null)
             {
-                yield return Toils_Reserve.Reserve(TargetIndex.A);
-                yield return QueueAtRegister(IndexSpot, IndexStanding); // A is first the queue spot, then where we'll stand
-                yield return Toils_Goto.GotoCell(IndexStanding, PathEndMode.OnCell);
+                //yield return Toils_Reserve.Reserve(ItemInd);
+                yield return Toils_Goto.GotoThing(ItemInd, PathEndMode.ClosestTouch);//.FailOnDespawnedNullOrForbidden(ItemInd);
+                int duration = Rand.Range(MinShoppingDuration, MaxShoppingDuration);
+                yield return Toils_General.Wait(duration).FailOnCannotTouch(ItemInd, PathEndMode.Touch);
+                yield return Toils_Haul.StartCarryThing(ItemInd);
+                yield return FindQueuePositionAtRegister(RegisterInd, QueueInd);
+                yield return Toils_Goto.GotoCell(QueueInd, PathEndMode.OnCell);
                 yield return Toils_Interpersonal.WaitToBeAbleToInteract(pawn);
-                //int duration = Rand.Range(MinShoppingDuration, MaxShoppingDuration);
-                //yield return Toils_General.Wait(duration).FailOnCannotTouch(TargetIndex.B, PathEndMode.Touch);
-                // TODO customer needs to wait until the cashier is ready to serve ...
-
-                Toil takeThing = new Toil();
-                takeThing.initAction = () => BuyThing(takeThing);
-                yield return takeThing.FailOnDespawnedNullOrForbidden(TargetIndex.A);
+                yield return WaitInQueue(RegisterInd, QueueInd); // basically waits until he is served
+                yield return WaitBeingServed(RegisterInd, QueueInd); // basically waits until he is served 
+                
+                //Toil toil = ToilMaker.MakeToil("BuyThing");
+                //toil.initAction = () => BuyThing(toil);
+                //yield return toil.FailOnDespawnedNullOrForbidden(TargetIndex.A);
             }
 
             //yield return Toils_Jump.Jump(gotoToil); // shop some more
         }
 
-        private void BuyThing(Toil toil)
-        {
-            Job curJob = toil.actor.jobs.curJob; 
-            //Toils_Haul.ErrorCheckForCarry(toil.actor, Item);
-            if (curJob.count == 0)
-            {
-                throw new Exception(string.Concat("BuyItem job had count = ", curJob.count, ". Job: ", curJob));
-            }
-
-            if (Item.MarketValue <= 0) return;
-            int maxSpace = ItemUtility.GetInventorySpaceFor(toil.actor, Item);
-            var inventory = toil.actor.inventory.innerContainer;
-
-            Thing silver = inventory.FirstOrDefault(i => i.def == ThingDefOf.Silver);
-            if (silver == null) return;
-
-            var itemCost = ItemUtility.GetPurchasingCost(Item);
-            var maxAffordable = itemCost <= 0 ? 3 : Mathf.FloorToInt(silver.stackCount/itemCost); // don't buy more than x of free stuff
-            if (maxAffordable < 1) return;
-
-            // Changed formula a bit, so guests are less likely to leave small stacks if they can afford it
-            var maxWanted = Rand.RangeInclusive(1, maxAffordable);
-            int count = Mathf.Min(Item.stackCount, maxSpace, maxWanted);
-
-            var price = Mathf.CeilToInt(count*itemCost);
-
-            if(silver.stackCount < price) return;
-
-            var map = toil.actor.MapHeld;
-            var inventoryItemsBefore = inventory.ToArray();
-            var thing = Item.SplitOff(count);
-
-            // Notification
-            //if (Settings.enableBuyNotification)
-            //{
-                var text = price <= 0 ? "GuestTookFreeItem" : "GuestBoughtItem";
-                Messages.Message(text.Translate(new NamedArgument(toil.actor.Faction, "FACTION"), price, new NamedArgument(toil.actor, "PAWN"), new NamedArgument(thing, "ITEM")), toil.actor, MessageTypeDefOf.SilentInput);
-            //}
-
-            int tookItems;
-            if (thing.def.IsApparel && thing is Apparel apparel && ApparelUtility.HasPartsToWear(pawn, apparel.def) && ItemUtility.AlienFrameworkAllowsIt(toil.actor.def, apparel.def, "CanWear"))
-            {
-                toil.actor.apparel.Wear(apparel);
-                tookItems = apparel.stackCount;
-            }
-            else if (thing.def.IsWeapon && thing is ThingWithComps equipment && equipment.def.IsWithinCategory(ThingCategoryDefOf.Weapons)
-                     && ItemUtility.AlienFrameworkAllowsIt(toil.actor.def, thing.def, "CanEquip"))
-            {
-                var primary = pawn.equipment.Primary;
-                if (equipment.def.equipmentType == EquipmentType.Primary && primary != null)
-                    if (!pawn.equipment.TryTransferEquipmentToContainer(primary, pawn.inventory.innerContainer))
-                    {
-                        Log.Message(pawn.Name.ToStringShort + " failed to take " + primary + " to his inventory.");
-                    }
-                
-                pawn.equipment.AddEquipment(equipment);
-                pawn.equipment.Notify_EquipmentAdded(equipment);
-                equipment.def.soundInteract?.PlayOneShot(new TargetInfo(pawn.Position, pawn.Map));
-                tookItems = equipment.stackCount;
-            }
-            else
-            {
-                tookItems = inventory.TryAdd(thing, count);
-            }
-
-            var comp = toil.actor.TryGetComp<CompGuest>(); //toil.actor.CompGuest();
-            if (tookItems > 0 && comp != null)
-            {
-                if (price > 0)
-                {
-                    //inventory.TryDrop(silver, toil.actor.Position, map, ThingPlaceMode.Near, price, out silver);
-                    if (price < silver.stackCount)
-                    {
-                        Thing silverToPay = silver.SplitOff(count);
-                        silver.TryAbsorbStack(silverToPay, false);
-                        Register.TryGetInnerInteractableThingOwner().TryAdd(silverToPay);
-                    }
-                    if (price == silver.stackCount)
-                    {
-                        Register.TryGetInnerInteractableThingOwner().TryAdd(silver);
-                    }
-                }
-
-                // Check what's new in the inventory (TryAdd creates a copy of the original object!)
-                var newItems = toil.actor.inventory.innerContainer.Except(inventoryItemsBefore).ToArray();
-                foreach (var item in newItems)
-                {
-                    comp.boughtItems.Add(item.thingIDNumber);
-
-                    // Handle trade stuff
-                    Trade(toil, item, map);
-                }
-            }
-            else
-            {
-                // Failed to equip or take
-                if (!GenDrop.TryDropSpawn(thing, toil.actor.Position, map, ThingPlaceMode.Near, out _))
-                {
-                    Log.Warning(toil.actor.Name.ToStringShort + " failed to buy and failed to drop " + thing.Label);
-                }
-            }
-        }
-
-        private void Trade(Toil toil, Thing item, Map map)
-        {
-            if (item is ThingWithComps twc && map.mapPawns.FreeColonistsSpawnedCount > 0)
-            {
-                twc.PreTraded(TradeAction.PlayerSells, map.mapPawns.FreeColonistsSpawned.RandomElement(), toil.actor);
-            }
-
-            // Register with lord toil  - TODO - but how?
-            //var lord = pawn.GetLord();
-            //var lordToil = lord?.CurLordToil as LordToil_VisitPoint;
-
-            //lordToil?.OnPlayerSoldItem(item);
-        }
-        
-        public static Toil QueueAtRegister(TargetIndex adjacentToInd, TargetIndex cellInd, int maxRadius = 4)
+        public static Toil FindQueuePositionAtRegister(TargetIndex adjacentToInd, TargetIndex cellInd, int maxRadius = 4)
         {
             Toil findCell = new Toil {atomicWithPrevious = true};
             findCell.initAction = delegate {
@@ -194,23 +85,88 @@ namespace Storefront.Shopping
                 else
                 {
                     // Try radius 2-4
-                    for (int radius = 0; radius <= maxRadius; radius++)
+                    for (int radius = 1; radius <= maxRadius; radius++)
                     {
                         bool Validator(IntVec3 c) => c.Standable(actor.Map) && c.GetFirstPawn(actor.Map) == null;
-                        if (CellFinder.TryFindRandomReachableCellNear(target.Cell, actor.Map, radius, TraverseParms.For(TraverseMode.NoPassClosedDoors), Validator, null, out var result))
+                        if (CellFinder.TryRandomClosewalkCellNear(target.Cell, actor.Map, radius, out var result,Validator))
+                        //if (CellFinder.TryFindRandomReachableCellNear(target.Cell, actor.Map, radius, TraverseParms.For(TraverseMode.NoPassClosedDoors), Validator, null, out var result))
                         {
                             curJob.SetTarget(cellInd, result);
-                            //Log.Message($"{actor.NameShortColored} found a place to stand at {result}. radius = {radius}");
+                            Log.Message($"{actor.NameShortColored} found a place to stand at {result}. radius = {radius}");
                             return;
                         }
                     }
 
                     // This can happen if there's no space or it's crowded
-                    //Log.Error(actor + " could not find standable cell adjacent to " + target);
+                    Log.Error(actor + " could not find standable cell adjacent to " + target);
                     actor.jobs.curDriver.EndJobWith(JobCondition.Incompletable);
                 }
             };
             return findCell;
-        }        
+        }
+
+
+
+        public Toil WaitInQueue(TargetIndex registerInd, TargetIndex queueInd)
+        {
+            var toil = new Toil();
+            toil.initAction = () =>
+            {
+                if (pawn?.jobs?.curDriver is JobDriver_BuyItem buyJob)
+                {
+                    buyJob.CustomerState = CustomerState.WaitingToBeServed;
+                }
+            };
+            toil.tickAction = () => {
+                if(!pawn.GetCustomerState().Equals(CustomerState.WaitingToBeServed)) pawn?.jobs?.curDriver.ReadyForNextToil();
+            };
+            toil.AddFinishAction(() =>
+            {
+                if (pawn.GetCustomerState().Equals(CustomerState.WaitingToBeServed))
+                {
+                    (pawn?.jobs?.curDriver as JobDriver_BuyItem).CustomerState = CustomerState.Leaving;
+                    Log.Error("failed to be served");
+                    // TODO drop items and go away - or steal items
+                }
+            });
+
+            toil.defaultDuration = 3000;
+            //toil.WithProgressBarToilDelayReversed(queueInd, 3000, true);
+            toil.WithProgressBar(queueInd, () => (float) ((double) toil.actor.jobs.curDriver.ticksLeftThisToil / (double) 3000), true, -0.5f);
+            toil.defaultCompleteMode = ToilCompleteMode.Never;
+            toil.FailOnDestroyedOrNull(registerInd);
+            toil.FailOnDurationExpired(); // Duration over? Fail job!
+            toil.FailOnMyStoreClosed();
+            toil.FailOnDangerous(Danger.None);
+            toil.socialMode = RandomSocialMode.Normal;
+            return toil;
+        }
+        
+        public Toil WaitBeingServed(TargetIndex registerInd, TargetIndex queueInd)
+        {
+            var toil = new Toil();
+            /*toil.initAction = () =>
+            {
+                (pawn?.jobs?.curDriver as JobDriver_BuyItem).waitingToBeServed = true;
+                (pawn?.jobs?.curDriver as JobDriver_BuyItem).beingServed = false;
+            };*/
+            toil.tickAction = () => {
+                if(!pawn.GetCustomerState().Equals(CustomerState.BeingServed)) pawn?.jobs?.curDriver.ReadyForNextToil();
+            };
+            toil.AddFinishAction(() => (pawn?.jobs?.curDriver as JobDriver_BuyItem).CustomerState = CustomerState.Leaving);
+
+            toil.defaultDuration = 3000;
+            // we dont show progressbar here, because the salesmen is actually busy with the customer
+            //toil.WithProgressBarToilDelayReversed(queueInd, 3000, true);
+            //toil.WithProgressBar(queueInd, () => (float) ((double) toil.actor.jobs.curDriver.ticksLeftThisToil / (double) 3000), true, -0.5f);
+            toil.defaultCompleteMode = ToilCompleteMode.Never;
+            toil.FailOnDestroyedOrNull(registerInd);
+            toil.FailOnDurationExpired(); // Duration over? Fail job!
+            toil.FailOnMyStoreClosed();
+            toil.FailOnDangerous(Danger.None);
+            toil.socialMode = RandomSocialMode.Off;
+            return toil;
+        }
+        
     }
 }

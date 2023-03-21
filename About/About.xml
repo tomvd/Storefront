@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-	<name>Hospitality: Casino</name>
+	<name>Storefront</name>
 	<author>Adamas</author>
-	<packageId>Adamas.HospitalityCasino</packageId>
+	<packageId>Adamas.Storefront</packageId>
 	<supportedVersions>
 		<li>1.4</li>
 	</supportedVersions>
@@ -12,11 +12,17 @@
 			<displayName>Hospitality</displayName>
 			<steamWorkshopUrl>steam://url/CommunityFilePage/2553700067</steamWorkshopUrl>
 		</li>
+		<li>
+			<packageId>Orion.CashRegister</packageId>
+			<displayName>CashRegister</displayName>
+			<steamWorkshopUrl>steam://url/CommunityFilePage/2506046833</steamWorkshopUrl>			
+		</li>
 	</modDependencies>
 	<loadAfter>
 		<li>Orion.Hospitality</li>
+		<li>Orion.CashRegister</li>
 	</loadAfter>
 	<description>
-		Want to squeeze some more silver out of the pockets of your guests? Build your casino and let them have a happy stay while loading your slot machines.
+		Adds storefront tab to the cash register.
 	</description>
 </ModMetaData>

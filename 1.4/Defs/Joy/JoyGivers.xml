@@ -1,20 +1,30 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <JoyGiverDef>
-    <defName>Play_SlotMachine</defName>
-    <giverClass>HospitalityCasino.JoyGiver_PlaySlotMachine</giverClass>
-    <baseChance>4</baseChance>
-    <thingDefs>
-      <li>HC_SlotMachineRed</li>
-      <li>HC_SlotMachineGreen</li>
-      <li>HC_SlotMachineBlue</li>
-    </thingDefs>
-    <jobDef>Play_SlotMachine</jobDef>
-    <joyKind>Gaming_Cerebral</joyKind>
-    <requireChair>true</requireChair>
+
+  <Storefront.Shopping.JoyGiverDefShopping>
+    <defName>Storefront_BuyFood</defName>
+    <giverClass>Storefront.Shopping.JoyGiver_BuyStuff</giverClass>
+    <baseChance>25</baseChance>
+    <joyKind>Shopping</joyKind>
+    <desireSit>false</desireSit>
+    <jobDef>BuyItem</jobDef>
     <requiredCapacities>
-      <li>Sight</li>
       <li>Manipulation</li>
     </requiredCapacities>
-  </JoyGiverDef>
+	<requestGroup>FoodSourceNotPlantOrTree</requestGroup>
+  </Storefront.Shopping.JoyGiverDefShopping>
+  
+  <Storefront.Shopping.JoyGiverDefShopping>
+    <defName>Storefront_BuyStuff</defName>
+    <giverClass>Storefront.Shopping.JoyGiver_BuyStuff</giverClass>
+    <baseChance>25</baseChance>
+    <joyKind>Shopping</joyKind>
+    <desireSit>false</desireSit>
+    <jobDef>BuyItem</jobDef>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+	<requestGroup>HaulableEver</requestGroup>
+  </Storefront.Shopping.JoyGiverDefShopping>
+
 </Defs>

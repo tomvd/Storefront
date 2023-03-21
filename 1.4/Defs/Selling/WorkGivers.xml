@@ -10,11 +10,11 @@
     <verb>stand by</verb>
     <gerund>standing by</gerund>
   </WorkGiverDef>
-<!--
+
   <WorkGiverDef>
     <defName>Storefront_Sell</defName>
     <label>sell</label>
-    <giverClass>Storefront.WorkGiver_Sell</giverClass>
+    <giverClass>Storefront.Selling.WorkGiver_Sell</giverClass>
     <workType>Storefront_Selling</workType>
     <priorityInType>110</priorityInType>
     <verb>sell</verb>
@@ -24,5 +24,5 @@
     </requiredCapacities>
     <prioritizeSustains>true</prioritizeSustains>
   </WorkGiverDef>
--->
+
 </Defs>

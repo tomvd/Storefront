@@ -15,7 +15,7 @@
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugSymbols>false</DebugSymbols>
+        <DebugSymbols>true</DebugSymbols>
         <DebugType>full</DebugType>
         <Optimize>false</Optimize>
         <OutputPath>../../1.4/Assemblies</OutputPath>
@@ -25,7 +25,7 @@
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugType>pdbonly</DebugType>
+        <DebugType>none</DebugType>
         <Optimize>true</Optimize>
         <OutputPath>../../1.4/Assemblies</OutputPath>
         <DefineConstants>TRACE</DefineConstants>
@@ -292,13 +292,14 @@
         <Compile Include="Selling\JobDriver_Sell.cs" />
         <Compile Include="Selling\JobDriver_StandBy.cs" />
         <Compile Include="Selling\SellingDefOf.cs" />
-        <Compile Include="Selling\Toils_Waiting.cs" />
+        <Compile Include="Selling\Toils_Selling.cs" />
         <Compile Include="Selling\WorkGiver_Sell.cs" />
         <Compile Include="Selling\WorkGiver_StandBy.cs" />
         <Compile Include="Settings.cs" />
         <Compile Include="Shopping\JobDriver_BrowseItems.cs" />
         <Compile Include="Shopping\JobDriver_BuyItem.cs" />
         <Compile Include="Shopping\JobGiver_BuyFood.cs" />
+        <Compile Include="Shopping\JobUtility.cs" />
         <Compile Include="Shopping\JoyGiverDefShopping.cs" />
         <Compile Include="Shopping\JoyGiver_BuyStuff.cs" />
         <Compile Include="Shopping\ShoppingDefOf.cs" />
@@ -307,8 +308,8 @@
         <Compile Include="Store\ITab_Register_Store.cs" />
         <Compile Include="Store\StoreController.cs" />
         <Compile Include="Store\StoreManager.cs" />
-        <Compile Include="Store\StoreStock.cs" />
         <Compile Include="Store\StoreUtility.cs" />
+        <Compile Include="Utilities\StorefrontUtility.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="App.config" />

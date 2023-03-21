@@ -3,6 +3,7 @@ using System.Linq;
 using Hospitality.Utilities;
 using RimWorld;
 using Storefront.Store;
+using Storefront.Utilities;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -30,10 +31,10 @@ namespace Storefront.Shopping
         public override float GetChance(Pawn pawn)
         {
             if (!pawn.IsArrivedGuest(out _)) return 0;
-            if (!pawn.MayBuy()) return 0;
-            if (pawn.GetShoppingArea() == null) return 0;
+            //if (!pawn.MayBuy()) return 0;
+            //if (pawn.GetShoppingArea() == null) return 0;
             var money = ItemUtility.GetMoney(pawn);
-            //Log.Message(pawn.NameStringShort + " has " + money + " silver left.");
+            Log.Message(pawn.NameShortColored + " has " + money + " silver left.");
             return Mathf.InverseLerp(1, OptimalMoneyForShopping, money)*base.GetChance(pawn);
         }
 
@@ -41,31 +42,30 @@ namespace Storefront.Shopping
         //    or a BuyItem job - if the pawn is interested enough in buying it.
         public override Job TryGiveJob(Pawn pawn)
         {
-            Log.Message($"{pawn.NameShortColored} is looking for storefront shop.");
+            Log.Message($"{pawn.NameShortColored} is going to shop as joygiver.");
 
             //pawn.GetStoresManager().RegisterShoppinAt(pawn, restaurant);
 
-            // TODO: when looking for a store, we might need to look for stores that have at least one qualifying item for sale
-            // otherwise the trygivejob might need try over and over again until we found a fitting store for our needs
-            // (for people having a lot of stores on the map)
+            // TODO: make a map of all stores and their wares and then choose from those, instead of the first store
             var requiresFoodFactor = GuestUtility.GetRequiresFoodFactor(pawn);
-            StoreController store = pawn.GetAllStores().Where(r=>r.CanShopHere(pawn)).FirstOrDefault<StoreController>();
-            if (store == null) return null;
-            Log.Message($"{pawn.NameShortColored} wants to shop at store ({store.Name}).");
-
             var map = pawn.MapHeld;
             
             //var things = shoppingArea.ActiveCells.Where(cell => !HasRecentlyLookedAt(pawn, cell)).SelectMany(cell => map.thingGrid.ThingsListAtFast(cell))
                 //.Where(t => t != null && ItemUtility.IsBuyableAtAll(pawn, t) && Qualifies(t, pawn)).ToList();
             //var storage = shoppingArea.ActiveCells.Where(cell => !HasRecentlyLookedAt(pawn, cell)).Select(cell=>map.edificeGrid[cell]).OfType<Building_Storage>();
             //things.AddRange(storage.SelectMany(s => s.slotGroup.HeldThings.Where(t => ItemUtility.IsBuyableAtAll(pawn, t) && Qualifies(t, pawn))));
-            var things = store.Stock.items;
+
+            List<Thing> things = new List<Thing>();
+            pawn.GetAllStores().Where(r=>r.CanShopHere(pawn)).ToList().ForEach(store => things.AddRange(map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableEver)
+                .Where(t => !t.IsForbidden(Faction.OfPlayer) && store.GetIsInRange(t.Position) &&
+                            !HasRecentlyLookedAt(pawn, t.Position) && ItemUtility.IsBuyableAtAll(pawn, t)).ToList()));   
+            
             if (things.Count == 0) {
-                Log.Message($"{store.Name} failed to provide any qualifying item for {pawn.NameShortColored} .");
+                Log.Message($"failed to provide any qualifying item for {pawn.NameShortColored} .");
                 return null;
             } 
 
-            // Try 5 random items 
+            // Try 5 random items
             var selection = things.TakeRandom(5).Where(t => pawn.CanReach(t.Position, PathEndMode.Touch, Danger.None, false, false, TraverseMode.PassDoors)).ToArray();
             foreach (var t in selection) RegisterLookedAt(pawn, t.Position);
 
@@ -76,7 +76,7 @@ namespace Storefront.Shopping
 
             if (thing == null) return null;
 
-            /*if (Likey(pawn, thing, requiresFoodFactor) <= 0.5f)
+            if (Likey(pawn, thing, requiresFoodFactor) <= 0.5f)
             {
                 Log.Message(thing.Label + ": not interesting for " + pawn.NameShortColored);
                 int duration = Rand.Range(JobDriver_BuyItem.MinShoppingDuration, JobDriver_BuyItem.MaxShoppingDuration);
@@ -90,10 +90,27 @@ namespace Storefront.Shopping
                 }
 
                 return null;
-            }*/
+            }
+            // find the store selling the item
+            StoreController store = pawn.GetAllStores().FirstOrDefault (store => store.GetIsInRange(thing.Position));
+            if (store == null) return null;
+            Log.Message($"{pawn.NameShortColored} wants to shop at store ({store.Name}).");
 
-            Log.Message($"{pawn.NameShortColored} is going to buy {thing.LabelShort} at {store.Registers[0].Position}.");
-            return new Job(ShoppingDefOf.Storefront_BuyItem, thing, store.Registers[0]); // TODO - find most suitable register?
+            // TODO - find most suitable register?
+            // calculate count here already instead of with buying... this means we have to have enough worst case money, since we dont know the price yet
+            int maxSpace = ItemUtility.GetInventorySpaceFor(pawn, thing);
+            Log.Message($"BuyThing maxSpace {maxSpace}");            
+            int money = ItemUtility.GetMoney(pawn);
+            var itemCost = StorefrontUtility.GetPurchasingCost(thing, pawn);
+            Log.Message($"TryGiveJob itemCost {itemCost}");
+            var maxAffordable = Mathf.FloorToInt(money/itemCost);
+            Log.Message($"TryGiveJob maxAffordable {maxAffordable}");
+            if (maxAffordable < 1) return null; // should not happen
+            int count = Mathf.Min(thing.stackCount, maxSpace, maxAffordable);            
+            Log.Message($"{pawn.NameShortColored} is going to take {thing.LabelShort}x{count} and queue at {store.Register.LabelShort}.");
+            Job buyJob = new Job(ShoppingDefOf.Storefront_BuyItem, thing, store.Register);
+            buyJob.count = count;
+            return buyJob;
         }
 
         private static float Likey(Pawn pawn, Thing thing, float requiresFoodFactor)

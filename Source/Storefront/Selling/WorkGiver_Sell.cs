@@ -1,18 +1,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
+using Storefront.Shopping;
+using Storefront.Store;
+using Storefront.Utilities;
 using Verse;
 using Verse.AI;
 
-namespace Storefront
-{/*
+namespace Storefront.Selling
+{
     public class WorkGiver_Sell : WorkGiver_Scanner
     {
         public override PathEndMode PathEndMode => PathEndMode.Touch;
 
         public override ThingRequest PotentialWorkThingRequest => ThingRequest.ForGroup(ThingRequestGroup.Pawn);
 
-        public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn) => pawn.GetAllRestaurantsEmployed().SelectMany(r=>r.SpawnedDiningPawns).Distinct().ToArray();
+        public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn) => pawn.GetAllStoresEmployed().SelectMany(r=>r.SpawnedShoppingPawns).Distinct().ToArray();
 
         public override bool ShouldSkip(Pawn pawn, bool forced = false)
         {
@@ -27,65 +30,41 @@ namespace Storefront
 
         public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
-            if (!(t is Pawn patron)) return false;
+            if (!(t is Pawn customer)) return false;
 
             if (pawn == t) return false;
+            
+            // am I standby?
+            //var pawnDriver = pawn.jobs?.curDriver as JobDriver_StandBy;
+            //if (pawnDriver == null) return false;
 
-            var driver = patron.GetDriver<JobDriver_Dine>();
-            if (driver == null || driver.wantsToOrder) return false;
-
-            var order = RestaurantUtility.WaiterGetOrderFor(pawn, patron);
-
-            if (order == null) return false;
-            if (order.delivered) return false;
-
-            var restaurant = order.Restaurant;
-            if (restaurant == null) return false;
-
-            if (restaurant.Orders.IsBeingDelivered(order)) return false;
-
-
-            if (!patron.Spawned || patron.Dead)
+            // is there a customer waiting to be served?
+            var customerDriver = customer.jobs?.curDriver as JobDriver_BuyItem;
+            if (customerDriver == null || !customer.GetCustomerState().Equals(CustomerState.WaitingToBeServed)
+                                       || customer.GetCustomerState().Equals(CustomerState.BeingServed)) return false;
+            
+            if (!customer.Spawned || customer.Dead)
             {
-                Log.Message($"Order canceled. null? {order.patron == null} dead? {order.patron.Dead} unspawned? {!order.patron?.Spawned}");
-                restaurant.Orders.CancelOrder(order);
+                Log.Message($"Sales canceled. dead? {customer.Dead} unspawned? {!customer.Spawned}");
                 return false;
             }
-
-            //Log.Message($"{pawn.NameShortColored} is trying to serve {patron.NameShortColored} a {order.consumableDef.label}.");
-            var consumable = restaurant.Stock.GetServableThing(order, pawn);
-
-            // This can happen if everything is claimed or it's dangerous
-            if (consumable == null) return false;
-
-            // Stack already in use by someone?
-            if (pawn.Map.reservationManager.FirstRespectedReserver(consumable, pawn) != null) return false;
-
-            if (RestaurantUtility.IsRegionDangerous(pawn, JobUtility.MaxDangerServing, patron.GetRegion()) && !forced) return false;
-            if (RestaurantUtility.IsRegionDangerous(pawn, JobUtility.MaxDangerServing, consumable.GetRegion()) && !forced) return false;
-
-            //Log.Message($"{pawn.NameShortColored} can serve {consumable.Label} to {order.patron.NameShortColored}.");
-            order.consumable = consumable; // Store for JobOnThing
             return true;
         }
 
         public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
-            if (!(t is Pawn patron)) return null;
-
-            var order = RestaurantUtility.WaiterGetOrderFor(pawn, patron);
-            if(order == null) Log.Error($"{patron?.Name.ToStringShort} doesn't have an order, even though {pawn?.Name.ToStringShort} thinks they should have.");
-            else
+            if (!(t is Pawn customer))
             {
-                var consumable = order.consumable;
-                if (consumable == null) Log.Error($"Consumable in order for {patron.NameShortColored} is suddenly null.");
-                else
-                {
-                    return JobMaker.MakeJob(SellingDefOf.Storefront_Sell, order.patron, consumable);
-                }
+                Log.Message("WorkGiver_Sell customer is null");
+                return null;
             }
-
-            return null;
+            var driver = customer.jobs?.curDriver as JobDriver_BuyItem;
+            if (driver == null)            
+            {
+                Log.Message("JobDriver_BuyItem customer is null");
+                return null;
+            }
+            return JobMaker.MakeJob(SellingDefOf.Storefront_Sell, customer, driver.job.targetA, driver.job.targetB);
         }
-    }*/
+    }
 }

@@ -87,6 +87,7 @@ namespace Storefront.Store
             var rectSelection = rect.LeftHalf();
 
             // Select
+            /*
             if (Widgets.ButtonText(rectSelection, store.Name.CapitalizeFirst()))
             {
                 var list = new List<FloatMenuOption>();
@@ -98,13 +99,14 @@ namespace Storefront.Store
                     }));
                 }
                 Find.WindowStack.Add(new FloatMenu(list));
-            }
+            }*/
+            Widgets.Label(rectSelection, store.Name.CapitalizeFirst());
             TooltipHandler.TipRegion(rectSelection, "StoreTooltipSelect".Translate());
 
             var widgetRow = new WidgetRow(rect.xMax, rect.y, UIDirection.LeftThenDown);
 
             // Remove
-            if (stores.stores.Count > 1)
+            /*if (stores.stores.Count > 1)
                 if (widgetRow.ButtonIcon(TexButton.Minus, "StoreTooltipRemove".Translate()))
                 {
                     Find.WindowStack.Add(new Dialog_Confirm("StoreDialogConfirmRemove".Translate(store.Name),
@@ -118,7 +120,7 @@ namespace Storefront.Store
             if (widgetRow.ButtonIcon(TexButton.Plus, "StoreTooltipAdd".Translate()))
             {
                 SetStore(stores.AddStore());
-            }
+            }*/
             // Rename
             if (widgetRow.ButtonIcon(TexButton.Rename, "StoreTooltipRename".Translate()))
             {
@@ -141,13 +143,6 @@ namespace Storefront.Store
             listing.Begin(rect);
             {
                 listing.CheckboxLabeled("TabRegisterOpened".Translate(), ref store.openForBusiness, "TabRegisterOpenedTooltip".Translate());
-                listing.CheckboxLabeled("TabRegisterGuests".Translate(), ref store.allowGuests, "TabRegisterGuestsTooltip".Translate());
-                listing.CheckboxLabeled("TabRegisterColonists".Translate(), ref store.allowColonists, "TabRegisterColonistsTooltip".Translate());
-                listing.CheckboxLabeled("TabRegisterPrisoners".Translate(), ref store.allowPrisoners, "TabRegisterPrisonersTooltip".Translate());
-                if (ModsConfig.IdeologyActive)
-                {
-                    listing.CheckboxLabeled("TabRegisterSlaves".Translate(), ref store.allowSlaves, "TabRegisterSlavesTooltip".Translate());
-                }
 
                 DrawPrice(listing.GetRect(22));
 
@@ -185,15 +180,13 @@ namespace Storefront.Store
             {
                 var activeStaff = store.ActiveStaff;
                 var patrons = store.Patrons;
-                var stock = store.Stock.AllStock;
+                //var stock = store.Stock.AllStock;
 
-                listing.LabelDouble("TabRegisterActiveStaff".Translate(), activeStaff.Count.ToString(), activeStaff.Select(p => p.LabelShort).ToCommaList());
-                //listing.LabelDouble("TabRegisterSeats".Translate(), store.Seats.ToString());
+                listing.LabelDouble("TabRegisterActiveStaff".Translate(), activeStaff.FirstOrDefault()?.LabelShort);
                 listing.LabelDouble("TabRegisterPatrons".Translate(), patrons.Count.ToString(), patrons.Select(p=>p.LabelShort).ToCommaList());
-                DrawStock(listing, "TabRegisterStocked".Translate(), stock, store);
-                //listing.LabelDouble("TabRegisterEarnedYesterday".Translate(), store.Debts.incomeYesterday.ToStringMoney());
-                //listing.LabelDouble("TabRegisterEarnedToday".Translate(), store.Debts.incomeToday.ToStringMoney());
-                //DrawDebts(listing, "TabRegisterDebts".Translate(), debts);
+                //DrawStock(listing, "TabRegisterStocked".Translate(), stock, store);
+                listing.LabelDouble("TabRegisterEarnedYesterday".Translate(), store.incomeYesterday.ToStringMoney());
+                listing.LabelDouble("TabRegisterEarnedToday".Translate(), store.incomeToday.ToStringMoney());
 
                 //listing.LabelDouble("TabRegisterStocked".Translate(), stock.Sum(s=>s.stackCount).ToString(), stock.Select(s=>s.def).Distinct().Select(s=>s.label).ToCommaList());
             }
@@ -263,7 +256,7 @@ namespace Storefront.Store
             listing.Gap(listing.verticalSpacing);
         }
 
-        private static void DrawStock(Listing listing, TaggedString label,  IReadOnlyDictionary<ThingDef, StoreStock.Stock> stock, StoreController store)
+        /*private static void DrawStock(Listing listing, TaggedString label,  IReadOnlyDictionary<ThingDef, StoreStock.Stock> stock, StoreController store)
         {
             // Label
             var rect = CustomLabelDouble(listing, label, $"{stock.Values.Sum(pair => pair.items.Sum(item=>item.stackCount))}", out var countSize);
@@ -302,7 +295,7 @@ namespace Storefront.Store
             listing.Gap(listing.verticalSpacing);
         }
 
-        /*private static void DrawDebts(Listing listing, TaggedString label,  ReadOnlyCollection<Debt> debts)
+        private static void DrawDebts(Listing listing, TaggedString label,  ReadOnlyCollection<Debt> debts)
         {
             // Label
             var rect = CustomLabelDouble(listing, label, $"{debts.Sum(debt => debt.amount).ToStringMoney()}", out var countSize);

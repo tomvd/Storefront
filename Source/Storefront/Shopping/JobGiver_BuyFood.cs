@@ -25,7 +25,7 @@ namespace Storefront.Shopping
 				return requiresFoodFactor * 6;
 			}
 			var priority = requiresFoodFactor * workerChance;
-			//Log.Message($"{pawn.NameShortColored} buy food priority: {priority:F2}; factor = {requiresFoodFactor}, worker chance = {workerChance}");
+			Log.Message($"{pawn.NameShortColored} buy food priority: {priority:F2}; factor = {requiresFoodFactor}, worker chance = {workerChance}");
 			return priority;
 		}
 
@@ -34,7 +34,7 @@ namespace Storefront.Shopping
 			if (pawn.needs.food == null) return null;
 
 			if (ShoppingDefOf.Storefront_BuyFood.Worker.MissingRequiredCapacity(pawn) != null) return null;
-			//Log.Message($"{pawn.NameShortColored} is trying to buy food.");
+			Log.Message($"{pawn.NameShortColored} is trying to buy food.");
 
 			return ShoppingDefOf.Storefront_BuyFood.Worker.TryGiveJob(pawn);
 		}

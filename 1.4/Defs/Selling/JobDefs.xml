@@ -7,12 +7,12 @@
     <reportString>waiting for sales work.</reportString>
     <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
   </JobDef>
-  <!--
+  
   <JobDef>
     <defName>Storefront_Sell</defName>
-    <driverClass>Storefront.JobDriver_Sell</driverClass>
+    <driverClass>Storefront.Selling.JobDriver_Sell</driverClass>
     <reportString>selling TargetB to TargetA.</reportString>
     <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
   </JobDef>
--->
+  
 </Defs>

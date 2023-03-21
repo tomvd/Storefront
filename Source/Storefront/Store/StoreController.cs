@@ -5,47 +5,50 @@ using System.Linq;
 using CashRegister;
 using CashRegister.TableTops;
 using RimWorld;
+using Storefront.Selling;
+using Storefront.Shopping;
 using Verse;
 
 namespace Storefront.Store
 {
+	/*
+	 * StoreController keeps track of everything going on in a store
+	 *  - settings, inventory, register, staff, customers, statistics
+	 */
     public class StoreController : IExposable
     {
         private readonly List<Pawn> spawnedShoppingPawnsResult = new List<Pawn>();
         private readonly List<Pawn> spawnedActiveStaffResult = new List<Pawn>();
-        public IReadOnlyList<Building_CashRegister> Registers => registers;
+        private readonly List<Pawn> spawnedStandbyPawnsResult = new List<Pawn>();
+        public Building_CashRegister Register => register;
 
 		public Map Map { get; }
-		private StoreStock stock;
 
-        private List<Building_CashRegister> registers = new List<Building_CashRegister>();
+		// one register per store
+        private Building_CashRegister register;
 
 		private int day;
 
 		public bool IsOpenedRightNow => openForBusiness && AnyRegisterOpen;
 
-		private bool AnyRegisterOpen => Registers.Any(r => r?.IsActive == true);
+		private bool AnyRegisterOpen => register?.IsActive == true;
 
 		public bool openForBusiness = true;
 
-		public bool allowGuests = true;
-		public bool allowColonists = true;
-		public bool allowPrisoners = false;
-		public bool allowSlaves = false;
-
 		public float guestPricePercentage = 1;
         private string name;
+        
+        public float incomeYesterday;
+        public float incomeToday;
 
-        public event Action onNextDay;
 
 		public ReadOnlyCollection<Pawn> Patrons => SpawnedShoppingPawns.AsReadOnly();
-		public StoreStock Stock => stock;
 		public List<Pawn> SpawnedShoppingPawns
 		{
 			get
 			{
 				spawnedShoppingPawnsResult.Clear();
-                //spawnedShoppingPawnsResult.AddRange(Map.mapPawns.AllPawnsSpawned.Where(pawn => pawn.jobs?.curDriver is JobDriver_Shop && pawn.GetStoresManager().GetStoreShopping(pawn) == this));
+                spawnedShoppingPawnsResult.AddRange(Map.mapPawns.AllPawnsSpawned.Where(pawn => pawn.jobs?.curDriver is JobDriver_BuyItem buyJob && buyJob.job.targetB.Thing == Register));
 				return spawnedShoppingPawnsResult;
 			}
 		}
@@ -54,10 +57,19 @@ namespace Storefront.Store
 			get
 			{
 				spawnedActiveStaffResult.Clear();
-				var activeShifts = Registers.SelectMany(r => r.shifts.Where(s => s.IsActive));
+				var activeShifts = Register.shifts.Where(s => s.IsActive);
                 spawnedActiveStaffResult.AddRange(activeShifts.SelectMany(s => s.assigned).Where(p => p.MapHeld == Map));
-
                 return spawnedActiveStaffResult;
+			}
+		}
+		
+		public List<Pawn> SpawnedStandbyPawns
+		{
+			get
+			{
+				spawnedStandbyPawnsResult.Clear();
+				spawnedStandbyPawnsResult.AddRange(Map.mapPawns.AllPawnsSpawned.Where(pawn => pawn.jobs?.curDriver is JobDriver_StandBy standByJob && standByJob.job.targetA.Thing == Register));
+				return spawnedStandbyPawnsResult;
 			}
 		}
 
@@ -69,7 +81,7 @@ namespace Storefront.Store
 
         public bool GetIsInRange(IntVec3 position)
         {
-            return Registers.Any(r => r.GetIsInRange(position));
+            return Register.GetIsInRange(position);
         }
 
         public StoreController(Map map)
@@ -80,21 +92,28 @@ namespace Storefront.Store
 		public void ExposeData()
 		{
 			Scribe_Values.Look(ref openForBusiness, "openForBusiness", true);
-			Scribe_Values.Look(ref allowGuests, "allowGuests", true);
-			Scribe_Values.Look(ref allowColonists, "allowColonists", true);
-			Scribe_Values.Look(ref allowPrisoners, "allowPrisoners", false);
-			Scribe_Values.Look(ref allowSlaves, "allowSlaves", false);
 			Scribe_Values.Look(ref guestPricePercentage, "guestPricePercentage", 1);
+			Scribe_Values.Look(ref incomeToday, "incomeToday");
+			Scribe_Values.Look(ref incomeYesterday, "incomeYesterday");
 			Scribe_Values.Look(ref day, "day");
 			Scribe_Values.Look(ref name, "name");
-			Scribe_Deep.Look(ref stock, "stock", this);
-			Scribe_Collections.Look(ref registers, "registers", LookMode.Reference);
+			Scribe_References.Look(ref register, "register");
 			InitDeepFieldsInitial();
+		}
+		
+		private void OnNextDay()
+		{
+			incomeYesterday = incomeToday;
+			incomeToday = 0;
+			if (incomeYesterday > 0)
+			{
+				Messages.Message("MessageIncomeToday".Translate(incomeYesterday.ToStringMoney()), MessageTypeDefOf.NeutralEvent);
+			}
 		}
 
 		private void InitDeepFieldsInitial()
 		{
-			stock ??= new StoreStock(this);
+			//stock ??= new StoreStock(this);
 		}
 
 		public void MapGenerated()
@@ -105,37 +124,20 @@ namespace Storefront.Store
 		public void FinalizeInit()
 		{
 			InitDeepFieldsInitial();
-			stock.RareTick();
-
-			TableTop_Events.onAnyBuildingSpawned.AddListener(UpdateRegisterWithBuilding);
-			TableTop_Events.onAnyBuildingDespawned.AddListener(UpdateRegisterWithBuilding);
-
-            foreach (var register in Registers)
-            {
-                register.onRadiusChanged.AddListener(OnRegisterRadiusChanged);
-            }
+			//stock.RareTick();
+            register.onRadiusChanged.AddListener(OnRegisterRadiusChanged);
         }
-
-        private void UpdateRegisterWithBuilding(Building building, Map map)
-        {
-            if (map != Map) return;
-            if (building is Building_CashRegister register)
-            {
-                if (register.Spawned) AddRegister(register);
-                else RemoveRegister(register);
-            }
-		}
 
         private void OnRegisterRadiusChanged(Building_CashRegister register)
         {
             //RefreshRegisters(null, register.Map);
-			Stock.RefreshStock();
+			//Stock.RefreshStock();
         }
 
         public void OnTick()
 		{
 			// Don't tick everything at once
-			if ((GenTicks.TicksGame + Map.uniqueID) % 500 == 0) stock.RareTick();
+			//if ((GenTicks.TicksGame + Map.uniqueID) % 500 == 0) stock.RareTick();
 			//if ((GenTicks.TicksGame + Map.uniqueID) % 500 == 250) orders.RareTick();
 			//Log.Message($"Stock: {stock.Select(s => s.def.label).ToCommaList(true)}");
 			if ((GenTicks.TicksGame + Map.uniqueID) % 500 == 300) RareTick();
@@ -149,23 +151,13 @@ namespace Storefront.Store
 		private void OnNextDay(int today)
 		{
 			day = today;
-			onNextDay?.Invoke();
-		}
-
-		public bool MayShopHere(Pawn pawn)
-		{
-            if (!allowColonists && pawn.IsColonist) return false;
-			if (!allowGuests && pawn.IsGuest()) return false;
-			if (!allowPrisoners && pawn.IsPrisoner) return false;
-			if (!allowSlaves && pawn.IsSlave) return false;
-			
-			return true;
+			OnNextDay();
 		}
 
 		public bool HasToWork(Pawn pawn)
 		{
 			if (!openForBusiness) return false;
-			return Registers.Any(r => r?.HasToWork(pawn) == true);
+			return register?.HasToWork(pawn) == true;
 		}
 
 
@@ -186,26 +178,24 @@ namespace Storefront.Store
 
         private void AddRegister(Building_CashRegister register)
         {
-            if (!registers.Contains(register))
-            {
-                registers.Add(register);
-                //OnRegistersChanged();
-                register.onRadiusChanged.AddListener(OnRegisterRadiusChanged);
-            }
+	        this.register = register;
+	        this.register.onRadiusChanged.AddListener(OnRegisterRadiusChanged);
         }
 
         public void RemoveRegister(Building_CashRegister register)
         {
-            if (registers.Remove(register))
-            {
-                //OnRegistersChanged();
-				register.onRadiusChanged.RemoveListener(OnRegisterRadiusChanged);
-            }
-		}
+			register.onRadiusChanged.RemoveListener(OnRegisterRadiusChanged);
+			this.register = null;
+        }
 
         public bool CanShopHere(Pawn pawn)
         {
-            return IsOpenedRightNow && MayShopHere(pawn);
+            return IsOpenedRightNow && ActiveStaff.Count > 0;
+        }
+
+        public void AddToIncomeToday(float amount)
+        {
+	        incomeToday += amount;
         }
 
     }

@@ -14,11 +14,10 @@
 	<JobDef>
 		<defName>Storefront_BuyItem</defName>
 		<driverClass>Storefront.Shopping.JobDriver_BuyItem</driverClass>
-		<reportString>Checking out TargetA.</reportString>
+		<reportString>Buying TargetA.</reportString>
 		<joyMaxParticipants>1</joyMaxParticipants>
 		<joyDuration>8000</joyDuration>
 		<joyGainRate>1</joyGainRate>
 		<joyKind>Shopping</joyKind>
 	</JobDef>
-
 </Defs>
