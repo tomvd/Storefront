@@ -23,6 +23,6 @@
 		<li>Orion.CashRegister</li>
 	</loadAfter>
 	<description>
-		Adds storefront tab to the cash register.
+		Adds storefront tab to the cash register. Assign a colonist with high social skill to sell goods in the shop.
 	</description>
 </ModMetaData>

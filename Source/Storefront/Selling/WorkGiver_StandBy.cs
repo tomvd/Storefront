@@ -15,15 +15,15 @@ namespace Storefront.Selling
 
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
         {
-            return pawn.GetAllStores().Select(r => r.Register).Distinct().ToArray();
+            return pawn.GetAllStores().Select(r => r.Register).Where(r => r.shifts.Select(shift => shift.assigned.Contains(pawn)).Any()).Distinct().ToArray();
         }
 
         public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			if (!(t is Building_CashRegister register)) return false;
 			if (!register.HasToWork(pawn) || !register.standby) return false;
-			// only one pawn on standby per register is enough (still we can have multiple ones on staff duty)
-			if (register.GetStore().SpawnedStandbyPawns.FindAll(standbyPawn => !standbyPawn.Equals(pawn)).Any()) return false;
+			// only one pawn working per register
+			if (register.GetStore().WorkingPawns.FindAll(standbyPawn => !standbyPawn.Equals(pawn)).Any()) return false;
 			if (StoreUtility.IsRegionDangerous(pawn, Danger.Some, register.GetRegion()) && !forced) return false;
 			return true;
 		}

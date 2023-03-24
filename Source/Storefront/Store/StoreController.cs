@@ -4,10 +4,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using CashRegister;
 using CashRegister.TableTops;
+using Hospitality;
 using RimWorld;
 using Storefront.Selling;
-using Storefront.Shopping;
 using Verse;
+using JobDriver_BuyItem = Storefront.Shopping.JobDriver_BuyItem;
 
 namespace Storefront.Store
 {
@@ -17,10 +18,7 @@ namespace Storefront.Store
 	 */
     public class StoreController : IExposable
     {
-        private readonly List<Pawn> spawnedShoppingPawnsResult = new List<Pawn>();
-        private readonly List<Pawn> spawnedActiveStaffResult = new List<Pawn>();
-        private readonly List<Pawn> spawnedStandbyPawnsResult = new List<Pawn>();
-        public Building_CashRegister Register => register;
+	    public Building_CashRegister Register => register;
 
 		public Map Map { get; }
 
@@ -43,33 +41,40 @@ namespace Storefront.Store
 
 
 		public ReadOnlyCollection<Pawn> Patrons => SpawnedShoppingPawns.AsReadOnly();
-		public List<Pawn> SpawnedShoppingPawns
+		public List<Pawn> SpawnedShoppingPawns { get; } = new List<Pawn>();
+
+		public List<Pawn> ActiveStaff { get; } = new List<Pawn>();
+
+		public List<Pawn> WorkingPawns { get; } = new List<Pawn>();
+
+		public List<Thing> Stock { get; } = new List<Thing>();
+
+		private void UpdateCaches(bool odd)
 		{
-			get
+			if (odd)
 			{
-				spawnedShoppingPawnsResult.Clear();
-                spawnedShoppingPawnsResult.AddRange(Map.mapPawns.AllPawnsSpawned.Where(pawn => pawn.jobs?.curDriver is JobDriver_BuyItem buyJob && buyJob.job.targetB.Thing == Register));
-				return spawnedShoppingPawnsResult;
+				var pawns = Map.mapPawns.AllPawnsSpawned;
+				SpawnedShoppingPawns.Clear();
+				SpawnedShoppingPawns.AddRange(pawns.Where(pawn =>
+					pawn.jobs?.curDriver is JobDriver_BuyItem buyJob && buyJob.job.targetB.Thing == Register));
+
+				WorkingPawns.Clear();
+				WorkingPawns.AddRange(pawns.Where(pawn =>
+					(pawn.jobs?.curDriver is JobDriver_StandBy standByJob && standByJob.job.targetA.Thing == Register)
+					|| pawn.jobs?.curDriver is JobDriver_Sell sellJob && sellJob.job.targetA.Thing == Register));
 			}
-		}
-		public List<Pawn> ActiveStaff
-		{
-			get
+			else
 			{
-				spawnedActiveStaffResult.Clear();
 				var activeShifts = Register.shifts.Where(s => s.IsActive);
-                spawnedActiveStaffResult.AddRange(activeShifts.SelectMany(s => s.assigned).Where(p => p.MapHeld == Map));
-                return spawnedActiveStaffResult;
-			}
-		}
-		
-		public List<Pawn> SpawnedStandbyPawns
-		{
-			get
-			{
-				spawnedStandbyPawnsResult.Clear();
-				spawnedStandbyPawnsResult.AddRange(Map.mapPawns.AllPawnsSpawned.Where(pawn => pawn.jobs?.curDriver is JobDriver_StandBy standByJob && standByJob.job.targetA.Thing == Register));
-				return spawnedStandbyPawnsResult;
+				ActiveStaff.Clear();
+				ActiveStaff.AddRange(activeShifts.SelectMany(s => s.assigned).Where(p => p.MapHeld == Map));
+
+				Stock.Clear();
+				Stock.AddRange(Map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableEver)
+					.Where(t => !t.IsForbidden(Faction.OfPlayer)
+					            && GetIsInRange(t.Position)
+					            && !t.def.isUnfinishedThing
+					            && t.def != ThingDefOf.Silver).ToList());
 			}
 		}
 
@@ -137,9 +142,8 @@ namespace Storefront.Store
         public void OnTick()
 		{
 			// Don't tick everything at once
-			//if ((GenTicks.TicksGame + Map.uniqueID) % 500 == 0) stock.RareTick();
-			//if ((GenTicks.TicksGame + Map.uniqueID) % 500 == 250) orders.RareTick();
-			//Log.Message($"Stock: {stock.Select(s => s.def.label).ToCommaList(true)}");
+			if ((GenTicks.TicksGame + Map.uniqueID) % 500 == 0) UpdateCaches(true);
+			if ((GenTicks.TicksGame + Map.uniqueID) % 500 == 250) UpdateCaches(false);
 			if ((GenTicks.TicksGame + Map.uniqueID) % 500 == 300) RareTick();
 		}
 

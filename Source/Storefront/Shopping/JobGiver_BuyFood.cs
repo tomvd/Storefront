@@ -1,4 +1,6 @@
 using Hospitality.Utilities;
+using RimWorld;
+using UnityEngine;
 using Verse;
 using Verse.AI;
 using FoodUtility = RimWorld.FoodUtility;
@@ -11,6 +13,7 @@ namespace Storefront.Shopping
         public override float GetPriority(Pawn pawn)
 		{
 			if (!pawn.IsArrivedGuest(out _)) return 0;
+			if (pawn.skills.GetSkill(SkillDefOf.Social).TotallyDisabled) return 0;
 
 			var need = pawn.needs.food;
 			if (need == null) return 0;

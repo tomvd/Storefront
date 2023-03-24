@@ -2,6 +2,8 @@
 <project version="4">
   <component name="UserContentModel">
     <attachedFolders>
+      <Path>../../../ForbidBlueprints</Path>
+      <Path>../../../Gastronomy/1.4</Path>
       <Path>../../../HospitalityCasino</Path>
       <Path>../../../Storefront</Path>
     </attachedFolders>

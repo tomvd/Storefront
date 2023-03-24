@@ -10,6 +10,7 @@ using Verse;
 using Verse.AI;
 using Verse.Sound;
 using JobDriver_BuyItem = Storefront.Shopping.JobDriver_BuyItem;
+using JobUtility = Storefront.Shopping.JobUtility;
 
 namespace Storefront.Selling
 {
@@ -104,14 +105,10 @@ namespace Storefront.Selling
                     return;
                 }
 
-                // TODO similar to gastronomy customer can have good thoughts about the service quality
-                /*if (patron.jobs.curDriver is JobDriver_BuyItem patronDriver)
-                {
-                    DiningUtility.GiveServiceThought(customer, toil.actor, patronDriver.HoursWaited);
-                }*/
                 if (customer.jobs.curDriver is JobDriver_BuyItem buyJob)
                 {
                     buyJob.CustomerState = CustomerState.BeingServed;
+                    JobUtility.GiveServiceThought(customer, toil.actor);
                 }
                 bool urgent = customer.needs?.food?.CurCategory >= HungerCategory.UrgentlyHungry;
                 if (urgent) toil.defaultDuration = 50;

@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospitality", "..\..\..\Hos
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mod", "..\..\..\HospitalityCasino\.vscode\mod.csproj", "{22595E9D-AA4D-46E2-9CE6-3DC0C5E0A48B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForbidBlueprints", "..\..\..\ForbidBlueprints\Source\ForbidBlueprints\ForbidBlueprints.csproj", "{5F92FE41-BE55-4458-B5A5-3BB649834F4D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{22595E9D-AA4D-46E2-9CE6-3DC0C5E0A48B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22595E9D-AA4D-46E2-9CE6-3DC0C5E0A48B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22595E9D-AA4D-46E2-9CE6-3DC0C5E0A48B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F92FE41-BE55-4458-B5A5-3BB649834F4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F92FE41-BE55-4458-B5A5-3BB649834F4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F92FE41-BE55-4458-B5A5-3BB649834F4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F92FE41-BE55-4458-B5A5-3BB649834F4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

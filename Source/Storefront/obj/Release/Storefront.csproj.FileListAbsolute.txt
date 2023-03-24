@@ -1,7 +1,5 @@
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\1.4\Assemblies\Storefront.dll.config
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\1.4\Assemblies\Storefront.dll
-C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\1.4\Assemblies\Storefront.pdb
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Source\Storefront\obj\Release\Storefront.csproj.AssemblyReference.cache
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Source\Storefront\obj\Release\Storefront.csproj.CoreCompileInputs.cache
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Source\Storefront\obj\Release\Storefront.dll
-C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Source\Storefront\obj\Release\Storefront.pdb

@@ -130,7 +130,6 @@ public static class StorefrontUtility
     
     public static void GiveWaitThought(Pawn patron)
     {
-        // TODO
-        //patron.needs.mood?.thoughts.memories.TryGainMemory(StorefrontDefOf.Gastronomy_HadToWait);
+        patron.needs.mood?.thoughts.memories.TryGainMemory(ShoppingDefOf.Storefront_HadToWait);
     }
 }

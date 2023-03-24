@@ -31,6 +31,7 @@ namespace Storefront.Shopping
         public override float GetChance(Pawn pawn)
         {
             if (!pawn.IsArrivedGuest(out _)) return 0;
+            if (pawn.skills.GetSkill(SkillDefOf.Social).TotallyDisabled) return 0;
             //if (!pawn.MayBuy()) return 0;
             //if (pawn.GetShoppingArea() == null) return 0;
             var money = ItemUtility.GetMoney(pawn);
@@ -44,28 +45,23 @@ namespace Storefront.Shopping
         {
             Log.Message($"{pawn.NameShortColored} is going to shop as joygiver.");
 
-            //pawn.GetStoresManager().RegisterShoppinAt(pawn, restaurant);
+            //pawn.GetStoresManager().RegisterShoppinAt(pawn, store);
 
-            // TODO: make a map of all stores and their wares and then choose from those, instead of the first store
             var requiresFoodFactor = GuestUtility.GetRequiresFoodFactor(pawn);
             var map = pawn.MapHeld;
             
-            //var things = shoppingArea.ActiveCells.Where(cell => !HasRecentlyLookedAt(pawn, cell)).SelectMany(cell => map.thingGrid.ThingsListAtFast(cell))
-                //.Where(t => t != null && ItemUtility.IsBuyableAtAll(pawn, t) && Qualifies(t, pawn)).ToList();
-            //var storage = shoppingArea.ActiveCells.Where(cell => !HasRecentlyLookedAt(pawn, cell)).Select(cell=>map.edificeGrid[cell]).OfType<Building_Storage>();
-            //things.AddRange(storage.SelectMany(s => s.slotGroup.HeldThings.Where(t => ItemUtility.IsBuyableAtAll(pawn, t) && Qualifies(t, pawn))));
 
+            // Try 5 random items from a pool of all items of all stores
+            
             List<Thing> things = new List<Thing>();
-            pawn.GetAllStores().Where(r=>r.CanShopHere(pawn)).ToList().ForEach(store => things.AddRange(map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableEver)
-                .Where(t => !t.IsForbidden(Faction.OfPlayer) && store.GetIsInRange(t.Position) &&
-                            !HasRecentlyLookedAt(pawn, t.Position) && ItemUtility.IsBuyableAtAll(pawn, t)).ToList()));   
+            pawn.GetAllStores().Where(r=>r.CanShopHere(pawn)).ToList().ForEach(store => things.AddRange(store.Stock
+                .Where(t => !HasRecentlyLookedAt(pawn, t.Position) && ItemUtility.IsBuyableAtAll(pawn, t))));   
             
             if (things.Count == 0) {
                 Log.Message($"failed to provide any qualifying item for {pawn.NameShortColored} .");
                 return null;
             } 
 
-            // Try 5 random items
             var selection = things.TakeRandom(5).Where(t => pawn.CanReach(t.Position, PathEndMode.Touch, Danger.None, false, false, TraverseMode.PassDoors)).ToArray();
             foreach (var t in selection) RegisterLookedAt(pawn, t.Position);
 
@@ -96,8 +92,7 @@ namespace Storefront.Shopping
             if (store == null) return null;
             Log.Message($"{pawn.NameShortColored} wants to shop at store ({store.Name}).");
 
-            // TODO - find most suitable register?
-            // calculate count here already instead of with buying... this means we have to have enough worst case money, since we dont know the price yet
+            // calculate count here already instead of with buying... this means we have to have enough worst case money, since we dont know the price(seller TPI) yet
             int maxSpace = ItemUtility.GetInventorySpaceFor(pawn, thing);
             Log.Message($"BuyThing maxSpace {maxSpace}");            
             int money = ItemUtility.GetMoney(pawn);

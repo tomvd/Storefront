@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/../../../CashRegister" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../../ForbidBlueprints" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../../Gastronomy" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../../Hospitality" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../../HospitalityCasino" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../.." vcs="Git" />
+  </component>
+</project>
