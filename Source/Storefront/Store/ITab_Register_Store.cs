@@ -129,10 +129,10 @@ namespace Storefront.Store
             listing.Begin(rect);
             {
                 var activeStaff = store.ActiveStaff;
-                var patrons = store.Patrons;
+                var customers = store.Customers;
 
                 listing.LabelDouble("TabRegisterActiveStaff".Translate(), activeStaff.FirstOrDefault()?.LabelShort);
-                listing.LabelDouble("TabRegisterPatrons".Translate(), patrons.Count.ToString(), patrons.Select(p=>p.LabelShort).ToCommaList());
+                listing.LabelDouble("TabRegisterCustomers".Translate(), customers.Count.ToString(), customers.Select(p=>p.LabelShort).ToCommaList());
                 
                 listing.LabelDouble("TabRegisterEarnedYesterday".Translate(), store.incomeYesterday.ToStringMoney());
                 listing.LabelDouble("TabRegisterEarnedToday".Translate(), store.incomeToday.ToStringMoney());
@@ -155,7 +155,7 @@ namespace Storefront.Store
             {
                 if (group.Key == null) continue;
                 // Amount label
-                string amountText = $" {group.Count()}x {group.Key.LabelCap}";
+                string amountText = $" {stock.Where(s => s.def == group.Key).Sum(s => s.stackCount)}x {group.Key.LabelCap}";
                 var amountSize = Text.CalcSize(amountText);
                 rectImage.width = amountSize.x;
 

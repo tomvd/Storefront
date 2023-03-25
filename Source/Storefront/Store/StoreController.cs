@@ -40,7 +40,7 @@ namespace Storefront.Store
         public float incomeToday;
 
 
-		public ReadOnlyCollection<Pawn> Patrons => SpawnedShoppingPawns.AsReadOnly();
+		public ReadOnlyCollection<Pawn> Customers => SpawnedShoppingPawns.AsReadOnly();
 		public List<Pawn> SpawnedShoppingPawns { get; } = new List<Pawn>();
 
 		public List<Pawn> ActiveStaff { get; } = new List<Pawn>();

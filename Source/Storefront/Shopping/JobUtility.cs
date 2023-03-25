@@ -44,8 +44,8 @@ namespace Storefront.Shopping
         {
             JobCondition OnRestaurantClosed()
             {
-                var patron = f.GetActor();
-                var myStore = patron.GetStoresManager().Stores.Find(store => store.Patrons.Contains(patron));
+                var customer = f.GetActor();
+                var myStore = customer.GetStoresManager().Stores.Find(store => store.Customers.Contains(customer));
                 return myStore?.IsOpenedRightNow == true
                     ? JobCondition.Ongoing
                     : JobCondition.Incompletable;

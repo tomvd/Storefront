@@ -17,7 +17,7 @@
 	<!-- Stats -->
 	<TabRegisterRadius>Radius</TabRegisterRadius>
 	<TabRegisterActiveStaff>Active staff:</TabRegisterActiveStaff>
-	<TabRegisterPatrons>Customers:</TabRegisterPatrons>
+	<TabRegisterCustomers>Customers:</TabRegisterCustomers>
 	<TabRegisterStocked>Stocked:</TabRegisterStocked>
 	<TabRegisterEarnedYesterday>Earned yesterday:</TabRegisterEarnedYesterday>
 	<TabRegisterEarnedToday>Earned today:</TabRegisterEarnedToday>
