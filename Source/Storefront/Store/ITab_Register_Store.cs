@@ -143,7 +143,7 @@ namespace Storefront.Store
 
         private static void DrawStock(Rect rect,  IReadOnlyCollection<Thing> stock)
         {
-            var grouped = stock.GroupBy(s => s.def);
+            var grouped = stock.GroupBy(s => s.GetInnerIfMinified().def ?? s.def);
 
             var rectImage = new Rect(rect);
             rectImage.height = 20;
@@ -155,7 +155,7 @@ namespace Storefront.Store
             {
                 if (group.Key == null) continue;
                 // Amount label
-                string amountText = $" {stock.Where(s => s.def == group.Key).Sum(s => s.stackCount)}x {group.Key.LabelCap}";
+                string amountText = $" {stock.Where(s => (s.GetInnerIfMinified().def ?? s.def) == group.Key).Sum(s => s.stackCount)}x {group.Key.LabelCap}";
                 var amountSize = Text.CalcSize(amountText);
                 rectImage.width = amountSize.x;
 
