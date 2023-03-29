@@ -82,9 +82,10 @@ namespace Storefront.Store
         
         private void AddStore(Building_CashRegister register)
         {
+            Log.Message("AddStore for new register...");
             var store = new StoreController(map);
             store.LinkRegister(register);
-            Stores.Add(store);
+            Log.Message("New store is now linked to register at " + store.Register.Position);
 
             // Find an unused name, numbering upwards
             for (int i = 0; i < 100; i++)
@@ -95,7 +96,10 @@ namespace Storefront.Store
                 store.Name = name;
                 break;
             }
+            Log.Message("New store got a temporary name " + store.Name);
             store.FinalizeInit();
+            Stores.Add(store);
+            Log.Message("We now have " + Stores.Count + " stores.");
         }
 
         private void DeleteStore(StoreController store)

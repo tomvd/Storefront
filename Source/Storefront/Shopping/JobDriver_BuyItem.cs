@@ -125,7 +125,7 @@ namespace Storefront.Shopping
                 if (pawn.GetCustomerState().Equals(CustomerState.WaitingToBeServed))
                 {
                     (pawn?.jobs?.curDriver as JobDriver_BuyItem).CustomerState = CustomerState.Leaving;
-                    Log.Error("failed to be served");
+                    Log.Error("failed at WaitInQueue");
                     // TODO drop items and go away - or steal items
                 }
             });

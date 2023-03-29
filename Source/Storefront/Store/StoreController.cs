@@ -31,7 +31,7 @@ namespace Storefront.Store
 
 		private bool AnyRegisterOpen => register?.IsActive == true;
 
-		public bool openForBusiness = true;
+		public bool openForBusiness = false;
 
 		public float guestPricePercentage = 1;
         private string name;
@@ -96,7 +96,7 @@ namespace Storefront.Store
 
 		public void ExposeData()
 		{
-			Scribe_Values.Look(ref openForBusiness, "openForBusiness", true);
+			Scribe_Values.Look(ref openForBusiness, "openForBusiness", false);
 			Scribe_Values.Look(ref guestPricePercentage, "guestPricePercentage", 1);
 			Scribe_Values.Look(ref incomeToday, "incomeToday");
 			Scribe_Values.Look(ref incomeYesterday, "incomeYesterday");
@@ -172,24 +172,8 @@ namespace Storefront.Store
 
         public void LinkRegister(Building_CashRegister register)
         {
-            foreach (var store in register.GetAllStores())
-            {
-                store.RemoveRegister(register);
-            }
-
-            AddRegister(register);
-        }
-
-        private void AddRegister(Building_CashRegister register)
-        {
 	        this.register = register;
 	        this.register.onRadiusChanged.AddListener(OnRegisterRadiusChanged);
-        }
-
-        public void RemoveRegister(Building_CashRegister register)
-        {
-			register.onRadiusChanged.RemoveListener(OnRegisterRadiusChanged);
-			this.register = null;
         }
 
         public bool CanShopHere(Pawn pawn)

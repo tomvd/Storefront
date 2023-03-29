@@ -25,6 +25,7 @@ namespace Storefront.Selling
 			// only one pawn working per register
 			if (register.GetStore().WorkingPawns.FindAll(standbyPawn => !standbyPawn.Equals(pawn)).Any()) return false;
 			if (StoreUtility.IsRegionDangerous(pawn, Danger.Some, register.GetRegion()) && !forced) return false;
+			if (!register.GetStore().IsOpenedRightNow) return false;
 			return true;
 		}
 

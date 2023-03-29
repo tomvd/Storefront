@@ -38,10 +38,12 @@ namespace Storefront.Selling
             foreach (var map in Find.Maps)
             {
                 if (!map.IsPlayerHome || !map.mapPawns.AnyColonistSpawned) continue;
-                foreach (var restaurant in map.GetComponent<StoresManager>().Stores)
+                foreach (var store in map.GetComponent<StoresManager>().Stores)
                 {
-                    if (restaurant == null) continue;
-                    if (restaurant.Register.shifts.Any(s => s.assigned.Count > 0)) continue;
+                    if (store == null) continue;
+                    if (store.Register == null) continue;
+                    if (!store.IsOpenedRightNow) continue;
+                    if (store.Register.shifts.Any(s => s.assigned.Count > 0)) continue;
 
                     getReport = true;
                     break;

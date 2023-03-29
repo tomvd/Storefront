@@ -67,14 +67,14 @@ public static class StorefrontUtility
     public static float GetPurchasingCost(Thing thing, Pawn buyer, Pawn seller = null)
     {
         float finalTPIDiff = maxTPI - buyer.GetStatValue(StatDefOf.TradePriceImprovement);
-        Log.Message(buyer.NameShortColored + " buyer TPI= " + buyer.GetStatValue(StatDefOf.TradePriceImprovement));
+        //Log.Message(buyer.NameShortColored + " buyer TPI= " + buyer.GetStatValue(StatDefOf.TradePriceImprovement));
         if (seller != null)
         {
-            Log.Message(seller.NameShortColored + " seller TPI= " + seller.GetStatValue(StatDefOf.TradePriceImprovement));
+            //Log.Message(seller.NameShortColored + " seller TPI= " + seller.GetStatValue(StatDefOf.TradePriceImprovement));
             finalTPIDiff = seller.GetStatValue(StatDefOf.TradePriceImprovement) - buyer.GetStatValue(StatDefOf.TradePriceImprovement);
         }
-        Log.Message( " final TPI= " + finalTPIDiff);
-        return thing.MarketValue * Math.Min(basePriceModifier * (1f + finalTPIDiff), maxPriceModifier);
+        //Log.Message( " final TPI= " + finalTPIDiff);
+        return thing.def.BaseMarketValue * Math.Min(basePriceModifier * (1f + finalTPIDiff), maxPriceModifier);
     }
     
     // Copied from ToilEffects, had to remove Faction check
