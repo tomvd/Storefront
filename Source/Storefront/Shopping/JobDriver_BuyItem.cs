@@ -7,19 +7,11 @@ using Verse.AI;
 
 namespace Storefront.Shopping
 {
-    public enum CustomerState
-    {
-        FetchingProduct,
-        WaitingToBeServed,
-        BeingServed,
-        Leaving
-    } 
-    
-
-    
+   
     public class JobDriver_BuyItem : JobDriver
     {
-        public CustomerState CustomerState = CustomerState.FetchingProduct;
+        public bool WaitingInQueue = false;
+        public bool WaitingToBeServed= false;
         //Constants
         public const int MinShoppingDuration = 50;
         public const int MaxShoppingDuration = 100;
@@ -41,7 +33,7 @@ namespace Storefront.Shopping
             
             Log.Message($"{pawn.NameShortColored} is buying {TargetThingA.LabelShort} .");
 
-            this.FailOn(() => !ItemUtility.IsBuyableNow(pawn, TargetThingA));
+            //this.FailOn(() => !ItemUtility.IsBuyableNow(pawn, TargetThingA));
             //AddEndCondition(() =>
             //{
             //    if (Deliveree.health.ShouldGetTreatment)
@@ -59,8 +51,9 @@ namespace Storefront.Shopping
                 yield return FindQueuePositionAtRegister(RegisterInd, QueueInd);
                 yield return Toils_Goto.GotoCell(QueueInd, PathEndMode.OnCell);
                 yield return Toils_Interpersonal.WaitToBeAbleToInteract(pawn);
-                yield return WaitInQueue(RegisterInd, QueueInd); // basically waits until he is served
-                yield return WaitBeingServed(RegisterInd, QueueInd); // basically waits until he is served 
+                yield return Toils_General.Wait(10);
+                yield return WaitInQueue(RegisterInd, QueueInd); // waits until he starts being served
+                yield return WaitBeingServed(RegisterInd, QueueInd); // waits until he finishes being served
                 
                 //Toil toil = ToilMaker.MakeToil("BuyThing");
                 //toil.initAction = () => BuyThing(toil);
@@ -72,7 +65,7 @@ namespace Storefront.Shopping
 
         public static Toil FindQueuePositionAtRegister(TargetIndex adjacentToInd, TargetIndex cellInd, int maxRadius = 4)
         {
-            Toil findCell = new Toil {atomicWithPrevious = true};
+            Toil findCell = new Toil();
             findCell.initAction = delegate {
                 Pawn actor = findCell.actor;
                 Job curJob = actor.CurJob;
@@ -112,21 +105,26 @@ namespace Storefront.Shopping
             var toil = new Toil();
             toil.initAction = () =>
             {
+                //Log.Message($"{pawn.NameShortColored} is WaitInQueue .");
                 if (pawn?.jobs?.curDriver is JobDriver_BuyItem buyJob)
                 {
-                    buyJob.CustomerState = CustomerState.WaitingToBeServed;
+//                    Log.Message($"{pawn.NameShortColored} is WaitInQueue GO .");
+                    buyJob.WaitingInQueue = true;
                 }
             };
             toil.tickAction = () => {
-                if(!pawn.GetCustomerState().Equals(CustomerState.WaitingToBeServed)) pawn?.jobs?.curDriver.ReadyForNextToil();
+                if (!pawn.IsWaitingInQueue())
+                {
+                    //Log.Message($"{pawn.NameShortColored} is WaitInQueue DONE .");
+                    pawn?.jobs?.curDriver.ReadyForNextToil();
+                }
             };
             toil.AddFinishAction(() =>
             {
-                if (pawn.GetCustomerState().Equals(CustomerState.WaitingToBeServed))
+                //Log.Error("WaitInQueue finish toil.actor.jobs.curDriver.ticksLeftThisToil=" + toil.actor.jobs.curDriver.ticksLeftThisToil);
+                if (pawn.IsWaitingInQueue())
                 {
-                    (pawn?.jobs?.curDriver as JobDriver_BuyItem).CustomerState = CustomerState.Leaving;
                     Log.Error("failed at WaitInQueue");
-                    // TODO drop items and go away - or steal items
                 }
             });
 
@@ -136,35 +134,46 @@ namespace Storefront.Shopping
             toil.defaultCompleteMode = ToilCompleteMode.Never;
             toil.FailOnDestroyedOrNull(registerInd);
             toil.FailOnDurationExpired(); // Duration over? Fail job!
-            toil.FailOnMyStoreClosed();
+            //toil.FailOnMyStoreClosed(); this is broken, it causes false positives TODO fix it
             toil.FailOnDangerous(Danger.None);
-            toil.socialMode = RandomSocialMode.Normal;
             return toil;
         }
         
         public Toil WaitBeingServed(TargetIndex registerInd, TargetIndex queueInd)
         {
             var toil = new Toil();
-            /*toil.initAction = () =>
+            toil.initAction = () =>
             {
-                (pawn?.jobs?.curDriver as JobDriver_BuyItem).waitingToBeServed = true;
-                (pawn?.jobs?.curDriver as JobDriver_BuyItem).beingServed = false;
-            };*/
-            toil.tickAction = () => {
-                if(!pawn.GetCustomerState().Equals(CustomerState.BeingServed)) pawn?.jobs?.curDriver.ReadyForNextToil();
+                //Log.Message($"{pawn.NameShortColored} is WaitBeingServed .");
+                if (pawn?.jobs?.curDriver is JobDriver_BuyItem buyJob)
+                {
+                    //Log.Message($"{pawn.NameShortColored} is WaitBeingServed GO.");
+                    buyJob.WaitingToBeServed = true;
+                }
             };
-            toil.AddFinishAction(() => (pawn?.jobs?.curDriver as JobDriver_BuyItem).CustomerState = CustomerState.Leaving);
+            toil.tickAction = () => {
+                if (!pawn.IsWaitingToBeServed())
+                {
+                    //Log.Message($"{pawn.NameShortColored} is WaitBeingServed DONE.");
+                    pawn?.jobs?.curDriver.ReadyForNextToil();
+                }
+            };
+            toil.AddFinishAction(() =>
+            {
+                //Log.Error("WaitBeingServed finish");
+                if (pawn.IsWaitingToBeServed())
+                {
+                    Log.Error("failed at WaitBeingServed");
+                    // TODO drop items and go away - or steal items
+                }
+            });
 
             toil.defaultDuration = 3000;
-            // we dont show progressbar here, because the salesmen is actually busy with the customer
-            //toil.WithProgressBarToilDelayReversed(queueInd, 3000, true);
-            //toil.WithProgressBar(queueInd, () => (float) ((double) toil.actor.jobs.curDriver.ticksLeftThisToil / (double) 3000), true, -0.5f);
             toil.defaultCompleteMode = ToilCompleteMode.Never;
             toil.FailOnDestroyedOrNull(registerInd);
             toil.FailOnDurationExpired(); // Duration over? Fail job!
-            toil.FailOnMyStoreClosed();
+            //toil.FailOnMyStoreClosed(); this is broken, it causes false positives TODO fix it
             toil.FailOnDangerous(Danger.None);
-            toil.socialMode = RandomSocialMode.Off;
             return toil;
         }
         

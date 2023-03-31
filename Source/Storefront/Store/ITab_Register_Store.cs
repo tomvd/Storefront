@@ -24,18 +24,10 @@ namespace Storefront.Store
         }
 
         public override bool IsVisible => true;
-        //{
-        //    get
-        //    {
-        //        store = Register.GetStore();
-        //        return store != null;
-        //    }
-        //}
 
         protected override void FillTab()
         {
             store = Register.GetStore();
-            store ??= Register.GetAllStores().First();
             var fullRect = new Rect(0, 16, size.x, size.y - 16);
             var rectLeft = fullRect.LeftHalf().ContractedBy(10f);
             var rectRight = fullRect.RightHalf().ContractedBy(10f);
@@ -77,7 +69,6 @@ namespace Storefront.Store
         {
             store ??= Register.GetStore();
 
-            var stores = store.GetStoresManager();
             var rectSelection = rect.LeftHalf();
 
             Widgets.Label(rectSelection, store.Name.CapitalizeFirst());
@@ -90,12 +81,6 @@ namespace Storefront.Store
             {
                 Find.WindowStack.Add(new Dialog_RenameStore(store));
             }
-        }
-
-        private void SetStore(StoreController newStore)
-        {
-            newStore.LinkRegister(Register);
-            store = newStore;
         }
 
         private void DrawSettings(ref Rect rect)
@@ -168,7 +153,7 @@ namespace Storefront.Store
                 rectImage.x += rectImage.width;
 
                 // Will it fit?
-                if (rectImage.y + rectImage.height > rect.xMax)
+                if (rectImage.y + rectImage.height > rect.height)
                 {
                     column++;
                     rectImage.y = rect.y;
@@ -191,11 +176,6 @@ namespace Storefront.Store
 
             GUI.DrawTexture(rect, def.uiIcon);
             if (onClicked != null && Widgets.ButtonInvisible(rect)) onClicked.Invoke();
-        }
-
-        private static IEnumerable<SpecialThingFilterDef> HiddenSpecialThingFilters()
-        {
-            yield return SpecialThingFilterDefOf.AllowFresh;
         }
 
         public override bool CanAssignToShift(Pawn pawn)

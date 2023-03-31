@@ -55,9 +55,9 @@ public static class StorefrontUtility
      * A TPI of 64.23% is the highest value you can reach in the game with DLCs
      * I took maxTPI of 64.23% -  maxTPI is used to estimate the buying price when the seller is not known
      * 
-     *  In contrary to vanilla trade, to make I used both pawns' TPI : the final TPI  = sellerTPI - buyerTPI
+     *  In contrary to vanilla trade, I used both pawns' TPI : the final TPI  = sellerTPI - buyerTPI
      *  if both are the same the buy price is 72% of the marketvalue (basePriceModifier) which is about how much an average (social skill 14) pawn would get when selling to a trader.
-     *  In theory it would be mostly higher, unless you got a highly skilled buyer, which is the tradeoff of having a pawn standing buy as a seller.
+     *  In theory it would be mostly higher, which is the advantage of having a pawn standing buy as a seller.
      *  if you have a lets say a 20 social buyer and 14 social seller, you would get only 65.5% of market value
      *  on the other hand if you have a 5 social buyer and 14 social seller, you would get 85.5% of market value
      *  worst cases:
@@ -120,12 +120,19 @@ public static class StorefrontUtility
         return toil;
     }
     
-    public static CustomerState GetCustomerState(this Pawn pawn)
+    public static bool IsWaitingInQueue(this Pawn pawn)
     {
-        if (pawn?.jobs?.curDriver is Storefront.Shopping.JobDriver_BuyItem buyJob)
-            return buyJob.CustomerState;
+        if (pawn?.jobs?.curDriver is Shopping.JobDriver_BuyItem buyJob)
+            return buyJob.WaitingInQueue;
         else
-            return CustomerState.Leaving;
+            return false;
+    }
+    public static bool IsWaitingToBeServed(this Pawn pawn)
+    {
+        if (pawn?.jobs?.curDriver is Shopping.JobDriver_BuyItem buyJob)
+            return buyJob.WaitingToBeServed;
+        else
+            return false;
     }
     
     public static void GiveWaitThought(Pawn patron)

@@ -42,16 +42,16 @@ namespace Storefront.Shopping
         
         public static T FailOnMyStoreClosed<T>(this T f) where T : IJobEndable
         {
-            JobCondition OnRestaurantClosed()
+            JobCondition OnStoreClosed()
             {
                 var customer = f.GetActor();
                 var myStore = customer.GetStoresManager().Stores.Find(store => store.Customers.Contains(customer));
-                return myStore?.IsOpenedRightNow == true
-                    ? JobCondition.Ongoing
-                    : JobCondition.Incompletable;
+                if (myStore is { IsOpenedRightNow: true }) return JobCondition.Ongoing;
+                Log.Message($"{customer.NameShortColored} ended {customer.CurJobDef?.label} because of store closed.");
+                return JobCondition.Incompletable;
             }
 
-            f.AddEndCondition(OnRestaurantClosed);
+            f.AddEndCondition(OnStoreClosed);
             return f;
         }
         

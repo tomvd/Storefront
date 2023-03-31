@@ -36,14 +36,14 @@
   <ThoughtDef>
 	<defName>Storefront_HadToWait</defName>
     <showBubble>true</showBubble>
-	<durationDays>2</durationDays>
+	<durationDays>1</durationDays>
 	<stackLimit>5</stackLimit>
 	<stackedEffectMultiplier>1.2</stackedEffectMultiplier>
 	<stages>
 	  <li>
 		<label>had to wait to be served</label>
  		<description>I had to wait long in the store.</description>
-		<baseMoodEffect>-1</baseMoodEffect>
+		<baseMoodEffect>-3</baseMoodEffect>
 	  </li>
 	</stages>
   </ThoughtDef>

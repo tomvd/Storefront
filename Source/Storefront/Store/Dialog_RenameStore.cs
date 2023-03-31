@@ -4,24 +4,24 @@ namespace Storefront.Store
 {
     internal class Dialog_RenameStore : Dialog_Rename
     {
-        private readonly StoreController Store;
+        private readonly StoreController _store;
 
-        public Dialog_RenameStore(StoreController Store)
+        public Dialog_RenameStore(StoreController store)
         {
-            this.Store = Store;
-            curName = Store.Name;
+            _store = store;
+            curName = store.Name;
         }
 
         protected override void SetName(string name)
         {
-            Store.Name = name;
+            _store.Name = name;
         }
 
         protected override AcceptanceReport NameIsValid(string name)
         {
             var result = base.NameIsValid(name);
             if (!result.Accepted) return result;
-            if (Store.GetStoresManager().NameIsInUse(name, Store))
+            if (_store.GetStoresManager().NameIsInUse(name, _store))
             {
                 return "NameIsInUse".Translate();
             }

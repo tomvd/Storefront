@@ -23,7 +23,7 @@ namespace Storefront.Shopping
         protected override IEnumerable<Toil> MakeNewToils()
         {
             //yield return Toils_Reserve.Reserve(TargetIndex.A);
-            yield return Toils_Goto.GotoCell(TargetIndex.B, PathEndMode.Touch);
+            yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
             var toil = new Toil
             {
                 defaultCompleteMode = ToilCompleteMode.Never,

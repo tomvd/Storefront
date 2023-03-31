@@ -61,12 +61,6 @@ namespace Storefront.Store
             }
         }
 
-        public override void MapGenerated()
-        {
-            base.MapGenerated();
-            foreach (var store in Stores) store.MapGenerated();
-        }
-
         public override void MapComponentTick()
         {
             base.MapComponentTick();
@@ -82,10 +76,10 @@ namespace Storefront.Store
         
         private void AddStore(Building_CashRegister register)
         {
-            Log.Message("AddStore for new register...");
+            //Log.Message("AddStore for new register...");
             var store = new StoreController(map);
             store.LinkRegister(register);
-            Log.Message("New store is now linked to register at " + store.Register.Position);
+            //Log.Message("New store is now linked to register at " + store.Register.Position);
 
             // Find an unused name, numbering upwards
             for (int i = 0; i < 100; i++)
@@ -96,10 +90,10 @@ namespace Storefront.Store
                 store.Name = name;
                 break;
             }
-            Log.Message("New store got a temporary name " + store.Name);
+            //Log.Message("New store got a temporary name " + store.Name);
             store.FinalizeInit();
             Stores.Add(store);
-            Log.Message("We now have " + Stores.Count + " stores.");
+            //Log.Message("We now have " + Stores.Count + " stores.");
         }
 
         private void DeleteStore(StoreController store)

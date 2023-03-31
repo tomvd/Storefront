@@ -16,11 +16,9 @@ namespace Storefront.Shopping
 {
     public class JoyGiver_BuyStuff : JoyGiver
     {
-        private readonly JobDef jobDefBuy = DefDatabase<JobDef>.GetNamed("BuyItem");
-        private readonly JobDef jobDefBrowse = DefDatabase<JobDef>.GetNamed("BrowseItems");
         public JoyGiverDefShopping Def => (JoyGiverDefShopping) def;
         private readonly Dictionary<int, List<ulong>> recentlyLookedAt = new Dictionary<int, List<ulong>>(); // Pawn ID, list of cell hashes
-        protected virtual int OptimalMoneyForShopping => 50;
+        protected virtual int OptimalMoneyForShopping => 30;
 
 
         protected override void GetSearchSet(Pawn pawn, List<Thing> outCandidates)
@@ -36,7 +34,7 @@ namespace Storefront.Shopping
             //if (!pawn.MayBuy()) return 0;
             //if (pawn.GetShoppingArea() == null) return 0;
             var money = pawn.GetMoney();
-            Log.Message(pawn.NameShortColored + " has " + money + " silver left.");
+            //Log.Message(pawn.NameShortColored + " has " + money + " silver left.");
             return Mathf.InverseLerp(1, OptimalMoneyForShopping, money)*base.GetChance(pawn);
         }
 
@@ -50,54 +48,78 @@ namespace Storefront.Shopping
 
             var requiresFoodFactor = GuestUtility.GetRequiresFoodFactor(pawn);
             var map = pawn.MapHeld;
-            
+
+            Log.Message("requiresFoodFactor {pawn.NameShortColored}:" + requiresFoodFactor);
+            requiresFoodFactor += (int)pawn.needs.food.CurCategory;
+            Log.Message(
+                "requiresFoodFactor taking into account his need: {pawn.NameShortColored}:" + requiresFoodFactor);
 
             // Try 5 random items from a pool of all items of all stores
-            
+
             List<Thing> things = new List<Thing>();
-            pawn.GetAllStores().Where(r=>r.CanShopHere(pawn)).ToList().ForEach(store => things.AddRange(store.Stock
-                .Where(t => !HasRecentlyLookedAt(pawn, t.Position) && StorefrontUtility.IsBuyableAtAll(pawn, t))));   
-            
-            if (things.Count == 0) {
+            pawn.GetAllStores().Where(r => r.CanShopHere(pawn)).ToList().ForEach(store => things.AddRange(store.Stock
+                .Where(t => !HasRecentlyLookedAt(pawn, t.Position) && StorefrontUtility.IsBuyableAtAll(pawn, t))));
+
+            if (things.Count == 0)
+            {
                 Log.Message($"failed to provide any qualifying item for {pawn.NameShortColored} .");
                 return null;
-            } 
-            foreach (var thing1 in things)
-            {
-                Log.Message("qualifying item for {pawn.NameShortColored}:" + thing1.LabelShort);
             }
-
-            var selection = things.TakeRandom(10).Where(t => pawn.CanReach(t.Position, PathEndMode.Touch, Danger.None, false, false, TraverseMode.PassDoors)).ToArray();
-            foreach (var thing1 in things)
+            
+            /*foreach (var thing1 in things)
             {
-                Log.Message("selection for {pawn.NameShortColored}:" + thing1.LabelShort);
-            }
-            Thing thing = null;
-            if (selection.Length > 1)
-                thing = selection.MaxBy(t => Likey(pawn, t, requiresFoodFactor));
-            else if (selection.Length == 1) thing = selection[0];
+                Log.Message($"things for {pawn.NameShortColored}:" + thing1.LabelShort);
+            }*/
 
-            if (thing == null) return null;
-            RegisterLookedAt(pawn, thing.Position);
+
+            List<Thing> selection = things.Where(t =>
+                pawn.CanReach(t.Position, PathEndMode.Touch, Danger.Some, false, false, TraverseMode.PassDoors)).ToList().TakeRandom(10).Distinct().ToList();
+            /*foreach (var thing1 in selection)
+            {
+                Log.Message($"selection for {pawn.NameShortColored}:" + thing1.LabelShort + " Likey = " + Likey(pawn, thing1, requiresFoodFactor));
+            }*/
+            
+            if (selection.Count == 0)
+            {
+                Log.Message($"failed to provide any qualifying selection of items for {pawn.NameShortColored} .");
+                return null;
+            }            
+
+            Thing thing = selection.MaxBy(t => Likey(pawn, t, requiresFoodFactor));
+
+            if (thing == null)
+            {
+                Log.Message("huh?");
+                return null;
+            }
             var interestingFactor = Likey(pawn, thing, requiresFoodFactor);
-            Log.Message(thing.Label + ": "+interestingFactor+" interesting for " + pawn.NameShortColored);
             // find the store selling the item
-            StoreController store = pawn.GetAllStores().FirstOrDefault (store => store.GetIsInRange(thing.Position));
-            if (store == null) return null; // huh?
+            StoreController store = pawn.GetAllStores().FirstOrDefault(store => store.GetIsInRange(thing.Position));
+            if (store == null)
+            {
+                Log.Message($"Store is gone?");
+                return null; // huh?
+            }
             Log.Message($"{pawn.NameShortColored} wants to shop at store ({store.Name}).");
 
-            if (interestingFactor <= 0.5f)
+            bool urgent = pawn.needs?.food?.CurCategory >= HungerCategory.UrgentlyHungry && thing.IsFood();
+
+            // the higher the social skill of the staff, the more chance the customer will buy (every skill point counts as 0.01 interesting factor)
+            interestingFactor += store.ActiveStaff.MaxBy(pawn => pawn.skills.GetSkill(SkillDefOf.Social).Level).skills
+                .GetSkill(SkillDefOf.Social).Level / 100.0f;
+
+            Log.Message(thing.Label + ": " + interestingFactor + " interesting for " + pawn.NameShortColored);
+
+            if (interestingFactor <= 0.5f && !urgent) // skip browsing for wares and just buy the food if it is urgent!
             {
                 int duration = Rand.Range(JobDriver_BuyItem.MinShoppingDuration, JobDriver_BuyItem.MaxShoppingDuration);
-                bool urgent = pawn.needs?.food?.CurCategory >= HungerCategory.UrgentlyHungry;
-                if (urgent) duration = 50;
-
-                var canBrowse = CellFinder.TryRandomClosewalkCellNear(thing.Position, map, 2, out var standTarget) && ItemUtility.IsBuyableNow(pawn, thing);
+                var canBrowse = CellFinder.TryRandomClosewalkCellNear(thing.Position, map, 2, out var standTarget);
                 if (canBrowse)
                 {
+                    RegisterLookedAt(pawn, thing.Position);
                     return new Job(ShoppingDefOf.Storefront_BrowseItems, standTarget, thing) {expiryInterval = duration * 2};
                 }
-
+                Log.Error($"{pawn.NameShortColored} cannot access ({thing.Label}).");
                 return null;
             }
 
@@ -110,7 +132,8 @@ namespace Storefront.Shopping
             var maxAffordable = Mathf.FloorToInt(money/itemCost);
             Log.Message($"TryGiveJob maxAffordable {maxAffordable}");
             if (maxAffordable < 1) return null; // should not happen
-            int count = Mathf.Min(thing.stackCount, maxSpace, maxAffordable);            
+            var maxCanBuy = Mathf.Min(thing.stackCount, maxSpace, maxAffordable);
+            var count = Rand.RangeInclusive(1 + maxCanBuy/2, maxCanBuy);
             Log.Message($"{pawn.NameShortColored} is going to take {thing.LabelShort}x{count} and queue at {store.Register.LabelShort}.");
             Job buyJob = new Job(ShoppingDefOf.Storefront_BuyItem, thing, store.Register);
             buyJob.count = count;
@@ -120,21 +143,21 @@ namespace Storefront.Shopping
         private static float Likey(Pawn pawn, Thing thing, float requiresFoodFactor)
         {
             if (thing == null) return 0;
-            Log.Message($"{pawn.LabelShort} looked at {thing.LabelShort} at {thing.Position}.");
+            //Log.Message($"{pawn.LabelShort} checking out {thing.LabelShort}.");
 
             // Health of object
             var hpFactor = thing.def.useHitPoints?(float)thing.HitPoints/thing.MaxHitPoints:1;
-            Log.Message(thing.Label + " - health: " + hpFactor);
+            //Log.Message(thing.Label + " - health: " + hpFactor);
             
             // Apparel
             var appFactor = thing is Apparel apparel ? 1 + ApparelScoreGain(pawn, apparel) : 0.8f; // Not apparel, less likey
-            Log.Message(thing.Label + " - apparel score: " + appFactor);
+            //Log.Message(thing.Label + " - apparel score: " + appFactor);
 
             // Food
             if(ItemUtility.IsFood(thing) && pawn.RaceProps.CanEverEat(thing))
             {
                 appFactor = FoodUtility.FoodOptimality(pawn, thing, FoodUtility.GetFinalIngestibleDef(thing), 0, true) / 300f; // 300 = optimality max
-                Log.Message($"{pawn.LabelShort} added {requiresFoodFactor} to the score for his hunger and {appFactor} for food optimality.");
+//                Log.Message($"{pawn.LabelShort} added {requiresFoodFactor} to the score for his hunger and {appFactor} for food optimality.");
                 appFactor += requiresFoodFactor;
                 if (thing.def.IsWithinCategory(ThingCategoryDefOf.PlantFoodRaw)) appFactor -= 0.25f;
                 if (thing.def.IsWithinCategory(ThingCategoryDefOf.MeatRaw)) appFactor -= 0.5f;
@@ -147,18 +170,18 @@ namespace Storefront.Shopping
                 // Hungry? Care less about other stuff
                 if(requiresFoodFactor > 0) appFactor -= requiresFoodFactor / 3;
                
-                if (thing.def.IsDrug)
+                if (thing.def.IsNonMedicalDrug)
                 {
-                    if (pawn.PawnWouldBeUnhappyTakingDrug(thing.def))
+                    if (pawn.IsTeetotaler())
                     {
-                        appFactor = -1;
-                        Log.Message("Pawn does not want this drug");
+  //                      Log.Message("Teetotalers dont buy non-medical drugs");
+                        return 0;
                     }
                     
-                    if (thing.def.IsAddictiveDrug && pawn.needs.drugsDesire.CurLevel > 0)
+                    if (pawn.story.traits.HasTrait(TraitDefOf.DrugDesire))
                     {
-                        appFactor = 10;
-                        Log.Message("Addict wants his drugs");
+    //                    Log.Message("Addict wants his drugs");
+                        return 1;
                     }
                 }
             }
@@ -200,7 +223,7 @@ namespace Storefront.Shopping
                 qFactor -= (float) QualityCategory.Normal;
                 qFactor /= (float) QualityCategory.Masterwork - (float) QualityCategory.Normal;
                 qFactor += 1;
-                Log.Message(thing.Label+" - quality: "+cat+" = "+ qFactor);
+                //Log.Message(thing.Label+" - quality: "+cat+" = "+ qFactor);
             }
             // Tech level of object
             var tFactor = 0.8f;
@@ -210,11 +233,11 @@ namespace Storefront.Shopping
                 tFactor -= (float) pawn.Faction.def.techLevel;
                 tFactor /= (float) TechLevel.Spacer;
                 tFactor += 1;
-                Log.Message(thing.Label + " - techlevel: " + thing.def.techLevel + " = " + tFactor);
+                //Log.Message(thing.Label + " - techlevel: " + thing.def.techLevel + " = " + tFactor);
             }
-            var rFactor = Rand.RangeSeeded(0.9f, 1.2f, pawn.thingIDNumber*60509 + thing.thingIDNumber*33151);
+            var rFactor = Rand.RangeSeeded(0.8f, 1.3f, pawn.thingIDNumber*60509 + thing.thingIDNumber*33151);
             //if(hpFactor*hpFactor*qFactor*qFactor*tFactor*appFactor > 0.5) 
-            Log.Message($"{thing.LabelShort.Colorize(Color.yellow)} - score: {hpFactor * hpFactor * qFactor * qFactor * tFactor * appFactor}, random: {rFactor}");
+            //Log.Message($"{thing.LabelShort.Colorize(Color.yellow)} - score: {hpFactor * hpFactor * qFactor * qFactor * tFactor * appFactor}, random: {rFactor}");
             return Mathf.Max(0, hpFactor*hpFactor*qFactor*qFactor*tFactor*appFactor*rFactor);
         }
 

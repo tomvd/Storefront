@@ -28,7 +28,7 @@ namespace Storefront.Shopping
 				return requiresFoodFactor * 6;
 			}
 			var priority = requiresFoodFactor * workerChance;
-			Log.Message($"{pawn.NameShortColored} buy food priority: {priority:F2}; factor = {requiresFoodFactor}, worker chance = {workerChance}");
+			//Log.Message($"{pawn.NameShortColored} buy food priority: {priority:F2}; factor = {requiresFoodFactor}, worker chance = {workerChance}");
 			return priority;
 		}
 

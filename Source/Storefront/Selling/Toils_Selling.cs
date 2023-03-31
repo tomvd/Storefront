@@ -97,6 +97,19 @@ namespace Storefront.Selling
                     Log.Warning($"Can't announce selling. No customer.");
                     return;
                 }
+                var buyJob = customer.jobs.curDriver as JobDriver_BuyItem;
+
+                if (buyJob == null)
+                {
+                    Log.Warning($"Can't announce selling. Customer is not buying anymore.");
+                    return;                    
+                }
+                
+                if (!buyJob.WaitingInQueue)
+                {
+                    Log.Warning($"Can't announce selling. Customer is not waiting in queue.");
+                    return;                    
+                }
 
                 var item = targetItem.Thing;
                 if (!targetItem.HasThing || item == null)
@@ -105,11 +118,9 @@ namespace Storefront.Selling
                     return;
                 }
 
-                if (customer.jobs.curDriver is JobDriver_BuyItem buyJob)
-                {
-                    buyJob.CustomerState = CustomerState.BeingServed;
-                    JobUtility.GiveServiceThought(customer, toil.actor);
-                }
+                buyJob.WaitingInQueue = false; // this makes the buyer stop waiting in queue
+                JobUtility.GiveServiceThought(customer, toil.actor);
+
                 bool urgent = customer.needs?.food?.CurCategory >= HungerCategory.UrgentlyHungry;
                 if (urgent) toil.defaultDuration = 50;
 
@@ -150,7 +161,7 @@ namespace Storefront.Selling
                 Log.Message($"{customer.jobs.curDriver} is curjob driver.");
                 actor.skills.GetSkill(SkillDefOf.Social).Learn(150);
                 if (customer.jobs.curDriver is JobDriver_BuyItem buyJob)
-                    buyJob.CustomerState = CustomerState.Leaving;
+                    buyJob.WaitingToBeServed = false; // this makes the buyer go on with his business - job is done
             }
         }
         

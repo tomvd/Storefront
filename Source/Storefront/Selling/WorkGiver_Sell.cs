@@ -38,10 +38,8 @@ namespace Storefront.Selling
             //var pawnDriver = pawn.jobs?.curDriver as JobDriver_StandBy;
             //if (pawnDriver == null) return false;
 
-            // is there a customer waiting to be served?
-            var customerDriver = customer.jobs?.curDriver as JobDriver_BuyItem;
-            if (customerDriver == null || !customer.GetCustomerState().Equals(CustomerState.WaitingToBeServed)
-                                       || customer.GetCustomerState().Equals(CustomerState.BeingServed)) return false;
+            // is there a customer waiting in the queue?
+            if (customer.jobs?.curDriver is not JobDriver_BuyItem || !customer.IsWaitingInQueue()) return false;
             
             if (!customer.Spawned || customer.Dead)
             {

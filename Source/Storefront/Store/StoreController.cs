@@ -1,14 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using CashRegister;
-using CashRegister.TableTops;
-using Hospitality;
 using RimWorld;
 using Storefront.Selling;
+using Storefront.Shopping;
 using Verse;
-using JobDriver_BuyItem = Storefront.Shopping.JobDriver_BuyItem;
 
 namespace Storefront.Store
 {
@@ -103,7 +100,6 @@ namespace Storefront.Store
 			Scribe_Values.Look(ref day, "day");
 			Scribe_Values.Look(ref name, "name");
 			Scribe_References.Look(ref register, "register");
-			InitDeepFieldsInitial();
 		}
 		
 		private void OnNextDay()
@@ -116,34 +112,21 @@ namespace Storefront.Store
 			}
 		}
 
-		private void InitDeepFieldsInitial()
-		{
-			//stock ??= new StoreStock(this);
-		}
-
-		public void MapGenerated()
-		{
-			InitDeepFieldsInitial();
-		}
-
 		public void FinalizeInit()
 		{
-			InitDeepFieldsInitial();
-			//stock.RareTick();
             register.onRadiusChanged.AddListener(OnRegisterRadiusChanged);
         }
 
         private void OnRegisterRadiusChanged(Building_CashRegister register)
         {
-            //RefreshRegisters(null, register.Map);
-			//Stock.RefreshStock();
+            UpdateCaches(false);
         }
 
         public void OnTick()
 		{
 			// Don't tick everything at once
-			if ((GenTicks.TicksGame + Map.uniqueID) % 500 == 0) UpdateCaches(true);
-			if ((GenTicks.TicksGame + Map.uniqueID) % 500 == 250) UpdateCaches(false);
+			if ((GenTicks.TicksGame + Map.uniqueID) % 200 == 0) UpdateCaches(true);
+			if ((GenTicks.TicksGame + Map.uniqueID) % 200 == 100) UpdateCaches(false);
 			if ((GenTicks.TicksGame + Map.uniqueID) % 500 == 300) RareTick();
 		}
 

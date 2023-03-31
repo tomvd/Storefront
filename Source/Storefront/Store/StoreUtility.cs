@@ -1,11 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using CashRegister;
-using RimWorld;
 using Verse;
-using Verse.AI;
-using Verse.AI.Group;
 
 namespace Storefront.Store
 {
@@ -24,13 +20,7 @@ namespace Storefront.Store
                     lastTick = GenTicks.TicksGame;
                 }
         }
-/*
-        public static bool HasShoppingQueued(this Pawn patron)
-        {
-            if (patron?.CurJobDef == ShoppingDefOf.Gastronomy_Dine) return true;
-            return patron?.jobs.jobQueue?.Any(j => j.job.def == ShoppingDefOf.Gastronomy_Dine) == true;
-        }
-*/
+
         public static StoresManager GetStoresManager(this Thing thing)
         {
             return GetStoresManager(thing.Map);
