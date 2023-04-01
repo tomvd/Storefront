@@ -143,22 +143,22 @@ namespace Storefront.Selling
             void InitAction()
             {
                 Pawn actor = toil.actor;
-                Log.Message($"{actor.NameShortColored} is selling.");
+                //Log.Message($"{actor.NameShortColored} is selling.");
                 var curJob = actor.CurJob;
                 var targetCustomer = curJob.GetTarget(customerInd);
                 var customer = targetCustomer.Pawn;
-                Log.Message($"{customer.NameShortColored} is customer.");
+                //Log.Message($"{customer.NameShortColored} is customer.");
                 var targetItem = curJob.GetTarget(itemInd);
                 var item = targetItem.Thing;
-                Log.Message($"{item.Label} is product.");                
+                //Log.Message($"{item.Label} is product.");                
                 var targetRegister = curJob.GetTarget(registerInd);
                 var register = targetRegister.Thing;
-                Log.Message($"{register.Label} is register.");
+                //Log.Message($"{register.Label} is register.");
                 SellThing(actor, customer, item, register as Building_CashRegister);
                 //var symbol = item.def.uiIcon;
                 //if (symbol != null)
                     MoteMaker.MakeInteractionBubble(actor, customer, ThingDefOf.Mote_Speech, InteractionDefOf.BuildRapport.GetSymbol());
-                Log.Message($"{customer.jobs.curDriver} is curjob driver.");
+                //Log.Message($"{customer.jobs.curDriver} is curjob driver.");
                 actor.skills.GetSkill(SkillDefOf.Social).Learn(150);
                 if (customer.jobs.curDriver is JobDriver_BuyItem buyJob)
                     buyJob.WaitingToBeServed = false; // this makes the buyer go on with his business - job is done
@@ -181,7 +181,7 @@ namespace Storefront.Selling
             int count = customer.jobs.curJob.count;
 
             var price = Mathf.CeilToInt(count*itemCost);
-            Log.Message($"BuyThing price {price}");
+            //Log.Message($"BuyThing price {price}");
 
             if(silver.stackCount < price) return;
 
@@ -220,7 +220,7 @@ namespace Storefront.Selling
             else
             {
                 tookItems = inventory.TryAdd(thing, count);
-                Log.Message($"tookItems {tookItems}");
+                //Log.Message($"tookItems {tookItems}");
             }
 
             var comp = customer.TryGetComp<CompGuest>(); //customer.CompGuest();

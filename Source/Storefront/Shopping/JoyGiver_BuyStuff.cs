@@ -42,17 +42,16 @@ namespace Storefront.Shopping
         //    or a BuyItem job - if the pawn is interested enough in buying it.
         public override Job TryGiveJob(Pawn pawn)
         {
-            Log.Message($"{pawn.NameShortColored} is going to shop as joygiver.");
+            //Log.Message($"{pawn.NameShortColored} is going to shop as joygiver.");
 
             //pawn.GetStoresManager().RegisterShoppinAt(pawn, store);
 
             var requiresFoodFactor = GuestUtility.GetRequiresFoodFactor(pawn);
             var map = pawn.MapHeld;
 
-            Log.Message("requiresFoodFactor {pawn.NameShortColored}:" + requiresFoodFactor);
+            //Log.Message("requiresFoodFactor {pawn.NameShortColored}:" + requiresFoodFactor);
             requiresFoodFactor += (int)pawn.needs.food.CurCategory;
-            Log.Message(
-                "requiresFoodFactor taking into account his need: {pawn.NameShortColored}:" + requiresFoodFactor);
+            //Log.Message("requiresFoodFactor taking into account his need: {pawn.NameShortColored}:" + requiresFoodFactor);
 
             // Try 5 random items from a pool of all items of all stores
 
@@ -62,7 +61,7 @@ namespace Storefront.Shopping
 
             if (things.Count == 0)
             {
-                Log.Message($"failed to provide any qualifying item for {pawn.NameShortColored} .");
+                //Log.Message($"failed to provide any qualifying item for {pawn.NameShortColored} .");
                 return null;
             }
             
@@ -81,7 +80,7 @@ namespace Storefront.Shopping
             
             if (selection.Count == 0)
             {
-                Log.Message($"failed to provide any qualifying selection of items for {pawn.NameShortColored} .");
+                //Log.Message($"failed to provide any qualifying selection of items for {pawn.NameShortColored} .");
                 return null;
             }            
 
@@ -100,7 +99,7 @@ namespace Storefront.Shopping
                 Log.Message($"Store is gone?");
                 return null; // huh?
             }
-            Log.Message($"{pawn.NameShortColored} wants to shop at store ({store.Name}).");
+            //Log.Message($"{pawn.NameShortColored} wants to shop at store ({store.Name}).");
 
             bool urgent = pawn.needs?.food?.CurCategory >= HungerCategory.UrgentlyHungry && thing.IsFood();
 
@@ -108,7 +107,7 @@ namespace Storefront.Shopping
             interestingFactor += store.ActiveStaff.MaxBy(pawn => pawn.skills.GetSkill(SkillDefOf.Social).Level).skills
                 .GetSkill(SkillDefOf.Social).Level / 100.0f;
 
-            Log.Message(thing.Label + ": " + interestingFactor + " interesting for " + pawn.NameShortColored);
+            //Log.Message(thing.Label + ": " + interestingFactor + " interesting for " + pawn.NameShortColored);
 
             if (interestingFactor <= 0.5f && !urgent) // skip browsing for wares and just buy the food if it is urgent!
             {
@@ -125,16 +124,16 @@ namespace Storefront.Shopping
 
             // calculate count here already instead of with buying... this means we have to have enough worst case money, since we dont know the price(seller TPI) yet
             int maxSpace = ItemUtility.GetInventorySpaceFor(pawn, thing);
-            Log.Message($"BuyThing maxSpace {maxSpace}");            
+            //Log.Message($"BuyThing maxSpace {maxSpace}");            
             int money = ItemUtility.GetMoney(pawn);
             var itemCost = StorefrontUtility.GetPurchasingCost(thing, pawn);
-            Log.Message($"TryGiveJob itemCost {itemCost}");
+            //Log.Message($"TryGiveJob itemCost {itemCost}");
             var maxAffordable = Mathf.FloorToInt(money/itemCost);
-            Log.Message($"TryGiveJob maxAffordable {maxAffordable}");
+            //Log.Message($"TryGiveJob maxAffordable {maxAffordable}");
             if (maxAffordable < 1) return null; // should not happen
             var maxCanBuy = Mathf.Min(thing.stackCount, maxSpace, maxAffordable);
             var count = Rand.RangeInclusive(1 + maxCanBuy/2, maxCanBuy);
-            Log.Message($"{pawn.NameShortColored} is going to take {thing.LabelShort}x{count} and queue at {store.Register.LabelShort}.");
+            //Log.Message($"{pawn.NameShortColored} is going to take {thing.LabelShort}x{count} and queue at {store.Register.LabelShort}.");
             Job buyJob = new Job(ShoppingDefOf.Storefront_BuyItem, thing, store.Register);
             buyJob.count = count;
             return buyJob;

@@ -37,7 +37,7 @@ namespace Storefront.Shopping
 			if (pawn.needs.food == null) return null;
 
 			if (ShoppingDefOf.Storefront_BuyFood.Worker.MissingRequiredCapacity(pawn) != null) return null;
-			Log.Message($"{pawn.NameShortColored} is trying to buy food.");
+			//Log.Message($"{pawn.NameShortColored} is trying to buy food.");
 
 			return ShoppingDefOf.Storefront_BuyFood.Worker.TryGiveJob(pawn);
 		}

@@ -31,7 +31,7 @@ namespace Storefront.Shopping
         {
             //this.FailOnDespawnedNullOrForbidden(ItemInd);
             
-            Log.Message($"{pawn.NameShortColored} is buying {TargetThingA.LabelShort} .");
+            //Log.Message($"{pawn.NameShortColored} is buying {TargetThingA.LabelShort} .");
 
             //this.FailOn(() => !ItemUtility.IsBuyableNow(pawn, TargetThingA));
             //AddEndCondition(() =>
@@ -85,7 +85,7 @@ namespace Storefront.Shopping
                         //if (CellFinder.TryFindRandomReachableCellNear(target.Cell, actor.Map, radius, TraverseParms.For(TraverseMode.NoPassClosedDoors), Validator, null, out var result))
                         {
                             curJob.SetTarget(cellInd, result);
-                            Log.Message($"{actor.NameShortColored} found a place to stand at {result}. radius = {radius}");
+                            //Log.Message($"{actor.NameShortColored} found a place to stand at {result}. radius = {radius}");
                             return;
                         }
                     }
@@ -122,10 +122,10 @@ namespace Storefront.Shopping
             toil.AddFinishAction(() =>
             {
                 //Log.Error("WaitInQueue finish toil.actor.jobs.curDriver.ticksLeftThisToil=" + toil.actor.jobs.curDriver.ticksLeftThisToil);
-                if (pawn.IsWaitingInQueue())
+                /*if (pawn.IsWaitingInQueue())
                 {
                     Log.Error("failed at WaitInQueue");
-                }
+                }*/
             });
 
             toil.defaultDuration = 3000;
@@ -161,11 +161,10 @@ namespace Storefront.Shopping
             toil.AddFinishAction(() =>
             {
                 //Log.Error("WaitBeingServed finish");
-                if (pawn.IsWaitingToBeServed())
+               /* if (pawn.IsWaitingToBeServed())
                 {
                     Log.Error("failed at WaitBeingServed");
-                    // TODO drop items and go away - or steal items
-                }
+                }*/
             });
 
             toil.defaultDuration = 3000;
