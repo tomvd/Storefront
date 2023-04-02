@@ -124,9 +124,6 @@ namespace Storefront.Selling
                 bool urgent = customer.needs?.food?.CurCategory >= HungerCategory.UrgentlyHungry;
                 if (urgent) toil.defaultDuration = 50;
 
-                // TODO money icon?
-                //var symbol = item.def.uiIcon;
-                //TryCreateBubble(actor, customer, InteractionDefOf.BuildRapport.GetSymbol());
             }
 
             void TickAction()
@@ -167,7 +164,7 @@ namespace Storefront.Selling
         
         private static void SellThing(Pawn salesperson, Pawn customer, Thing item, Building_CashRegister register)
         {
-            Log.Message($"BuyThing MarketValue {item.MarketValue}");
+            //Log.Message($"BuyThing MarketValue {item.MarketValue}");
             if (item.MarketValue <= 0) return;
 
             var inventory = customer.inventory.innerContainer;
@@ -231,7 +228,7 @@ namespace Storefront.Selling
                 {
                     if (register is not null)
                     {
-                        Log.Message($"transfer silver to register");
+                        //Log.Message($"transfer silver to register");
                         customer.inventory.innerContainer.TryTransferToContainer(silver,
                             register.GetDirectlyHeldThings(), price);
                     }

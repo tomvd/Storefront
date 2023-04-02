@@ -77,11 +77,15 @@ namespace Storefront.Shopping
                 }
                 else
                 {
+                    // find opposite cell
+                    IntVec3 vector = target.Thing.Position - target.Thing.InteractionCell;
+                    IntVec3 oppositeCell = target.Thing.Position + vector;
+                    //Log.Message($"{target.Thing.Position} - {target.Thing.InteractionCell} - {oppositeCell}");
                     // Try radius 2-4
-                    for (int radius = 1; radius <= maxRadius; radius++)
+                    for (int radius = 0; radius <= maxRadius; radius++)
                     {
                         bool Validator(IntVec3 c) => c.Standable(actor.Map) && c.GetFirstPawn(actor.Map) == null;
-                        if (CellFinder.TryRandomClosewalkCellNear(target.Cell, actor.Map, radius, out var result,Validator))
+                        if (CellFinder.TryRandomClosewalkCellNear(oppositeCell, actor.Map, radius, out var result,Validator))
                         //if (CellFinder.TryFindRandomReachableCellNear(target.Cell, actor.Map, radius, TraverseParms.For(TraverseMode.NoPassClosedDoors), Validator, null, out var result))
                         {
                             curJob.SetTarget(cellInd, result);

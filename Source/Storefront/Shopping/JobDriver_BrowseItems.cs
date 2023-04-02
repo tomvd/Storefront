@@ -34,7 +34,7 @@ namespace Storefront.Shopping
                 }
             };
             toil.AddPreTickAction(delegate {
-                const int minDuration = GenDate.TicksPerHour / 8;
+                const int minDuration = GenDate.TicksPerHour / 4;
 
                 if (ticksSpent >= minDuration && pawn.IsHashIntervalTick(100))
                 {

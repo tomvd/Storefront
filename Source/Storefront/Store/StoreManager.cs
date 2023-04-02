@@ -82,7 +82,7 @@ namespace Storefront.Store
             //Log.Message("New store is now linked to register at " + store.Register.Position);
 
             // Find an unused name, numbering upwards
-            for (int i = 0; i < 100; i++)
+            for (int i = 1; i < 100; i++)
             {
                 var name = "StoreDefaultName".Translate(Stores.Count + i);
                 if (NameIsInUse(name, store)) continue;

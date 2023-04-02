@@ -109,14 +109,14 @@ namespace Storefront.Shopping
 
             //Log.Message(thing.Label + ": " + interestingFactor + " interesting for " + pawn.NameShortColored);
 
-            if (interestingFactor <= 0.5f && !urgent) // skip browsing for wares and just buy the food if it is urgent!
+            if (!urgent && (interestingFactor <= 0.5f || Rand.Chance(0.3f)))
             {
                 int duration = Rand.Range(JobDriver_BuyItem.MinShoppingDuration, JobDriver_BuyItem.MaxShoppingDuration);
                 var canBrowse = CellFinder.TryRandomClosewalkCellNear(thing.Position, map, 2, out var standTarget);
                 if (canBrowse)
                 {
                     RegisterLookedAt(pawn, thing.Position);
-                    return new Job(ShoppingDefOf.Storefront_BrowseItems, standTarget, thing) {expiryInterval = duration * 2};
+                    return new Job(ShoppingDefOf.Storefront_BrowseItems, standTarget, thing) {expiryInterval = duration * 4};
                 }
                 Log.Error($"{pawn.NameShortColored} cannot access ({thing.Label}).");
                 return null;
@@ -234,7 +234,7 @@ namespace Storefront.Shopping
                 tFactor += 1;
                 //Log.Message(thing.Label + " - techlevel: " + thing.def.techLevel + " = " + tFactor);
             }
-            var rFactor = Rand.RangeSeeded(0.8f, 1.3f, pawn.thingIDNumber*60509 + thing.thingIDNumber*33151);
+            var rFactor = Rand.RangeSeeded(0.9f, 1.2f, pawn.thingIDNumber*60509 + thing.thingIDNumber*33151);
             //if(hpFactor*hpFactor*qFactor*qFactor*tFactor*appFactor > 0.5) 
             //Log.Message($"{thing.LabelShort.Colorize(Color.yellow)} - score: {hpFactor * hpFactor * qFactor * qFactor * tFactor * appFactor}, random: {rFactor}");
             return Mathf.Max(0, hpFactor*hpFactor*qFactor*qFactor*tFactor*appFactor*rFactor);
