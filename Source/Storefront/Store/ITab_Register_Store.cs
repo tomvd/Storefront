@@ -72,7 +72,6 @@ namespace Storefront.Store
             var rectSelection = rect.LeftHalf();
 
             Widgets.Label(rectSelection, store.Name.CapitalizeFirst());
-            TooltipHandler.TipRegion(rectSelection, "StoreTooltipSelect".Translate());
 
             var widgetRow = new WidgetRow(rect.xMax, rect.y, UIDirection.LeftThenDown);
 
