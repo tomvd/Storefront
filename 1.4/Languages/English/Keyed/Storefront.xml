@@ -2,7 +2,7 @@
 <LanguageData>
   
 	<!-- Messages -->
-	<MessageIncomeToday>Your store has earned {0} today.</MessageIncomeToday>
+	<StoreMessageIncomeToday>Your store has earned {0} today.</StoreMessageIncomeToday>
 	
 	<TabRegisterStore>Shop</TabRegisterStore>
 	

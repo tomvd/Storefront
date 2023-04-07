@@ -67,6 +67,7 @@ namespace Storefront.Store
 				ActiveStaff.AddRange(activeShifts.SelectMany(s => s.assigned).Where(p => p.MapHeld == Map));
 
 				Stock.Clear();
+				// TODO add some sanity check here, for example if you put a cashier outside, it can grind the game into a halt
 				Stock.AddRange(Map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableEver)
 					.Where(t => !t.IsForbidden(Faction.OfPlayer)
 					            && GetIsInRange(t.Position)
@@ -108,7 +109,7 @@ namespace Storefront.Store
 			incomeToday = 0;
 			if (incomeYesterday > 0)
 			{
-				Messages.Message("MessageIncomeToday".Translate(incomeYesterday.ToStringMoney()), MessageTypeDefOf.NeutralEvent);
+				Messages.Message("StoreMessageIncomeToday".Translate(incomeYesterday.ToStringMoney()), MessageTypeDefOf.NeutralEvent);
 			}
 		}
 
