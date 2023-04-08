@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- EN: stand by -->
+  <Storefront_StandBy.label>стоять за кассой</Storefront_StandBy.label>
+  <!-- EN: stand by -->
+  <Storefront_StandBy.verb>стоять за кассой</Storefront_StandBy.verb>
+  <!-- EN: standing by -->
+  <Storefront_StandBy.gerund>работать за</Storefront_StandBy.gerund>
+  
+  <!-- EN: sell -->
+  <Storefront_Sell.label>продавать</Storefront_Sell.label>
+  <!-- EN: sell -->
+  <Storefront_Sell.verb>продавать</Storefront_Sell.verb>
+  <!-- EN: selling -->
+  <Storefront_Sell.gerund>продавать</Storefront_Sell.gerund>
+</LanguageData>
