@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- EN: waiting for sales work. -->
+  <Storefront_StandBy.reportString>стоит за кассой</Storefront_StandBy.reportString>
+  <!-- EN: selling TargetB to TargetA. -->
+  <Storefront_Sell.reportString>продаёт TargetB TargetA</Storefront_Sell.reportString>
+</LanguageData>

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- EN: Browsing wares. -->
+  <Storefront_BrowseItems.reportString>просматривает товары</Storefront_BrowseItems.reportString>
+  <!-- EN: Buying TargetA. -->
+  <Storefront_BuyItem.reportString>покупает TargetA</Storefront_BuyItem.reportString>
+</LanguageData>
