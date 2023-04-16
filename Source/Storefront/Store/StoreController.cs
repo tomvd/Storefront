@@ -35,7 +35,8 @@ namespace Storefront.Store
         
         public float incomeYesterday;
         public float incomeToday;
-
+        
+        private ThingFilter storeFilter;
 
 		public ReadOnlyCollection<Pawn> Customers => SpawnedShoppingPawns.AsReadOnly();
 		public List<Pawn> SpawnedShoppingPawns { get; } = new List<Pawn>();
@@ -69,7 +70,7 @@ namespace Storefront.Store
 				Stock.Clear();
 				// TODO add some sanity check here, for example if you put a cashier outside, it can grind the game into a halt
 				Stock.AddRange(Map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableEver)
-					.Where(t => !t.IsForbidden(Faction.OfPlayer)
+					.Where(t => IsForSale(t.def) && !t.IsForbidden(Faction.OfPlayer)
 					            && GetIsInRange(t.Position)
 					            && !t.def.isUnfinishedThing
 					            && t.def != ThingDefOf.Silver).ToList());
@@ -101,6 +102,7 @@ namespace Storefront.Store
 			Scribe_Values.Look(ref day, "day");
 			Scribe_Values.Look(ref name, "name");
 			Scribe_References.Look(ref register, "register");
+			Scribe_Deep.Look(ref storeFilter, "storeFilter");		
 		}
 		
 		private void OnNextDay()
@@ -169,6 +171,23 @@ namespace Storefront.Store
         {
 	        incomeToday += amount;
         }
+        
+        public ThingFilter GetStoreFilter()
+        {
+	        if (storeFilter == null) InitStoreFilter();
+	        return storeFilter;
+        }
+        
+        public bool IsForSale(ThingDef def)
+        {
+	        if (storeFilter == null) InitStoreFilter();
+	        return storeFilter.Allows(def);
+        }
 
+        private void InitStoreFilter()
+        {
+	        storeFilter = new ThingFilter();
+	        storeFilter.SetFromPreset(StorageSettingsPreset.DefaultStockpile);
+        }
     }
 }

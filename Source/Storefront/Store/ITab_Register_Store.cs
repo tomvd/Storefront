@@ -15,6 +15,7 @@ namespace Storefront.Store
     {
         private bool showSettings = true;
         private bool showStats = true;
+        private bool showStock = true;
         private StoreController store;
         private readonly ThingFilterUI.UIState menuFilterState = new ThingFilterUI.UIState();
 
@@ -39,9 +40,16 @@ namespace Storefront.Store
         private void DrawRight(Rect rect)
         {
             store ??= Register.GetStore();
-            DrawStock(new Rect(rect), store.Stock);
-        }
+            //DrawStock(new Rect(rect), store.Stock);
+            // Menu
+            {
+                var menuRect = new Rect(rect);
+                //menuRect.yMax -= 36;
 
+                ThingFilterUI.DoThingFilterConfigWindow(menuRect, menuFilterState, store.GetStoreFilter());
+            }            
+        }
+        
         private void DrawLeft(Rect rect)
         {
             var topBar = rect.TopPartPixels(24);
@@ -62,6 +70,13 @@ namespace Storefront.Store
 
                 DrawStats(ref smallRect);
                 rect.yMin += smallRect.height + 10;
+            }
+            
+            if (showStock)
+            {
+                var smallRect = new Rect(rect);
+                store ??= Register.GetStore();
+                DrawStock(smallRect, store.Stock);
             }
         }
 
@@ -84,7 +99,7 @@ namespace Storefront.Store
 
         private void DrawSettings(ref Rect rect)
         {
-            const int ListingItems = 5;
+            const int ListingItems = 1;
             rect.height = 30 * ListingItems;
 
             var listing = new Listing_Standard();
@@ -104,7 +119,7 @@ namespace Storefront.Store
 
         private void DrawStats(ref Rect rect)
         {
-            const int listingItems = 11;
+            const int listingItems = 4;
             rect.height = listingItems * 24 + 20;
 
             Widgets.DrawBoxSolid(rect, new Color(1f, 1f, 1f, 0.08f));
@@ -127,41 +142,37 @@ namespace Storefront.Store
 
         private static void DrawStock(Rect rect,  IReadOnlyCollection<Thing> stock)
         {
+            const int listingItems = 12;
+            rect.height = listingItems * 20 + 10;
+            rect.y += 10;
             var grouped = stock.GroupBy(s => s.GetInnerIfMinified().def ?? s.def);
-
+            
             var rectImage = new Rect(rect);
             rectImage.height = 20;
-            var column = 0;
-            var columnwidth = 200;
-
+            var row = 0;
             // Icons for each type of stock
             foreach (var group in grouped)
             {
                 if (group.Key == null) continue;
                 // Amount label
-                string amountText = $" {stock.Where(s => (s.GetInnerIfMinified().def ?? s.def) == group.Key).Sum(s => s.stackCount)}x {group.Key.LabelCap}";
+                string amountText = $"{stock.Where(s => (s.GetInnerIfMinified().def ?? s.def) == group.Key).Sum(s => s.stackCount)}x {group.Key.LabelCap}, ";
                 var amountSize = Text.CalcSize(amountText);
                 rectImage.width = amountSize.x;
-
+                // Will it fit?
+                if (rectImage.x + rectImage.width > rect.width)
+                {
+                    row++;
+                    rectImage.x = rect.x;
+                }
+                rectImage.y = rect.y + (row * rectImage.height);
                 // Draw label
                 Widgets.Label(rectImage, amountText);
-                rectImage.x += rectImage.width;
+                //rectImage.x += rectImage.width;
                 // Icon
-                rectImage.width = rectImage.height;
-                DrawDefIcon(rectImage, group.Key, group.Key.LabelCap);
-                rectImage.x += rectImage.width;
-
-                // Will it fit?
-                if (rectImage.y + rectImage.height > rect.height)
-                {
-                    column++;
-                    rectImage.y = rect.y;
-                }
-                else
-                {
-                    rectImage.y += rectImage.height;                    
-                }                
-                rectImage.x = rect.x + (column * columnwidth);
+                //rectImage.width = rectImage.height;
+                //DrawDefIcon(rectImage, group.Key, group.Key.LabelCap);
+                //rectImage.x += rectImage.width;
+                rectImage.x += rectImage.width;                    
             }
         }
 

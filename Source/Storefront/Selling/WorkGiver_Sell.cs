@@ -15,18 +15,7 @@ namespace Storefront.Selling
 
         public override ThingRequest PotentialWorkThingRequest => ThingRequest.ForGroup(ThingRequestGroup.Pawn);
 
-        public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn) => pawn.GetAllStoresEmployed().SelectMany(r=>r.SpawnedShoppingPawns).Distinct().ToArray();
-
-        public override bool ShouldSkip(Pawn pawn, bool forced = false)
-        {
-            return false;
-            //var restaurant = pawn.GetRestaurant();
-            //
-            //// Sell even when shift just ended
-            ////if(!forced && !restaurant.HasToWork(pawn)) return true;
-            //
-            //return !restaurant.Orders.AvailableOrdersForServing.Any();
-        }
+        public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn) => pawn.GetAllStoresEmployed().SelectMany(r=>r.SpawnedShoppingPawns).Distinct().ToList();
 
         public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
