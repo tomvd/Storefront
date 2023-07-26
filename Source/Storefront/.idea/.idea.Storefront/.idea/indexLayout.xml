@@ -2,10 +2,16 @@
 <project version="4">
   <component name="UserContentModel">
     <attachedFolders>
+      <Path>../../../AllowTool2</Path>
+      <Path>../../../AllowTool2/Source</Path>
       <Path>../../../ForbidBlueprints</Path>
-      <Path>../../../Gastronomy/1.4</Path>
+      <Path>../../../Hospital</Path>
+      <Path>../../../Hospitality</Path>
       <Path>../../../HospitalityCasino</Path>
+      <Path>../../../HospitalitySpa</Path>
+      <Path>../../../RimworldTycoon</Path>
       <Path>../../../Storefront</Path>
+      <Path>../../../VendingMachines</Path>
     </attachedFolders>
     <explicitIncludes />
     <explicitExcludes />

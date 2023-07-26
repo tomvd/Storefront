@@ -3,6 +3,7 @@ using Hospitality;
 using JetBrains.Annotations;
 using RimWorld;
 using Storefront.Shopping;
+using Storefront.Store;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -15,7 +16,7 @@ public static class StorefrontUtility
     public static float basePriceModifier = 0.72f;
     public static float maxPriceModifier = 0.90f;
     
-    public static bool IsBuyableAtAll(Pawn pawn, Thing thing)
+    public static bool IsBuyableAtAll(Pawn pawn, Thing thing, StoreController store)
     {
         if (thing.def.isUnfinishedThing) return false;
 
@@ -26,16 +27,34 @@ public static class StorefrontUtility
         if (thing.def.thingSetMakerTags != null && thing.def.thingSetMakerTags.Contains("NotForGuests")) return false;
 
         if (!ItemUtility.IsBuyableNow(pawn, thing)) return false;
+        
         //if (!thing.IsSociallyProper(pawn))
         //{
         //    Log.Message(thing.Label + ": is not proper for " + pawn.NameStringShort);
         //    return false;
         //}
-        var cost = Mathf.CeilToInt(GetPurchasingCost(thing, pawn));
+        // we actually might want to buy something above our budget if the skill of the seller is high enough
+        float skill = store.ActiveStaff.MaxBy(p => p.skills.GetSkill(SkillDefOf.Social).Level).skills
+            .GetSkill(SkillDefOf.Social).Level;
+        
+        //Log.Message("sell skill " + skill);
+        var cost = Mathf.CeilToInt(GetPurchasingCost(thing, pawn,
+            store.ActiveStaff.MaxBy(p => p.skills.GetSkill(SkillDefOf.Social).Level)));
 
-        if (cost > ItemUtility.GetMoney(pawn))
+        if (skill < 10)
         {
-            return false;
+            if (cost > ItemUtility.GetMoney(pawn))
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if (cost > ItemUtility.GetMoney(pawn) + skill * 50) // we can go up to 1000$ above budget
+            {
+                return false;
+            }
+            
         }
 
         /*if (ItemUtility.BoughtByPlayer(pawn, thing))

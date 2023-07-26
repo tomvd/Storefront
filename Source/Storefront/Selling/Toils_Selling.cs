@@ -180,7 +180,7 @@ namespace Storefront.Selling
             var price = Mathf.CeilToInt(count*itemCost);
             //Log.Message($"BuyThing price {price}");
 
-            if(silver.stackCount < price) return;
+            //if(silver.stackCount < price) return;
 
             var map = customer.MapHeld;
             var inventoryItemsBefore = inventory.ToArray();
@@ -218,6 +218,12 @@ namespace Storefront.Selling
             {
                 tookItems = inventory.TryAdd(thing, count);
                 //Log.Message($"tookItems {tookItems}");
+                // could not pick up item? we make it disappear
+                if (tookItems == 0)
+                {
+                    tookItems = thing.stackCount;
+                    thing.Destroy();
+                }
             }
 
             var comp = customer.TryGetComp<CompGuest>(); //customer.CompGuest();
@@ -229,8 +235,16 @@ namespace Storefront.Selling
                     if (register is not null)
                     {
                         //Log.Message($"transfer silver to register");
-                        customer.inventory.innerContainer.TryTransferToContainer(silver,
+                        int transferred = customer.inventory.innerContainer.TryTransferToContainer(silver,
                             register.GetDirectlyHeldThings(), price);
+                        // check how much silver we got, and if its less than we ask for, create some extra silver out of thin air :)
+                        if (transferred < price)
+                        {
+                            int debt = price - transferred;
+                            var silverThing = ThingMaker.MakeThing(ThingDefOf.Silver);
+                            silverThing.stackCount = debt;
+                            register.GetDirectlyHeldThings().TryAdd(silverThing, true);
+                        }
                     }
                     else
                     {

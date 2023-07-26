@@ -10,6 +10,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospitality", "..\..\..\Hos
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForbidBlueprints", "..\..\..\ForbidBlueprints\Source\ForbidBlueprints\ForbidBlueprints.csproj", "{5F92FE41-BE55-4458-B5A5-3BB649834F4D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RimworldTycoon", "..\..\..\RimworldTycoon\Source\RimworldTycoon\RimworldTycoon.csproj", "{DC6DB739-F0EA-4DA2-A499-F7A648A66163}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalityCasino", "..\..\..\HospitalityCasino\Source\HospitalityCasino\HospitalityCasino.csproj", "{4CB37648-53B2-4A4C-972B-4331748E8702}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalitySpa", "..\..\..\HospitalitySpa\Source\HospitalitySpa\HospitalitySpa.csproj", "{20877D17-FDF2-42A8-BD35-0EE9EA1F8E46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital", "..\..\..\Hospital\Source\Hospital\Hospital.csproj", "{9BE7171D-450E-4B06-96C7-C63103B3F518}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllowTool2", "..\..\..\AllowTool2\Source\AllowTool2\AllowTool2.csproj", "{63C8BFE3-C0AF-49CD-A21A-F843AB3FA206}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VendingMachines", "..\..\..\VendingMachines\Source\VendingMachines\VendingMachines.csproj", "{897E8475-9328-4A6F-BA2C-6CAD6DC2BCA6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +48,25 @@ Global
 		{5F92FE41-BE55-4458-B5A5-3BB649834F4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F92FE41-BE55-4458-B5A5-3BB649834F4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F92FE41-BE55-4458-B5A5-3BB649834F4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC6DB739-F0EA-4DA2-A499-F7A648A66163}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC6DB739-F0EA-4DA2-A499-F7A648A66163}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC6DB739-F0EA-4DA2-A499-F7A648A66163}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC6DB739-F0EA-4DA2-A499-F7A648A66163}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CB37648-53B2-4A4C-972B-4331748E8702}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CB37648-53B2-4A4C-972B-4331748E8702}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CB37648-53B2-4A4C-972B-4331748E8702}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20877D17-FDF2-42A8-BD35-0EE9EA1F8E46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20877D17-FDF2-42A8-BD35-0EE9EA1F8E46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20877D17-FDF2-42A8-BD35-0EE9EA1F8E46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20877D17-FDF2-42A8-BD35-0EE9EA1F8E46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BE7171D-450E-4B06-96C7-C63103B3F518}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BE7171D-450E-4B06-96C7-C63103B3F518}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63C8BFE3-C0AF-49CD-A21A-F843AB3FA206}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63C8BFE3-C0AF-49CD-A21A-F843AB3FA206}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63C8BFE3-C0AF-49CD-A21A-F843AB3FA206}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{897E8475-9328-4A6F-BA2C-6CAD6DC2BCA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{897E8475-9328-4A6F-BA2C-6CAD6DC2BCA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{897E8475-9328-4A6F-BA2C-6CAD6DC2BCA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{897E8475-9328-4A6F-BA2C-6CAD6DC2BCA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

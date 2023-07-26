@@ -54,10 +54,9 @@ namespace Storefront.Shopping
             //Log.Message("requiresFoodFactor taking into account his need: {pawn.NameShortColored}:" + requiresFoodFactor);
 
             // Try 5 random items from a pool of all items of all stores
-
             List<Thing> things = new List<Thing>();
             pawn.GetAllStores().Where(r => r.CanShopHere(pawn)).ToList().ForEach(store => things.AddRange(store.Stock
-                .Where(t => !HasRecentlyLookedAt(pawn, t.Position) && StorefrontUtility.IsBuyableAtAll(pawn, t))));
+                .Where(t => !HasRecentlyLookedAt(pawn, t.Position) && StorefrontUtility.IsBuyableAtAll(pawn, t, store))));
 
             if (things.Count == 0)
             {
@@ -102,10 +101,10 @@ namespace Storefront.Shopping
             //Log.Message($"{pawn.NameShortColored} wants to shop at store ({store.Name}).");
 
             bool urgent = pawn.needs?.food?.CurCategory >= HungerCategory.UrgentlyHungry && thing.IsFood();
+            Pawn seller = store.ActiveStaff.MaxBy(pawn => pawn.skills.GetSkill(SkillDefOf.Social).Level);
 
             // the higher the social skill of the staff, the more chance the customer will buy (every skill point counts as 0.01 interesting factor)
-            interestingFactor += store.ActiveStaff.MaxBy(pawn => pawn.skills.GetSkill(SkillDefOf.Social).Level).skills
-                .GetSkill(SkillDefOf.Social).Level / 100.0f;
+            interestingFactor += seller.skills.GetSkill(SkillDefOf.Social).Level / 100.0f;
 
             //Log.Message(thing.Label + ": " + interestingFactor + " interesting for " + pawn.NameShortColored);
 
@@ -124,14 +123,19 @@ namespace Storefront.Shopping
 
             // calculate count here already instead of with buying... this means we have to have enough worst case money, since we dont know the price(seller TPI) yet
             int maxSpace = ItemUtility.GetInventorySpaceFor(pawn, thing);
-            //Log.Message($"BuyThing maxSpace {maxSpace}");            
-            int money = ItemUtility.GetMoney(pawn);
-            var itemCost = StorefrontUtility.GetPurchasingCost(thing, pawn);
-            //Log.Message($"TryGiveJob itemCost {itemCost}");
-            var maxAffordable = Mathf.FloorToInt(money/itemCost);
-            //Log.Message($"TryGiveJob maxAffordable {maxAffordable}");
-            if (maxAffordable < 1) return null; // should not happen
-            var maxCanBuy = Mathf.Min(thing.stackCount, maxSpace, maxAffordable);
+            //Log.Message($"BuyThing maxSpace {maxSpace}");       
+            var maxCanBuy = thing.stackCount;
+            if (seller.skills.GetSkill(SkillDefOf.Social).Level < 10 || thing.stackCount > 1)
+            {
+                int money = ItemUtility.GetMoney(pawn);
+                var itemCost = StorefrontUtility.GetPurchasingCost(thing, pawn, seller);
+                //Log.Message($"TryGiveJob itemCost {itemCost}");
+                var maxAffordable = Mathf.FloorToInt(money / itemCost);
+                //Log.Message($"TryGiveJob maxAffordable {maxAffordable}");
+                if (maxAffordable < 1) return null; // should not happen
+                maxCanBuy = Mathf.Min(thing.stackCount, maxSpace, maxAffordable);
+            }
+
             var count = Rand.RangeInclusive(1 + maxCanBuy/2, maxCanBuy);
             //Log.Message($"{pawn.NameShortColored} is going to take {thing.LabelShort}x{count} and queue at {store.Register.LabelShort}.");
             Job buyJob = new Job(ShoppingDefOf.Storefront_BuyItem, thing, store.Register);

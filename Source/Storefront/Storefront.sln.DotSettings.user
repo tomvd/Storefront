@@ -81,7 +81,14 @@
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CProgram_0020Files_0020_0028x86_0029_005CSteam_005Csteamapps_005Ccommon_005CRimWorld_005CRimWorldWin64_005FData_005CManaged_005CUnityEngine_002EVRModule_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CProgram_0020Files_0020_0028x86_0029_005CSteam_005Csteamapps_005Ccommon_005CRimWorld_005CRimWorldWin64_005FData_005CManaged_005CUnityEngine_002EWindModule_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CProgram_0020Files_0020_0028x86_0029_005CSteam_005Csteamapps_005Ccommon_005CRimWorld_005CRimWorldWin64_005FData_005CManaged_005CUnityEngine_002EXRModule_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CProgram_0020Files_0020_0028x86_0029_005CSteam_005Csteamapps_005Cworkshop_005Ccontent_005C294100_005C1718190143_005C1_002E4_005CAssemblies_005CVanillaFurnitureEC_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CProgram_0020Files_0020_0028x86_0029_005CSteam_005Csteamapps_005Cworkshop_005Ccontent_005C294100_005C836308268_005C1_002E4_005CAssemblies_005C0DubCore_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CProgram_0020Files_0020_0028x86_0029_005CSteam_005Csteamapps_005Cworkshop_005Ccontent_005C294100_005C836308268_005C1_002E4_005CAssemblies_005CBadHygiene_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Hospitality\1.4\Assemblies\Hospitality.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Source\Storefront\packages\Lib.Harmony.2.2.2\lib\net472\0Harmony.dll" /&gt;&#xD;
-&lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>
+  &lt;Assembly Path="C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Hospitality\Source\Source\obj\Release\PublicizedAssemblies\Assembly-CSharp.65DFD5E67FC7055145710481A7AD1D02.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Program Files (x86)\Steam\steamapps\workshop\content\294100\1718190143\1.4\Assemblies\VanillaFurnitureEC.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Users\tomvd\.nuget\packages\krafs.rimworld.ref\1.4.3704\ref\net472\UnityEngine.AIModule.dll" /&gt;&#xD;
+&lt;/AssemblyExplorer&gt;</s:String>
+	</wpf:ResourceDictionary>
