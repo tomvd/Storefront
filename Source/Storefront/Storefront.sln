@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospitality", "..\..\..\Hos
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForbidBlueprints", "..\..\..\ForbidBlueprints\Source\ForbidBlueprints\ForbidBlueprints.csproj", "{5F92FE41-BE55-4458-B5A5-3BB649834F4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RimworldTycoon", "..\..\..\RimworldTycoon\Source\RimworldTycoon\RimworldTycoon.csproj", "{DC6DB739-F0EA-4DA2-A499-F7A648A66163}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalityArchitect", "..\..\..\HospitalityArchitect\Source\HospitalityArchitect\HospitalityArchitect.csproj", "{DC6DB739-F0EA-4DA2-A499-F7A648A66163}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalityCasino", "..\..\..\HospitalityCasino\Source\HospitalityCasino\HospitalityCasino.csproj", "{4CB37648-53B2-4A4C-972B-4331748E8702}"
 EndProject

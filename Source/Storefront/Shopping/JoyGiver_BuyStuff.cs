@@ -125,18 +125,22 @@ namespace Storefront.Shopping
             int maxSpace = ItemUtility.GetInventorySpaceFor(pawn, thing);
             //Log.Message($"BuyThing maxSpace {maxSpace}");       
             var maxCanBuy = thing.stackCount;
-            if (seller.skills.GetSkill(SkillDefOf.Social).Level < 10 || thing.stackCount > 1)
+            if (thing.stackCount > 1)
             {
                 int money = ItemUtility.GetMoney(pawn);
                 var itemCost = StorefrontUtility.GetPurchasingCost(thing, pawn, seller);
                 //Log.Message($"TryGiveJob itemCost {itemCost}");
                 var maxAffordable = Mathf.FloorToInt(money / itemCost);
                 //Log.Message($"TryGiveJob maxAffordable {maxAffordable}");
-                if (maxAffordable < 1) return null; // should not happen
-                maxCanBuy = Mathf.Min(thing.stackCount, maxSpace, maxAffordable);
+                if (maxAffordable < 1)
+                {
+                    Log.Error($"{pawn.NameShortColored} cannot even buy a single ({thing.Label}).");
+                    return null;
+                }
+                maxCanBuy = Rand.RangeInclusive(1, Mathf.Min(thing.stackCount, maxSpace, maxAffordable));
             }
 
-            var count = Rand.RangeInclusive(1 + maxCanBuy/2, maxCanBuy);
+            var count = maxCanBuy;
             //Log.Message($"{pawn.NameShortColored} is going to take {thing.LabelShort}x{count} and queue at {store.Register.LabelShort}.");
             Job buyJob = new Job(ShoppingDefOf.Storefront_BuyItem, thing, store.Register);
             buyJob.count = count;

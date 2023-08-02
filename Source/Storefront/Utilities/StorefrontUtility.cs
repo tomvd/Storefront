@@ -41,7 +41,7 @@ public static class StorefrontUtility
         var cost = Mathf.CeilToInt(GetPurchasingCost(thing, pawn,
             store.ActiveStaff.MaxBy(p => p.skills.GetSkill(SkillDefOf.Social).Level)));
 
-        if (skill < 10)
+        if (skill < 10 || Rand.Chance(0.5f))
         {
             if (cost > ItemUtility.GetMoney(pawn))
             {
