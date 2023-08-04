@@ -131,11 +131,9 @@ namespace Storefront.Shopping
                 var itemCost = StorefrontUtility.GetPurchasingCost(thing, pawn, seller);
                 //Log.Message($"TryGiveJob itemCost {itemCost}");
                 var maxAffordable = Mathf.FloorToInt(money / itemCost);
-                //Log.Message($"TryGiveJob maxAffordable {maxAffordable}");
                 if (maxAffordable < 1)
                 {
-                    Log.Error($"{pawn.NameShortColored} cannot even buy a single ({thing.Label}).");
-                    return null;
+                    maxAffordable = 1;
                 }
                 maxCanBuy = Rand.RangeInclusive(1, Mathf.Min(thing.stackCount, maxSpace, maxAffordable));
             }
