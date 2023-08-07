@@ -71,7 +71,8 @@ namespace Storefront.Shopping
 
 
             List<Thing> selection = things.Where(t =>
-                pawn.CanReach(t.Position, PathEndMode.Touch, Danger.Some, false, false, TraverseMode.PassDoors)).ToList().TakeRandom(10).Distinct().ToList();
+                pawn.CanReach(t.Position, PathEndMode.Touch, Danger.Some, false, false, TraverseMode.PassDoors)
+                && ItemUtility.GetInventorySpaceFor(pawn, t) > 0).ToList().TakeRandom(10).Distinct().ToList();
             /*foreach (var thing1 in selection)
             {
                 Log.Message($"selection for {pawn.NameShortColored}:" + thing1.LabelShort + " Likey = " + Likey(pawn, thing1, requiresFoodFactor));
@@ -139,6 +140,11 @@ namespace Storefront.Shopping
             }
 
             var count = maxCanBuy;
+            if (count == 0)
+            {
+                Log.Error($"{pawn.NameShortColored} cannot buy ({thing.Label}).");
+                return null;                
+            }
             //Log.Message($"{pawn.NameShortColored} is going to take {thing.LabelShort}x{count} and queue at {store.Register.LabelShort}.");
             Job buyJob = new Job(ShoppingDefOf.Storefront_BuyItem, thing, store.Register);
             buyJob.count = count;
