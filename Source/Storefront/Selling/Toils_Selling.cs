@@ -97,6 +97,12 @@ namespace Storefront.Selling
                     Log.Warning($"Can't announce selling. No customer.");
                     return;
                 }
+                
+                if (customer.GetMoney() < 1) {
+                    Log.Warning($"Can't announce selling. Customer is broke.");
+                    return;
+                }
+                
                 var buyJob = customer.jobs.curDriver as JobDriver_BuyItem;
 
                 if (buyJob == null)

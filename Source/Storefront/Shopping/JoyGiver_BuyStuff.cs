@@ -45,6 +45,7 @@ namespace Storefront.Shopping
             //Log.Message($"{pawn.NameShortColored} is going to shop as joygiver.");
 
             //pawn.GetStoresManager().RegisterShoppinAt(pawn, store);
+            if (pawn.GetMoney() < 1) return null;
 
             var requiresFoodFactor = GuestUtility.GetRequiresFoodFactor(pawn);
             var map = pawn.MapHeld;

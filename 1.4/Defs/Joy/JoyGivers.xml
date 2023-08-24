@@ -4,7 +4,7 @@
   <Storefront.Shopping.JoyGiverDefShopping>
     <defName>Storefront_BuyFood</defName>
     <giverClass>Storefront.Shopping.JoyGiver_BuyStuff</giverClass>
-    <baseChance>25</baseChance>
+    <baseChance>40</baseChance>
     <joyKind>Shopping</joyKind>
     <desireSit>false</desireSit>
     <jobDef>BuyItem</jobDef>
@@ -17,7 +17,7 @@
   <Storefront.Shopping.JoyGiverDefShopping>
     <defName>Storefront_BuyStuff</defName>
     <giverClass>Storefront.Shopping.JoyGiver_BuyStuff</giverClass>
-    <baseChance>25</baseChance>
+    <baseChance>40</baseChance>
     <joyKind>Shopping</joyKind>
     <desireSit>false</desireSit>
     <jobDef>BuyItem</jobDef>
