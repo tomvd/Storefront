@@ -196,7 +196,7 @@ namespace Storefront.Selling
             //if (Settings.enableBuyNotification)
             //{
                 var text = price <= 0 ? "GuestTookFreeItem" : "GuestBoughtItem";
-                Messages.Message(text.Translate(new NamedArgument(customer.Faction, "FACTION"), price, new NamedArgument(customer, "PAWN"), new NamedArgument(thing, "ITEM")), customer, MessageTypeDefOf.SilentInput);
+                Messages.Message(text.Translate(new NamedArgument(customer.Faction, "FACTION"), price, new NamedArgument(customer, "PAWN"), new NamedArgument(thing.GetInnerIfMinified(), "ITEM")), customer, MessageTypeDefOf.SilentInput);
             //}
 
             int tookItems;
@@ -273,6 +273,8 @@ namespace Storefront.Selling
                         twc.PreTraded(TradeAction.PlayerSells, salesperson, customer);
                     }
                 }
+
+                JoyUtility.TryGainRecRoomThought(customer);
             }
             else
             {

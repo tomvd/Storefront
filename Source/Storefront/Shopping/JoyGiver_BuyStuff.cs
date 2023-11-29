@@ -34,8 +34,10 @@ namespace Storefront.Shopping
             //if (!pawn.MayBuy()) return 0;
             //if (pawn.GetShoppingArea() == null) return 0;
             var money = pawn.GetMoney();
+            if (money == 0) return 0;
             //Log.Message(pawn.NameShortColored + " has " + money + " silver left.");
-            return Mathf.InverseLerp(1, OptimalMoneyForShopping, money)*base.GetChance(pawn);
+            //return Mathf.InverseLerp(1, OptimalMoneyForShopping, money)*base.GetChance(pawn);
+            return base.GetChance(pawn);
         }
 
         // This TryGiveJob can either give a BrowseItem job - if the pawn is not interested in buying the thing, but just looking at it
@@ -156,6 +158,7 @@ namespace Storefront.Shopping
         {
             if (thing == null) return 0;
             //Log.Message($"{pawn.LabelShort} checking out {thing.LabelShort}.");
+            thing = thing.GetInnerIfMinified();
 
             // Health of object
             var hpFactor = thing.def.useHitPoints?(float)thing.HitPoints/thing.MaxHitPoints:1;
@@ -164,6 +167,11 @@ namespace Storefront.Shopping
             // Apparel
             var appFactor = thing is Apparel apparel ? 1 + ApparelScoreGain(pawn, apparel) : 0.8f; // Not apparel, less likey
             //Log.Message(thing.Label + " - apparel score: " + appFactor);
+
+            if (thing.def.IsArt)
+            {
+                appFactor = 2;
+            }
 
             // Food
             if(ItemUtility.IsFood(thing) && pawn.RaceProps.CanEverEat(thing))

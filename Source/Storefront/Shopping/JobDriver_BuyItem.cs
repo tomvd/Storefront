@@ -158,6 +158,7 @@ namespace Storefront.Shopping
             toil.tickAction = () => {
                 if (!pawn.IsWaitingToBeServed())
                 {
+                    JoyUtility.JoyTickCheckEnd(pawn, JoyTickFullJoyAction.None);
                     //Log.Message($"{pawn.NameShortColored} is WaitBeingServed DONE.");
                     pawn?.jobs?.curDriver.ReadyForNextToil();
                 }

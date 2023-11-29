@@ -5,6 +5,7 @@ using CashRegister;
 using RimWorld;
 using Storefront.Selling;
 using Storefront.Shopping;
+using Storefront.Utilities;
 using Verse;
 
 namespace Storefront.Store
@@ -69,14 +70,10 @@ namespace Storefront.Store
 
 				Stock.Clear();
 				// TODO add some sanity check here, for example if you put a cashier outside, it can grind the game into a halt
-				Stock.AddRange(Map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableEver)
-					.Where(t => IsForSale(t.def) && !t.IsForbidden(Faction.OfPlayer)
-					            && GetIsInRange(t.Position)
-					            && !t.def.isUnfinishedThing
-					            && t.def != ThingDefOf.Silver).ToList());
+				Stock.AddRange(Map.listerThings.ThingsInGroup(ThingRequestGroup.Everything)
+					.Where(t => StorefrontUtility.IsBuyableAtAll(null, t, this)).Take(50).ToList());
 			}
 		}
-
         public string Name
         {
             get => name;

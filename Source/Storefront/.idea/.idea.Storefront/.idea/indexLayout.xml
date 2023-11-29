@@ -4,11 +4,15 @@
     <attachedFolders>
       <Path>../../../AllowTool2</Path>
       <Path>../../../AllowTool2/Source</Path>
+      <Path>../../../Bees</Path>
+      <Path>../../../CashRegister</Path>
       <Path>../../../ForbidBlueprints</Path>
+      <Path>../../../Gastronomy</Path>
       <Path>../../../Hospital</Path>
       <Path>../../../Hospitality</Path>
       <Path>../../../HospitalityArchitect</Path>
       <Path>../../../HospitalityCasino</Path>
+      <Path>../../../HospitalityHotSprings</Path>
       <Path>../../../HospitalitySpa</Path>
       <Path>../../../PlantGenetics</Path>
       <Path>../../../RimworldTycoon</Path>

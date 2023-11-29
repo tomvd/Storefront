@@ -18,15 +18,78 @@ public static class StorefrontUtility
     
     public static bool IsBuyableAtAll(Pawn pawn, Thing thing, StoreController store)
     {
-        if (thing.def.isUnfinishedThing) return false;
+        if (!store.GetIsInRange(thing.Position)) return false;
+        if (thing.def.Minifiable)
+        {
+            if (!(thing is MinifiedThing))
+            {
+                //Log.Message(thing.Label+": Minifiable not MinifiedThing ");
+                return false;
+            }
+        }
+        thing = thing.GetInnerIfMinified();
+        
+        if (!store.IsForSale(thing.def))
+        {
+            //Log.Message(thing.Label+": IsForSale ");
+            return false;
+        }        
+
+        if (thing.def.isUnfinishedThing)
+        {
+            Log.Message(thing.Label+": isUnfinishedThing ");
+            return false;
+        }
+
+        if (!TradeUtility.EverPlayerSellable(thing.def))
+        {
+            Log.Message(thing.Label+": EverPlayerSellable ");
+            return false;
+        } 
 
         if (thing.def == ThingDefOf.Silver) return false;
 
-        if (!pawn.MayPurchaseThing(thing)) return false;
+        if (!thing.def.tradeability.PlayerCanSell())
+        {
+            Log.Message(thing.Label+": PlayerCanSell ");
+            return false;
+        }
+            
+        
+        //if (!pawn.MayPurchaseThing(thing)) return false;
 
-        if (thing.def.thingSetMakerTags != null && thing.def.thingSetMakerTags.Contains("NotForGuests")) return false;
+        if (thing.def.thingSetMakerTags != null && thing.def.thingSetMakerTags.Contains("NotForGuests"))
+        {
+            Log.Message(thing.Label+": thingSetMakerTags ");
+            return false;
+        }
 
-        if (!ItemUtility.IsBuyableNow(pawn, thing)) return false;
+        if (!thing.SpawnedOrAnyParentSpawned)
+        {
+            Log.Message(thing.Label+": SpawnedOrAnyParentSpawned ");
+            return false;
+        }
+
+        if (thing.ParentHolder is Pawn)
+        {
+            Log.Message(thing.Label+": ParentHolder ");
+            return false;
+        }
+
+        if (thing.IsForbidden(Faction.OfPlayer))
+        {
+            Log.Message(thing.Label+": IsForbidden ");
+            return false;
+        }
+
+        if (pawn == null) return true; // shortcut here, we are not checking for a specific pawn
+        
+        // Put all pawn checks below here
+
+        if (!pawn.HasReserved(thing) && !pawn.CanReserve(thing))
+        {
+            return false;
+        }
         
         //if (!thing.IsSociallyProper(pawn))
         //{
@@ -41,20 +104,9 @@ public static class StorefrontUtility
         var cost = Mathf.CeilToInt(GetPurchasingCost(thing, pawn,
             store.ActiveStaff.MaxBy(p => p.skills.GetSkill(SkillDefOf.Social).Level)));
 
-        if (skill < 10 || Rand.Chance(0.5f))
+        if (cost > ItemUtility.GetMoney(pawn) * skill * 2) // skill goes from 1 to 20 - money goes from 10 to 60 - so this maxes out at 20*60*2=2400
         {
-            if (cost > ItemUtility.GetMoney(pawn))
-            {
-                return false;
-            }
-        }
-        else
-        {
-            if (cost > ItemUtility.GetMoney(pawn) + skill * 50) // we can go up to 1000$ above budget
-            {
-                return false;
-            }
-            
+            return false;
         }
 
         /*if (ItemUtility.BoughtByPlayer(pawn, thing))
@@ -85,6 +137,7 @@ public static class StorefrontUtility
      */
     public static float GetPurchasingCost(Thing thing, Pawn buyer, Pawn seller = null)
     {
+        thing = thing.GetInnerIfMinified();
         float finalTPIDiff = maxTPI - buyer.GetStatValue(StatDefOf.TradePriceImprovement);
         //Log.Message(buyer.NameShortColored + " buyer TPI= " + buyer.GetStatValue(StatDefOf.TradePriceImprovement));
         if (seller != null)

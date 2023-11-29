@@ -31,6 +31,7 @@ namespace Storefront.Shopping
                     pawn.rotationTracker.FaceCell(job.GetTarget(TargetIndex.B).Cell);
                     pawn.GainComfortFromCellIfPossible();
                     ticksSpent++;
+                    JoyUtility.JoyTickCheckEnd(pawn, JoyTickFullJoyAction.None);
                 }
             };
             toil.AddPreTickAction(delegate {
