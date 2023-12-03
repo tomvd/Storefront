@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using CashRegister;
 using RimWorld;
@@ -69,15 +70,36 @@ namespace Storefront.Store
 				ActiveStaff.AddRange(activeShifts.SelectMany(s => s.assigned).Where(p => p.MapHeld == Map));
 
 				Stock.Clear();
-				// TODO add some sanity check here, for example if you put a cashier outside, it can grind the game into a halt
-				Stock.AddRange(Map.listerThings.ThingsInGroup(ThingRequestGroup.Everything)
+				//Stopwatch sw = new Stopwatch();
+				//sw.Start();
+				Stock.AddRange(AllThingsInRange(Map, register)
 					.Where(t => StorefrontUtility.IsBuyableAtAll(null, t, this)).Take(50).ToList());
+				//Log.Message("UpdateCaches took " + sw.ElapsedMilliseconds + "ms");
+				//sw.Stop();
 			}
 		}
         public string Name
         {
             get => name;
             set => name = value;
+        }
+        
+        public static IEnumerable<Thing> AllThingsInRange(Map map, Building_CashRegister register)
+        {
+	        HashSet<Thing> yieldedThings = new HashSet<Thing>();
+	        foreach (IntVec3 tradeableCell in register.Fields)
+	        {
+		        List<Thing> thingList = tradeableCell.GetThingList(map);
+		        for (int i = 0; i < thingList.Count; i++)
+		        {
+			        Thing t = thingList[i];
+			        if (t.def.category == ThingCategory.Item && !yieldedThings.Contains(t))
+			        {
+				        yieldedThings.Add(t);
+				        yield return t;
+			        }
+		        }
+	        }
         }
 
         public bool GetIsInRange(IntVec3 position)

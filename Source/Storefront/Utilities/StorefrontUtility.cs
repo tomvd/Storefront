@@ -18,7 +18,6 @@ public static class StorefrontUtility
     
     public static bool IsBuyableAtAll(Pawn pawn, Thing thing, StoreController store)
     {
-        if (!store.GetIsInRange(thing.Position)) return false;
         if (thing.def.Minifiable)
         {
             if (!(thing is MinifiedThing))
@@ -37,13 +36,13 @@ public static class StorefrontUtility
 
         if (thing.def.isUnfinishedThing)
         {
-            Log.Message(thing.Label+": isUnfinishedThing ");
+            //Log.Message(thing.Label+": isUnfinishedThing ");
             return false;
         }
 
         if (!TradeUtility.EverPlayerSellable(thing.def))
         {
-            Log.Message(thing.Label+": EverPlayerSellable ");
+            //Log.Message(thing.Label+": EverPlayerSellable ");
             return false;
         } 
 
@@ -51,7 +50,7 @@ public static class StorefrontUtility
 
         if (!thing.def.tradeability.PlayerCanSell())
         {
-            Log.Message(thing.Label+": PlayerCanSell ");
+            //Log.Message(thing.Label+": PlayerCanSell ");
             return false;
         }
             
@@ -60,25 +59,25 @@ public static class StorefrontUtility
 
         if (thing.def.thingSetMakerTags != null && thing.def.thingSetMakerTags.Contains("NotForGuests"))
         {
-            Log.Message(thing.Label+": thingSetMakerTags ");
+            //Log.Message(thing.Label+": thingSetMakerTags ");
             return false;
         }
 
         if (!thing.SpawnedOrAnyParentSpawned)
         {
-            Log.Message(thing.Label+": SpawnedOrAnyParentSpawned ");
+            //Log.Message(thing.Label+": SpawnedOrAnyParentSpawned ");
             return false;
         }
 
         if (thing.ParentHolder is Pawn)
         {
-            Log.Message(thing.Label+": ParentHolder ");
+            //Log.Message(thing.Label+": ParentHolder ");
             return false;
         }
 
         if (thing.IsForbidden(Faction.OfPlayer))
         {
-            Log.Message(thing.Label+": IsForbidden ");
+            //Log.Message(thing.Label+": IsForbidden ");
             return false;
         }
 
