@@ -13,24 +13,32 @@
         <FileAlignment>512</FileAlignment>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugSymbols>true</DebugSymbols>
-        <DebugType>full</DebugType>
-        <Optimize>false</Optimize>
-        <OutputPath>../../1.4/Assemblies</OutputPath>
-        <DefineConstants>DEBUG;TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+      <DefineConstants>TRACE;NDEBUG</DefineConstants> <!-- All published builds have to be built as 'release' because of the debug flag! -->
+      <WarningLevel>4</WarningLevel>
+      <AllowUnsafeBlocks>true</AllowUnsafeBlocks> <!-- Unsafe is required for publicising! -->
+      <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        
+      <DebugType>none</DebugType>
+      <Optimize>true</Optimize>
+      <OutputPath>../../1.4/Assemblies</OutputPath>
+      <DefineConstants>TRACE</DefineConstants>
+      <ErrorReport>prompt</ErrorReport>
+      <WarningLevel>4</WarningLevel>        
     </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugType>none</DebugType>
-        <Optimize>true</Optimize>
-        <OutputPath>../../1.4/Assemblies</OutputPath>
-        <DefineConstants>TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <DefineConstants>TRACE;DEBUG</DefineConstants>
+      <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        
+      <DebugSymbols>true</DebugSymbols>
+      <DebugType>portable</DebugType>
+      <Optimize>false</Optimize>
+      <OutputPath>../../1.4/Assemblies</OutputPath>
+      <ErrorReport>prompt</ErrorReport>
+      <WarningLevel>4</WarningLevel>        
+        
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="../../../RimWorldWin64_Data/Managed/*.dll">
@@ -47,9 +55,6 @@
         </Reference>
         <Reference Include="com.rlabrecque.steamworks.net">
           <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\com.rlabrecque.steamworks.net.dll</HintPath><Private>False</Private>
-        </Reference>
-        <Reference Include="HugsLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-            <HintPath>packages\UnlimitedHugs.Rimworld.HugsLib.10.0.1\lib\net472\HugsLib.dll</HintPath><Private>False</Private>
         </Reference>        
         <Reference Include="CashRegister">
           <HintPath>..\..\..\CashRegister\1.4\Assemblies\CashRegister.dll</HintPath><Private>False</Private>
@@ -297,6 +302,7 @@
         <Compile Include="Selling\WorkGiver_Sell.cs" />
         <Compile Include="Selling\WorkGiver_StandBy.cs" />
         <Compile Include="Settings.cs" />
+        <Compile Include="SettingsHelper.cs" />
         <Compile Include="Shopping\JobDriver_BrowseItems.cs" />
         <Compile Include="Shopping\JobDriver_BuyItem.cs" />
         <Compile Include="Shopping\JobGiver_BuyFood.cs" />
@@ -304,11 +310,11 @@
         <Compile Include="Shopping\JoyGiverDefShopping.cs" />
         <Compile Include="Shopping\JoyGiver_BuyStuff.cs" />
         <Compile Include="Shopping\ShoppingDefOf.cs" />
-        <Compile Include="ModBaseStorefront.cs" />
+        <Compile Include="StorefrontMod.cs" />
         <Compile Include="Store\Dialog_RenameStore.cs" />
         <Compile Include="Store\ITab_Register_Store.cs" />
         <Compile Include="Store\StoreController.cs" />
-        <Compile Include="Store\StoreManager.cs" />
+        <Compile Include="Store\StoresManager.cs" />
         <Compile Include="Store\StoreUtility.cs" />
         <Compile Include="Utilities\StorefrontUtility.cs" />
     </ItemGroup>

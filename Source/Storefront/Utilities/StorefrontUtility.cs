@@ -1,6 +1,5 @@
 using System;
 using Hospitality;
-using JetBrains.Annotations;
 using RimWorld;
 using Storefront.Shopping;
 using Storefront.Store;
@@ -40,19 +39,21 @@ public static class StorefrontUtility
             return false;
         }
 
-        if (!TradeUtility.EverPlayerSellable(thing.def))
+/*        if (!TradeUtility.EverPlayerSellable(thing.def))
         {
             //Log.Message(thing.Label+": EverPlayerSellable ");
             return false;
-        } 
-
+        }
+*/
         if (thing.def == ThingDefOf.Silver) return false;
 
+        /*
         if (!thing.def.tradeability.PlayerCanSell())
         {
             //Log.Message(thing.Label+": PlayerCanSell ");
             return false;
         }
+        */
             
         
         //if (!pawn.MayPurchaseThing(thing)) return false;

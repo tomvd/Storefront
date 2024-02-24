@@ -11,6 +11,7 @@
       <Path>../../../Hospital</Path>
       <Path>../../../Hospitality</Path>
       <Path>../../../HospitalityArchitect</Path>
+      <Path>../../../HospitalityBar</Path>
       <Path>../../../HospitalityCasino</Path>
       <Path>../../../HospitalityHotSprings</Path>
       <Path>../../../HospitalitySpa</Path>
@@ -18,6 +19,7 @@
       <Path>../../../RimworldTycoon</Path>
       <Path>../../../Storefront</Path>
       <Path>../../../VendingMachines</Path>
+      <Path>../../../tent</Path>
     </attachedFolders>
     <explicitIncludes />
     <explicitExcludes />

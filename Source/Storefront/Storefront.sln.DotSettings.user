@@ -98,5 +98,6 @@
   &lt;Assembly Path="C:\Users\tomvd\.nuget\packages\krafs.rimworld.ref\1.4.3704\ref\net472\UnityEngine.AIModule.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Program Files (x86)\Steam\steamapps\workshop\content\294100\2205980094\1.4\Assemblies\StandaloneHotSpring.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Program Files (x86)\Steam\steamapps\workshop\content\294100\2586052937\1.4\Assemblies\BirdSeedsPlease.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\PlantGenetics\1.4\Assemblies\PlantGenetics.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
 	</wpf:ResourceDictionary>

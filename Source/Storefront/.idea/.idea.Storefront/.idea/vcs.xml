@@ -2,17 +2,18 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$/../../../AllowTool2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../../Bees" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../../CashRegister" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../../ForbidBlueprints" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../../Gastronomy" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../../Hospital" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../../Hospitality" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../../HospitalityArchitect" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../../HospitalityBar" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../../HospitalityCasino" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../../HospitalitySpa" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../../PlantGenetics" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../.." vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../../VendingMachines" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../../../Bees" vcs="Git" />
   </component>
 </project>

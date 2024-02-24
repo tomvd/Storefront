@@ -2,12 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CashRegister;
-using HugsLib.Utils;
 using RimWorld;
 using Storefront.Selling;
 using UnityEngine;
 using Verse;
-using Verse.Sound;
 
 namespace Storefront.Store
 {
