@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <Storefront_Sell.label>sell</Storefront_Sell.label>
+  <Storefront_Sell.verb>sell</Storefront_Sell.verb>
+  <Storefront_Sell.gerund>selling</Storefront_Sell.gerund>
+
+  <Storefront_StandBy.label>stand by</Storefront_StandBy.label>
+  <Storefront_StandBy.verb>stand by</Storefront_StandBy.verb>
+  <Storefront_StandBy.gerund>standing by</Storefront_StandBy.gerund>
+
+</LanguageData>

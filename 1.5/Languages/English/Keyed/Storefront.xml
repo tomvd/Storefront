@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  
+	<!-- Messages -->
+	<StoreMessageIncomeToday>Your store has earned {0} today.</StoreMessageIncomeToday>
+	
+	<TabRegisterStore>Shop</TabRegisterStore>
+	
+	<!-- Store selection -->
+	<StoreDefaultName>store {0}</StoreDefaultName>
+	<StoreTooltipRename>Rename this store.</StoreTooltipRename>
+	
+	<!-- Settings -->
+	<TabRegisterOpened>Opened</TabRegisterOpened>
+	<TabRegisterOpenedTooltip>When checked, customers can visit while a shift is active.</TabRegisterOpenedTooltip>
+	
+	<!-- Stats -->
+	<TabRegisterRadius>Radius</TabRegisterRadius>
+	<TabRegisterActiveStaff>Active staff:</TabRegisterActiveStaff>
+	<TabRegisterCustomers>Customers:</TabRegisterCustomers>
+	<TabRegisterStocked>Stocked:</TabRegisterStocked>
+	<TabRegisterEarnedYesterday>Earned yesterday:</TabRegisterEarnedYesterday>
+	<TabRegisterEarnedToday>Earned today:</TabRegisterEarnedToday>
+	
+	<!-- Alerts -->
+	<AlertNoRegister>No register</AlertNoRegister>
+	<AlertNoRegisterExplanation>To open your store, you need at least one register. This can be built from the production tab.</AlertNoRegisterExplanation>
+	<AlertNoCashier>No cashier</AlertNoCashier>
+	<AlertNoCashierExplanation>To operate your store, you need to set up at least one shift at a register and assign a capable cashier.</AlertNoCashierExplanation>
+
+</LanguageData>

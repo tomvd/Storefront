@@ -32,7 +32,7 @@ namespace Storefront.Shopping
 			return priority;
 		}
 
-		protected override Job TryGiveJob(Pawn pawn)
+        public override Job TryGiveJob(Pawn pawn)
 		{
 			if (pawn.needs.food == null) return null;
 

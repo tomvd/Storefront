@@ -21,7 +21,7 @@ namespace Storefront.Selling
             return true;
         }
 
-        protected override IEnumerable<Toil> MakeNewToils()
+        public override IEnumerable<Toil> MakeNewToils()
         {
             this.FailOnDestroyedOrNull(ItemInd);
             this.FailOnForbidden(ItemInd);

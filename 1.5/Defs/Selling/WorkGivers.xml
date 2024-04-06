@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <WorkGiverDef>
+    <defName>Storefront_StandBy</defName>
+    <label>stand by</label>
+    <giverClass>Storefront.Selling.WorkGiver_StandBy</giverClass>
+    <workType>Storefront_Selling</workType>
+    <priorityInType>0</priorityInType>
+    <verb>stand by</verb>
+    <gerund>standing by</gerund>
+  </WorkGiverDef>
+
+  <WorkGiverDef>
+    <defName>Storefront_Sell</defName>
+    <label>sell</label>
+    <giverClass>Storefront.Selling.WorkGiver_Sell</giverClass>
+    <workType>Storefront_Selling</workType>
+    <priorityInType>110</priorityInType>
+    <verb>sell</verb>
+    <gerund>selling</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+    <prioritizeSustains>true</prioritizeSustains>
+  </WorkGiverDef>
+
+</Defs>

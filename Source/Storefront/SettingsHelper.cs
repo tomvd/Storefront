@@ -27,7 +27,7 @@ internal static class SettingsHelper
         Text.Anchor = TextAnchor.MiddleLeft;
         Widgets.Label(rect: descLabelRect, label: label);
 
-        float result = Widgets.HorizontalSlider(rect: sliderRect, value: val, leftValue: min, rightValue: max, middleAlignment: true);
+        float result = Widgets.HorizontalSlider(rect: sliderRect, value: val, min: min, max: max, middleAlignment: true);
         val = result;
         Text.Anchor = TextAnchor.MiddleRight;
         Widgets.Label(rect: percentLabelRect, label: String.Format(format: format, arg0: val));

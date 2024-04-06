@@ -21,7 +21,7 @@ namespace Storefront.Shopping
         protected virtual int OptimalMoneyForShopping => 30;
 
 
-        protected override void GetSearchSet(Pawn pawn, List<Thing> outCandidates)
+        public override void GetSearchSet(Pawn pawn, List<Thing> outCandidates)
         {
             outCandidates.Clear();
             outCandidates.AddRange(pawn.Map.listerThings.ThingsInGroup(Def.requestGroup));

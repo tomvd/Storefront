@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <Storefront_Selling.label>Selling</Storefront_Selling.label>
+  <Storefront_Selling.description>Sell items to customers.</Storefront_Selling.description>
+  <Storefront_Selling.labelShort>Sell</Storefront_Selling.labelShort>
+  <Storefront_Selling.pawnLabel>Cashier</Storefront_Selling.pawnLabel>
+  <Storefront_Selling.gerundLabel>selling</Storefront_Selling.gerundLabel>
+  <Storefront_Selling.verb>Sell</Storefront_Selling.verb>
+
+</LanguageData>

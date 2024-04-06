@@ -15,11 +15,27 @@ namespace Storefront.Store
 	 * StoreController keeps track of everything going on in a store
 	 *  - settings, inventory, register, staff, customers, statistics
 	 */
-    public class StoreController : IExposable
+    public class StoreController : IExposable, IRenameable
     {
 	    public Building_CashRegister Register => register;
 
 		public Map Map { get; }
+		
+		public string RenamableLabel
+		{
+			get
+			{
+				return name ?? BaseLabel;
+			}
+			set
+			{
+				name = value;
+			}
+		}
+
+		public string BaseLabel => "StoreDefaultName";
+
+		public string InspectLabel => RenamableLabel;		
 
 		// one register per store
         private Building_CashRegister register;

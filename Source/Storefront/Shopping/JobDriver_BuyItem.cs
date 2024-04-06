@@ -27,7 +27,7 @@ namespace Storefront.Shopping
             return pawn.Reserve(job.targetA.Thing, job);
         }
 
-        protected override IEnumerable<Toil> MakeNewToils()
+        public override IEnumerable<Toil> MakeNewToils()
         {
             //this.FailOnDespawnedNullOrForbidden(ItemInd);
             

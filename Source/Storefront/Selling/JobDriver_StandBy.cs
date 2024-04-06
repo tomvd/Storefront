@@ -7,7 +7,8 @@ namespace Storefront.Selling
 	{
 		private const TargetIndex IndexRegister = TargetIndex.A;
 		public override bool TryMakePreToilReservations(bool errorOnFailed) => true;
-		protected override IEnumerable<Toil> MakeNewToils()
+
+		public override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedOrNull(IndexRegister);
 			this.FailOnForbidden(IndexRegister);

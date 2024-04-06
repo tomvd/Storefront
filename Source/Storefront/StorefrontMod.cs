@@ -29,7 +29,7 @@ namespace Storefront
         /// <returns>The (translated) mod name.</returns>
         public override string SettingsCategory()
         {
-            return "HospitalityBar";
+            return "Hospitality: Storefront";
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Storefront.Store
 
         public override bool IsVisible => true;
 
-        protected override void FillTab()
+        public override void FillTab()
         {
             store = Register.GetStore();
             var fullRect = new Rect(0, 16, size.x, size.y - 16);

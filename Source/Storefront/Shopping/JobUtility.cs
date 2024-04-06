@@ -68,7 +68,7 @@ namespace Storefront.Shopping
         {
             float score = 1 * cashier.GetStatValue(StatDefOf.SocialImpact);
             score += cashier.story.traits.DegreeOfTrait(TraitDefOf.Industriousness) * 0.25f;
-            score += cashier.story.traits.DegreeOfTrait(TraitDefOf.Beauty) * 0.25f;
+            score += cashier.story.traits.DegreeOfTrait(DefDatabase<TraitDef>.GetNamed("Beauty")) * 0.25f;
             score += cashier.story.traits.HasTrait(TraitDefOf.Kind) ? 0.25f : 0;
             score += customer.story.traits.HasTrait(TraitDefOf.Kind) ? 0.15f : 0;
             score += cashier.story.traits.HasTrait(TraitDefOf.Abrasive) ? -0.2f : 0;
