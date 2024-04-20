@@ -4,7 +4,7 @@
     <PropertyGroup>
         <RootNamespace>Storefront</RootNamespace>
         <AssemblyName>Storefront</AssemblyName>
-        <TargetFramework>net48</TargetFramework>
+        <TargetFramework>net472</TargetFramework>
         <LangVersion>latest</LangVersion>
         <PlatformTarget>x64</PlatformTarget>
         <OutputPath>..\..\1.5\Assemblies\</OutputPath>

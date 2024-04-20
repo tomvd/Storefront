@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Hospitality;
 using Hospitality.Utilities;
 using RimWorld;
 using Storefront.Store;
@@ -10,7 +9,7 @@ using Verse;
 using Verse.AI;
 using FoodUtility = RimWorld.FoodUtility;
 using GuestUtility = Hospitality.Utilities.GuestUtility;
-using ItemUtility = Hospitality.ItemUtility;
+using ItemUtility = Hospitality.Utilities.ItemUtility;
 
 namespace Storefront.Shopping
 {

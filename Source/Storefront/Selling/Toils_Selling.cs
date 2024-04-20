@@ -1,6 +1,7 @@
 using System.Linq;
 using CashRegister;
 using Hospitality;
+using Hospitality.Utilities;
 using RimWorld;
 using Storefront.Shopping;
 using Storefront.Store;

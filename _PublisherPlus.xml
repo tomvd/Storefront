@@ -4,6 +4,11 @@
     <exclude>.git</exclude>
     <exclude>1.4\Assemblies\Storefront.dll.config</exclude>
     <exclude>1.4\Assemblies\Storefront.pdb</exclude>
+    <exclude>1.5\Assemblies\0MultiplayerAPI.dll</exclude>
+    <exclude>1.5\Assemblies\CashRegister.dll</exclude>
+    <exclude>1.5\Assemblies\Hospitality.dll</exclude>
+    <exclude>1.5\Assemblies\Hospitality.pdb</exclude>
+    <exclude>1.5\Assemblies\Storefront.dll.config</exclude>
     <exclude>About\PublishedFileId.txt</exclude>
     <exclude>Assemblies</exclude>
     <exclude>README</exclude>

@@ -16,8 +16,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalityCasino", "..\..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital", "..\..\..\Hospital\Source\Hospital\Hospital.csproj", "{9BE7171D-450E-4B06-96C7-C63103B3F518}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllowTool2", "..\..\..\AllowTool2\Source\AllowTool2\AllowTool2.csproj", "{63C8BFE3-C0AF-49CD-A21A-F843AB3FA206}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VendingMachines", "..\..\..\VendingMachines\Source\VendingMachines\VendingMachines.csproj", "{897E8475-9328-4A6F-BA2C-6CAD6DC2BCA6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantGenetics", "..\..\..\PlantGenetics\Source\PlantGenetics\PlantGenetics.csproj", "{D07CD018-6E5B-45E9-96ED-BE61A28812B9}"
@@ -70,8 +68,6 @@ Global
 		{9BE7171D-450E-4B06-96C7-C63103B3F518}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9BE7171D-450E-4B06-96C7-C63103B3F518}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9BE7171D-450E-4B06-96C7-C63103B3F518}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{63C8BFE3-C0AF-49CD-A21A-F843AB3FA206}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63C8BFE3-C0AF-49CD-A21A-F843AB3FA206}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{897E8475-9328-4A6F-BA2C-6CAD6DC2BCA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{897E8475-9328-4A6F-BA2C-6CAD6DC2BCA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{897E8475-9328-4A6F-BA2C-6CAD6DC2BCA6}.Release|Any CPU.ActiveCfg = Release|Any CPU

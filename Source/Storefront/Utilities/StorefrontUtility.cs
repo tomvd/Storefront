@@ -1,5 +1,5 @@
 using System;
-using Hospitality;
+using Hospitality.Utilities;
 using RimWorld;
 using Storefront.Shopping;
 using Storefront.Store;
