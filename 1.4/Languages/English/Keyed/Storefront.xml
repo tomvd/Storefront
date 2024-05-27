@@ -17,6 +17,7 @@
 	<!-- Stats -->
 	<TabRegisterRadius>Radius</TabRegisterRadius>
 	<TabRegisterActiveStaff>Active staff:</TabRegisterActiveStaff>
+	<TabRegisterAverageTPI>Average TPI:</TabRegisterAverageTPI>
 	<TabRegisterCustomers>Customers:</TabRegisterCustomers>
 	<TabRegisterStocked>Stocked:</TabRegisterStocked>
 	<TabRegisterEarnedYesterday>Earned yesterday:</TabRegisterEarnedYesterday>

@@ -245,6 +245,7 @@ namespace Storefront.Selling
                         int transferred = customer.inventory.innerContainer.TryTransferToContainer(silver,
                             register.GetDirectlyHeldThings(), price);
                         // check how much silver we got, and if its less than we ask for, create some extra silver out of thin air :)
+                        //Log.Message($"transfered silver: {transferred} price: {price}");
                         if (transferred < price)
                         {
                             int debt = price - transferred;

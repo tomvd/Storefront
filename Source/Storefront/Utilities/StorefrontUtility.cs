@@ -146,7 +146,7 @@ public static class StorefrontUtility
             finalTPIDiff = seller.GetStatValue(StatDefOf.TradePriceImprovement) - buyer.GetStatValue(StatDefOf.TradePriceImprovement);
         }
         //Log.Message( " final TPI= " + finalTPIDiff);
-        return thing.def.BaseMarketValue * Math.Min(basePriceModifier * (1f + finalTPIDiff), maxPriceModifier);
+        return thing.MarketValue * Math.Min(basePriceModifier * (1f + finalTPIDiff), maxPriceModifier);
     }
     
     // Copied from ToilEffects, had to remove Faction check

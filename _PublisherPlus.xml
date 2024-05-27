@@ -9,6 +9,7 @@
     <exclude>1.5\Assemblies\Hospitality.dll</exclude>
     <exclude>1.5\Assemblies\Hospitality.pdb</exclude>
     <exclude>1.5\Assemblies\Storefront.dll.config</exclude>
+    <exclude>1.5\Assemblies\Storefront.pdb</exclude>
     <exclude>About\PublishedFileId.txt</exclude>
     <exclude>Assemblies</exclude>
     <exclude>README</exclude>
