@@ -8,3 +8,11 @@ C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Source\St
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\1.4\Assemblies\Storefront.dll.config
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\1.4\Assemblies\Storefront.dll
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\1.4\Assemblies\Storefront.pdb
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\1.5\Assemblies\Storefront.dll.config
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\1.5\Assemblies\Storefront.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\1.5\Assemblies\Storefront.pdb
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Source\Storefront\obj\Debug\Storefront.GeneratedMSBuildEditorConfig.editorconfig
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Source\Storefront\obj\Debug\Storefront.AssemblyInfoInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Source\Storefront\obj\Debug\Storefront.AssemblyInfo.cs
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Source\Storefront\obj\Debug\Storefront.sourcelink.json
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Source\Storefront\obj\Debug\Storefront.csproj.Up2Date

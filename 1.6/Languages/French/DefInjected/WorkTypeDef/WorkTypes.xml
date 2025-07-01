@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <Storefront_Selling.label>Vendre</Storefront_Selling.label>
+  <Storefront_Selling.description>Vendre des articles aux clients.</Storefront_Selling.description>
+  <Storefront_Selling.labelShort>Vendre</Storefront_Selling.labelShort>
+  <Storefront_Selling.pawnLabel>Caissier</Storefront_Selling.pawnLabel>
+  <Storefront_Selling.gerundLabel>vente</Storefront_Selling.gerundLabel>
+  <Storefront_Selling.verb>Vendre</Storefront_Selling.verb>
+
+</LanguageData>

@@ -29,9 +29,9 @@ namespace Storefront.Shopping
                 defaultCompleteMode = ToilCompleteMode.Never,
                 tickAction = delegate {
                     pawn.rotationTracker.FaceCell(job.GetTarget(TargetIndex.B).Cell);
-                    pawn.GainComfortFromCellIfPossible();
+                    pawn.GainComfortFromCellIfPossible(1);
                     ticksSpent++;
-                    JoyUtility.JoyTickCheckEnd(pawn, JoyTickFullJoyAction.None);
+                    JoyUtility.JoyTickCheckEnd(pawn, 1, JoyTickFullJoyAction.None);
                 }
             };
             toil.AddPreTickAction(delegate {

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- EN: awful service -->
+  <Storefront_Serviced.stages.0.label>ужасное обслуживание</Storefront_Serviced.stages.0.label>
+  <!-- EN: bad service -->
+  <Storefront_Serviced.stages.1.label>плохое обслуживание</Storefront_Serviced.stages.1.label>
+  <!-- EN: decent service -->
+  <Storefront_Serviced.stages.2.label>приемлемое обслуживание</Storefront_Serviced.stages.2.label>
+  <!-- EN: good service -->
+  <Storefront_Serviced.stages.3.label>хорошее обслуживание</Storefront_Serviced.stages.3.label>
+  <!-- EN: excellent service -->
+  <Storefront_Serviced.stages.4.label>отличное обслуживание</Storefront_Serviced.stages.4.label>
+  
+  <!-- EN: had to wait to be served -->
+  <Storefront_HadToWait.stages.0.label>пришлось ждать обслуживания</Storefront_HadToWait.stages.0.label>
+  <!-- EN: I had to wait long in the store. -->
+  <Storefront_HadToWait.stages.0.description>Мне пришлось долго ждать, пока меня обслужат в этом магазине.</Storefront_HadToWait.stages.0.description>
+  
+  <!-- EN: had awful service -->
+  <Storefront_ServicedMood.stages.0.label>ужасное обслуживание</Storefront_ServicedMood.stages.0.label>
+  <!-- EN: I've been treated awfully. -->
+  <Storefront_ServicedMood.stages.0.description>Обслуживание было ужасным!</Storefront_ServicedMood.stages.0.description>
+  
+  <!-- EN: had bad service -->
+  <Storefront_ServicedMood.stages.1.label>плохое обслуживание</Storefront_ServicedMood.stages.1.label>
+  <!-- EN: I've been treated poorly. -->
+  <Storefront_ServicedMood.stages.1.description>Меня плохо обслужили.</Storefront_ServicedMood.stages.1.description>
+  
+  <!-- EN: had decent service -->
+  <Storefront_ServicedMood.stages.2.label>приемлемое обслуживание</Storefront_ServicedMood.stages.2.label>
+  <!-- EN: I've been treated decently. -->
+  <Storefront_ServicedMood.stages.2.description>Меня обслужили достаточно хорошо.</Storefront_ServicedMood.stages.2.description>
+  
+  <!-- EN: had good service -->
+  <Storefront_ServicedMood.stages.3.label>хорошее обслуживание</Storefront_ServicedMood.stages.3.label>
+  <!-- EN: I've been treated well. -->
+  <Storefront_ServicedMood.stages.3.description>Меня хорошо обслужили.</Storefront_ServicedMood.stages.3.description>
+  
+  <!-- EN: had excellent service -->
+  <Storefront_ServicedMood.stages.4.label>отличное обслуживание</Storefront_ServicedMood.stages.4.label>
+  <!-- EN: I've been treated exceptionally well. -->
+  <Storefront_ServicedMood.stages.4.description>Меня прекрасно обслужили!</Storefront_ServicedMood.stages.4.description>
+</LanguageData>

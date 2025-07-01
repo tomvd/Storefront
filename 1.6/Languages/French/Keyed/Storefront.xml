@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+	<!-- Messages -->
+	<StoreMessageIncomeToday>Votre boutique a gagné {0} aujourd'hui.</StoreMessageIncomeToday>
+
+	<TabRegisterStore>Boutique</TabRegisterStore>
+
+	<!-- Sélection magasin -->
+	<StoreDefaultName>magasin {0}</StoreDefaultName>
+	<StoreTooltipRename>Renommer cette boutique.</StoreTooltipRename>
+
+	<!-- Paramètres -->
+	<TabRegisterOpened>Ouvert</TabRegisterOpened>
+	<TabRegisterOpenedTooltip>Lorsque cette case est cochée, les clients peuvent visiter pendant qu'une équipe est active.</TabRegisterOpenedTooltip>
+
+	<!-- Statistiques -->
+	<TabRegisterRadius>Rayon</TabRegisterRadius>
+	<TabRegisterActiveStaff>Personnel actif :</TabRegisterActiveStaff>
+	<TabRegisterCustomers>Clients :</TabRegisterCustomers>
+	<TabRegisterStocked>Stocké :</TabRegisterStocked>
+	<TabRegisterEarnedYesterday>Gagné hier :</TabRegisterEarnedYesterday>
+	<TabRegisterEarnedToday>Gagné aujourd'hui :</TabRegisterEarnedToday>
+
+	<!-- Alertes -->
+	<AlertNoRegister>Pas d'inscription</AlertNoRegister>
+	<AlertNoRegisterExplanation>Pour ouvrir votre boutique, vous avez besoin d'au moins un registre. Cela peut être construit à partir de l'onglet de production.</AlertNoRegisterExplanation>
+	<AlertNoCashier>Aucun caissier</AlertNoCashier>
+	<AlertNoCashierExplanation>Pour exploiter votre magasin, vous devez configurer au moins un quart de travail dans une caisse et affecter un caissier compétent.</AlertNoCashierExplanation>
+
+</LanguageData>

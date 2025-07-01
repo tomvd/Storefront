@@ -22,8 +22,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantGenetics", "..\..\..\P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalitySpa", "..\..\..\HospitalitySpa\Source\HospitalitySpa\HospitalitySpa.csproj", "{F3024635-88F5-4774-9E88-A144E2D0DE23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalityHotSprings", "..\..\..\HospitalityHotSprings\Source\HospitalityHotSprings\HospitalityHotSprings.csproj", "{809B7F4D-D947-44CC-AFC6-91F75C624602}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bees", "..\..\..\Bees\Source\Bees\Bees.csproj", "{7FF310BF-ABCC-463E-B8BB-34B511A4F925}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tent", "..\..\..\tent\source\tent\tent.csproj", "{70E83D66-83A4-491F-B372-4E97FD68672E}"
@@ -59,7 +57,6 @@ Global
 		{DC6DB739-F0EA-4DA2-A499-F7A648A66163}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DC6DB739-F0EA-4DA2-A499-F7A648A66163}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC6DB739-F0EA-4DA2-A499-F7A648A66163}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC6DB739-F0EA-4DA2-A499-F7A648A66163}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4CB37648-53B2-4A4C-972B-4331748E8702}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4CB37648-53B2-4A4C-972B-4331748E8702}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CB37648-53B2-4A4C-972B-4331748E8702}.Release|Any CPU.Build.0 = Release|Any CPU
@@ -80,10 +77,6 @@ Global
 		{F3024635-88F5-4774-9E88-A144E2D0DE23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3024635-88F5-4774-9E88-A144E2D0DE23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3024635-88F5-4774-9E88-A144E2D0DE23}.Release|Any CPU.Build.0 = Release|Any CPU
-		{809B7F4D-D947-44CC-AFC6-91F75C624602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{809B7F4D-D947-44CC-AFC6-91F75C624602}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{809B7F4D-D947-44CC-AFC6-91F75C624602}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{809B7F4D-D947-44CC-AFC6-91F75C624602}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7FF310BF-ABCC-463E-B8BB-34B511A4F925}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7FF310BF-ABCC-463E-B8BB-34B511A4F925}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FF310BF-ABCC-463E-B8BB-34B511A4F925}.Release|Any CPU.ActiveCfg = Release|Any CPU

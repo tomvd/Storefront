@@ -58,7 +58,7 @@ namespace Storefront.Selling
                     return;
                 }
 
-                toil.actor.GainComfortFromCellIfPossible();
+                toil.actor.GainComfortFromCellIfPossible(1);
 
                 if (toil.actor.IsHashIntervalTick(35))
                 {

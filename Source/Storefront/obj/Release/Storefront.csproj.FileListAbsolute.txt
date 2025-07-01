@@ -8,4 +8,6 @@ C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Source\St
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Source\Storefront\obj\Release\Storefront.AssemblyInfo.cs
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\1.5\Assemblies\Storefront.dll.config
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\1.5\Assemblies\Storefront.dll
-C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Source\Storefront\obj\Release\Storefront.csproj.CopyComplete
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\Source\Storefront\obj\Release\Storefront.csproj.Up2Date
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\1.6\Assemblies\Storefront.dll.config
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Storefront\1.6\Assemblies\Storefront.dll

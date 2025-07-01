@@ -4,10 +4,10 @@
     <PropertyGroup>
         <RootNamespace>Storefront</RootNamespace>
         <AssemblyName>Storefront</AssemblyName>
-        <TargetFramework>net472</TargetFramework>
+        <TargetFramework>net48</TargetFramework>
         <LangVersion>latest</LangVersion>
         <PlatformTarget>x64</PlatformTarget>
-        <OutputPath>..\..\1.5\Assemblies\</OutputPath>
+        <OutputPath>..\..\1.6\Assemblies\</OutputPath>
         <Optimize>true</Optimize>
         <DebugType>none</DebugType>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
@@ -18,7 +18,7 @@
         <DebugSymbols>true</DebugSymbols>
         <DebugType>full</DebugType>
         <Optimize>true</Optimize>
-        <OutputPath>../../1.5/Assemblies</OutputPath>
+        <OutputPath>../../1.6/Assemblies</OutputPath>
         <DefineConstants>DEBUG;TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
@@ -28,7 +28,7 @@
         <PlatformTarget>AnyCPU</PlatformTarget>
         <DebugType>none</DebugType>
         <Optimize>true</Optimize>
-        <OutputPath>../../1.5/Assemblies</OutputPath>
+        <OutputPath>../../1.6/Assemblies</OutputPath>
         <DefineConstants>TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
@@ -52,7 +52,7 @@
     </ItemGroup>
     <ItemGroup>
       <Reference Include="Hospitality">
-        <HintPath>..\..\..\Hospitality\1.5\Assemblies\Hospitality.dll</HintPath>
+        <HintPath>..\..\..\Hospitality\1.6\Assemblies\Hospitality.dll</HintPath>
       </Reference>
         <ProjectReference Include="..\..\..\CashRegister\Source\RimWorld_CashRegister\CashRegister.csproj" />     
     </ItemGroup>
