@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Previously supplied by Hospitality. Defined here so the mod works standalone.
+       When Hospitality is also present this is a harmless duplicate — identical data, last-loaded wins. -->
+  <JoyKindDef>
+    <defName>Shopping</defName>
+    <label>shopping</label>
+  </JoyKindDef>
+
+</Defs>

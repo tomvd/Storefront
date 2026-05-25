@@ -26,6 +26,11 @@ namespace Storefront.Selling
 			if (register.GetStore().WorkingPawns.FindAll(standbyPawn => !standbyPawn.Equals(pawn)).Any()) return false;
 			if (StoreUtility.IsRegionDangerous(pawn, Danger.Some, register.GetRegion()) && !forced) return false;
 			if (!register.GetStore().IsOpenedRightNow) return false;
+
+			// QoL setting: skip stand-by when no potential customers are on the map
+			if (StorefrontMod.Settings.StandByOnlyWhenCustomersAround
+			    && !HospitalityCompat.AnyCustomersOnMap(pawn.Map)) return false;
+
 			return true;
 		}
 

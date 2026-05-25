@@ -5,19 +5,26 @@ namespace Storefront;
 
 public class Settings : ModSettings
 {
-    public bool MassCasualties;
-    
+    /// <summary>
+    /// When true, colonists assigned to stand-by at a cash register will skip that job
+    /// unless at least one friendly visitor or guest is currently on the map.
+    /// </summary>
+    public bool StandByOnlyWhenCustomersAround;
+
     public override void ExposeData()
     {
-        //Scribe_Values.Look(ref MassCasualties, "massCasualties", false);
+        Scribe_Values.Look(ref StandByOnlyWhenCustomersAround, "standByOnlyWhenCustomersAround", true);
         base.ExposeData();
     }
 
     public void DoWindowContents(Rect inRect)
     {
-        Listing_Standard listingStandard = new Listing_Standard();
-        listingStandard.Begin(inRect);
-        //listingStandard.CheckboxLabeled("MassCasualties".Translate(), ref MassCasualties, "MassCasualtiesTooltip".Translate());
-        listingStandard.End();
+        Listing_Standard listing = new Listing_Standard();
+        listing.Begin(inRect);
+        listing.CheckboxLabeled(
+            "SettingStandByOnlyWhenCustomers".Translate(),
+            ref StandByOnlyWhenCustomersAround,
+            "SettingStandByOnlyWhenCustomersTooltip".Translate());
+        listing.End();
     }
 }

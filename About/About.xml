@@ -11,14 +11,9 @@
 	</supportedVersions>
 	<modDependencies>
 		<li>
-			<packageId>Orion.Hospitality</packageId>
-			<displayName>Hospitality</displayName>
-			<steamWorkshopUrl>steam://url/CommunityFilePage/2553700067</steamWorkshopUrl>
-		</li>
-		<li>
 			<packageId>Orion.CashRegister</packageId>
 			<displayName>CashRegister</displayName>
-			<steamWorkshopUrl>steam://url/CommunityFilePage/2506046833</steamWorkshopUrl>			
+			<steamWorkshopUrl>steam://url/CommunityFilePage/2506046833</steamWorkshopUrl>
 		</li>
 	</modDependencies>
 	<loadAfter>
@@ -26,6 +21,8 @@
 		<li>Orion.CashRegister</li>
 	</loadAfter>
 	<description>
-		Adds storefront tab to the cash register. Assign a colonist with high social skill to sell goods in the shop.
+Adds a storefront tab to the cash register. Assign a colonist with a high social skill to sell goods in the shop.
+
+Works standalone — vanilla caravan visitors and friendly faction pawns will automatically browse and buy from open stores. If the Hospitality mod is also installed, Hospitality guests are fully supported as before.
 	</description>
 </ModMetaData>

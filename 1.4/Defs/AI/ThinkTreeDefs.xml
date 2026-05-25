@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!--
+    Inserts JobGiver_ShopAsVisitor into the Humanlike think tree at the
+    Humanlike_PostMentalState tag. This hook runs before the visitor's lord-duty
+    wander job, giving us a chance to redirect them toward an open store.
+
+    Only affects vanilla caravan visitors (no joy need). Hospitality guests (joy need
+    present) are skipped inside the C# class and continue using JoyGiver_BuyStuff.
+  -->
+  <ThinkTreeDef>
+    <defName>Storefront_ShopAsVisitor</defName>
+    <insertTag>Humanlike_PostMentalState</insertTag>
+    <thinkRoot Class="Storefront.Shopping.JobGiver_ShopAsVisitor" />
+  </ThinkTreeDef>
+
+</Defs>

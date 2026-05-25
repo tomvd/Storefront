@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tent", "..\..\..\tent\sourc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalityBar", "..\..\..\HospitalityBar\Source\HospitalityBar\HospitalityBar.csproj", "{6538E707-3474-45F0-8E3A-353E1A46932B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Customers", "..\..\..\Customers\Source\Customers\Customers.csproj", "{EFF59525-7528-4502-AA6F-BD0018365C60}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,5 +87,8 @@ Global
 		{70E83D66-83A4-491F-B372-4E97FD68672E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70E83D66-83A4-491F-B372-4E97FD68672E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70E83D66-83A4-491F-B372-4E97FD68672E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFF59525-7528-4502-AA6F-BD0018365C60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFF59525-7528-4502-AA6F-BD0018365C60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFF59525-7528-4502-AA6F-BD0018365C60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 EndGlobal

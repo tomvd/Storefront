@@ -3,6 +3,8 @@
   
 	<!-- Messages -->
 	<StoreMessageIncomeToday>Your store has earned {0} today.</StoreMessageIncomeToday>
+	<GuestBoughtItem>{PAWN} from {FACTION} bought {ITEM} for {1} silver.</GuestBoughtItem>
+	<GuestTookFreeItem>{PAWN} from {FACTION} took {ITEM} for free.</GuestTookFreeItem>
 	
 	<TabRegisterStore>Shop</TabRegisterStore>
 	
@@ -10,7 +12,11 @@
 	<StoreDefaultName>store {0}</StoreDefaultName>
 	<StoreTooltipRename>Rename this store.</StoreTooltipRename>
 	
-	<!-- Settings -->
+	<!-- Mod settings -->
+	<SettingStandByOnlyWhenCustomers>Stand by only when visitors present</SettingStandByOnlyWhenCustomers>
+	<SettingStandByOnlyWhenCustomersTooltip>When enabled, colonists assigned to stand by at a cash register will skip that job unless there is at least one friendly visitor or guest currently on the map. Saves labour when the map is empty of customers.</SettingStandByOnlyWhenCustomersTooltip>
+
+	<!-- Store tab settings -->
 	<TabRegisterOpened>Opened</TabRegisterOpened>
 	<TabRegisterOpenedTooltip>When checked, customers can visit while a shift is active.</TabRegisterOpenedTooltip>
 	

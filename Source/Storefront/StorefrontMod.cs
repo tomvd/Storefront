@@ -6,7 +6,7 @@ namespace Storefront
     [StaticConstructorOnStartup]
     public class StorefrontMod : Mod
     {
-        private static Settings Settings;
+        public static Settings Settings;
 
         public StorefrontMod(ModContentPack content) : base(content)
         {
