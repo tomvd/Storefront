@@ -97,6 +97,10 @@ public static class StorefrontUtility
      *  worst cases:
      *  0 social seller, 28 buyer : 12% market value - you basically give away stuff if you are stupid enough to put an abrasive mute caveman in charge of your store ;)
      *  28 seller, 0 buyer: 90% market value because that is the limit - it creates the opportunity to buy items at 85% from a trader and sell at 90% in your storefront to make a bit of profit :p
+     *
+     *  On top of all that, the storyteller's "Trade price disadvantage" custom difficulty setting
+     *  is applied (the store selling to a guest is a player sale), so store prices stay in line
+     *  with what a trade caravan would pay under the same setting.
      */
     public static float GetPurchasingCost(Thing thing, Pawn buyer, Pawn seller = null)
     {
@@ -107,7 +111,11 @@ public static class StorefrontUtility
         {
             finalTPIDiff = GetTPI(seller) - buyerTPI;
         }
-        return thing.MarketValue * Math.Min(basePriceModifier * (1f + finalTPIDiff), maxPriceModifier);
+        var price = thing.MarketValue * Math.Min(basePriceModifier * (1f + finalTPIDiff), maxPriceModifier);
+        // A store sale is a player sale: respect the storyteller's "trade price disadvantage"
+        // setting, exactly like vanilla applies it in TradeUtility/Tradeable for caravan trades.
+        price *= 1f - (Find.Storyteller?.difficulty?.tradePriceFactorLoss ?? 0f);
+        return price;
     }
 
     /// <summary>
