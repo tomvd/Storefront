@@ -2,26 +2,7 @@
 <project version="4">
   <component name="UserContentModel">
     <attachedFolders>
-      <Path>../../../AllowTool2</Path>
-      <Path>../../../AllowTool2/Source</Path>
-      <Path>../../../Bees</Path>
-      <Path>../../../CashRegister</Path>
-      <Path>../../../CashRegisterContinued/Source</Path>
-      <Path>../../../Customers</Path>
-      <Path>../../../ForbidBlueprints</Path>
-      <Path>../../../Gastronomy</Path>
-      <Path>../../../Hospital</Path>
-      <Path>../../../Hospitality</Path>
-      <Path>../../../HospitalityArchitect</Path>
-      <Path>../../../HospitalityBar</Path>
-      <Path>../../../HospitalityCasino</Path>
-      <Path>../../../HospitalityContinued/Source</Path>
-      <Path>../../../HospitalitySpa</Path>
-      <Path>../../../PlantGenetics</Path>
-      <Path>../../../RimworldTycoon</Path>
-      <Path>../../../Storefront</Path>
-      <Path>../../../VendingMachines</Path>
-      <Path>../../../tent</Path>
+      <Path>../..</Path>
     </attachedFolders>
     <explicitIncludes />
     <explicitExcludes />

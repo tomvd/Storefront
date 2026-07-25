@@ -50,10 +50,18 @@
     <ItemGroup>
         <Publicize Include="Assembly-CSharp" />
     </ItemGroup>
+    <!-- Surface the mod's content XML (Defs, Patches, Languages, About...) in the IDE so it's reachable alongside the source -->
+    <ItemGroup>
+        <None Include="..\..\**\*.xml" Exclude="..\..\Source\**\*.xml" Link="%(RecursiveDir)%(Filename)%(Extension)" />
+    </ItemGroup>
     <ItemGroup>
       <Reference Include="Hospitality">
         <HintPath>..\..\..\Hospitality\1.6\Assemblies\Hospitality.dll</HintPath>
+        <Private>false</Private>
       </Reference>
-        <ProjectReference Include="..\..\..\CashRegister\Source\RimWorld_CashRegister\CashRegister.csproj" />     
+      <Reference Include="CashRegister">
+        <HintPath>..\..\..\CashRegister\1.6\Assemblies\CashRegister.dll</HintPath>
+        <Private>false</Private>
+      </Reference>
     </ItemGroup>
 </Project>
