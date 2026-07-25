@@ -36,6 +36,11 @@ namespace Storefront.Shopping
         //    or a BuyItem job - if the pawn is interested enough in buying it.
         public override Job TryGiveJob(Pawn pawn)
         {
+            return TryGiveJob(pawn, null);
+        }
+
+        public Job TryGiveJob(Pawn pawn, ShoppingCategory? forcedCategory)
+        {
             if (HospitalityCompat.GetMoney(pawn) < 1) return null;
 
             var requiresFoodFactor = HospitalityCompat.GetRequiresFoodFactor(pawn);
@@ -45,27 +50,30 @@ namespace Storefront.Shopping
             if (pawn.needs?.food != null)
                 requiresFoodFactor += (int)pawn.needs.food.CurCategory;
 
-            // Try 5 random items from a pool of all items of all stores
+            // Pool of all buyable items of all stores
             List<Thing> things = new List<Thing>();
             pawn.GetAllStores().Where(r => r.CanShopHere(pawn)).ToList().ForEach(store => things.AddRange(store.Stock
                 .Where(t => !HasRecentlyLookedAt(pawn, t.Position) && StorefrontUtility.IsBuyableAtAll(pawn, t, store))));
 
             if (things.Count == 0) return null;
 
-            List<Thing> selection = things.Where(t =>
-                pawn.CanReach(t.Position, PathEndMode.Touch, Danger.Some, false, false, TraverseMode.PassDoors)
-                && HospitalityCompat.GetInventorySpaceFor(pawn, t) > 0).ToList().TakeRandom(10).Distinct().ToList();
+            // Every guest has a preferred shopping category and first tries to find something
+            // within it, so purchases spread across the store's whole range. The BuyFood job
+            // giver forces the food category, and urgently hungry pawns want food first anyway.
+            var preferredCategory = forcedCategory
+                                    ?? (pawn.needs?.food?.CurCategory >= HungerCategory.UrgentlyHungry
+                                        ? ShoppingCategory.Food
+                                        : ShoppingPreferences.GetPreferredCategory(pawn));
 
-            if (selection.Count == 0) return null;
+            // Try the preferred category first; if it has nothing this pawn cares for, fall back to everything
+            Thing thing = SelectThing(pawn, things.Where(t => ShoppingPreferences.GetCategory(t) == preferredCategory).ToList(), requiresFoodFactor, true)
+                          ?? SelectThing(pawn, things, requiresFoodFactor, false);
 
-            Thing thing = selection.MaxBy(t => Likey(pawn, t, requiresFoodFactor));
+            if (thing == null) return null;
 
-            if (thing == null)
-            {
-                Log.Message("huh?");
-                return null;
-            }
             var interestingFactor = Likey(pawn, thing, requiresFoodFactor);
+            // More inclined to actually buy (instead of just browse) items from the preferred category
+            if (ShoppingPreferences.GetCategory(thing) == preferredCategory) interestingFactor += 0.2f;
             // find the store selling the item
             StoreController store = pawn.GetAllStores().FirstOrDefault(store => store.GetIsInRange(thing.Position));
             if (store == null)
@@ -118,6 +126,22 @@ namespace Storefront.Shopping
             Job buyJob = new Job(ShoppingDefOf.Storefront_BuyItem, thing, store.Register);
             buyJob.count = count;
             return buyJob;
+        }
+
+        // Picks up to 10 random reachable items from the pool and returns the one the pawn likes most.
+        // With requireInterest, returns null instead of an item the pawn has no interest in at all,
+        // so the caller can fall back to a wider pool.
+        private static Thing SelectThing(Pawn pawn, List<Thing> things, float requiresFoodFactor, bool requireInterest)
+        {
+            List<Thing> selection = things.Where(t =>
+                pawn.CanReach(t.Position, PathEndMode.Touch, Danger.Some, false, false, TraverseMode.PassDoors)
+                && HospitalityCompat.GetInventorySpaceFor(pawn, t) > 0).ToList().TakeRandom(10).Distinct().ToList();
+
+            if (selection.Count == 0) return null;
+
+            Thing thing = selection.MaxBy(t => Likey(pawn, t, requiresFoodFactor));
+            if (requireInterest && Likey(pawn, thing, requiresFoodFactor) <= 0) return null;
+            return thing;
         }
 
         private static float Likey(Pawn pawn, Thing thing, float requiresFoodFactor)

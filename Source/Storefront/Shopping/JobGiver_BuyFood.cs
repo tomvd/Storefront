@@ -35,6 +35,10 @@ namespace Storefront.Shopping
 
 			if (ShoppingDefOf.Storefront_BuyFood.Worker.MissingRequiredCapacity(pawn) != null) return null;
 
+			// Hungry guests head for the food aisle first instead of buying whatever scores highest
+			if (ShoppingDefOf.Storefront_BuyFood.Worker is JoyGiver_BuyStuff worker)
+				return worker.TryGiveJob(pawn, ShoppingCategory.Food);
+
 			return ShoppingDefOf.Storefront_BuyFood.Worker.TryGiveJob(pawn);
 		}
 	}
