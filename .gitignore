@@ -1,1 +1,7 @@
 About/PublishedFileId.txt
+# Build artifacts
+obj/
+bin/
+*.pdb
+*.user
+.vs/
