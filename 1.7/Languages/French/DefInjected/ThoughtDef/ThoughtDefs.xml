@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <Storefront_Serviced.stages.0.label>service horrible</Storefront_Serviced.stages.0.label>
+  <Storefront_Serviced.stages.1.label>mauvais service</Storefront_Serviced.stages.1.label>
+  <Storefront_Serviced.stages.2.label>service décent</Storefront_Serviced.stages.2.label>
+  <Storefront_Serviced.stages.3.label>bon service</Storefront_Serviced.stages.3.label>
+  <Storefront_Serviced.stages.4.label>excellent service</Storefront_Serviced.stages.4.label>
+
+  <Storefront_ServicedMood.stages.0.label>avait un service horrible</Storefront_ServicedMood.stages.0.label>
+  <Storefront_ServicedMood.stages.0.description>J'ai été très mal traité.</Storefront_ServicedMood.stages.0.description>
+  <Storefront_ServicedMood.stages.1.label>avait un mauvais service</Storefront_ServicedMood.stages.1.label>
+  <Storefront_ServicedMood.stages.1.description>J'ai été mal traité.</Storefront_ServicedMood.stages.1.description>
+  <Storefront_ServicedMood.stages.2.label>avait un service décent</Storefront_ServicedMood.stages.2.label>
+  <Storefront_ServicedMood.stages.2.description>J'ai été traité décemment.</Storefront_ServicedMood.stages.2.description>
+  <Storefront_ServicedMood.stages.3.label>avait un bon service</Storefront_ServicedMood.stages.3.label>
+  <Storefront_ServicedMood.stages.3.description>J'ai été bien traité.</Storefront_ServicedMood.stages.3.description>
+  <Storefront_ServicedMood.stages.4.label>avait un excellent service</Storefront_ServicedMood.stages.4.label>
+  <Storefront_ServicedMood.stages.4.description>J'ai été exceptionnellement bien traité.</Storefront_ServicedMood.stages.4.description>
+</LanguageData>

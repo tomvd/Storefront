@@ -4,13 +4,14 @@
     <PropertyGroup>
         <RootNamespace>Storefront</RootNamespace>
         <AssemblyName>Storefront</AssemblyName>
-        <TargetFramework>net48</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <LangVersion>latest</LangVersion>
         <PlatformTarget>x64</PlatformTarget>
-        <OutputPath>..\..\1.6\Assemblies\</OutputPath>
+        <OutputPath>..\..\1.7\Assemblies\</OutputPath>
         <Optimize>true</Optimize>
         <DebugType>none</DebugType>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <GenerateDependencyFile>false</GenerateDependencyFile>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -18,7 +19,7 @@
         <DebugSymbols>true</DebugSymbols>
         <DebugType>full</DebugType>
         <Optimize>true</Optimize>
-        <OutputPath>../../1.6/Assemblies</OutputPath>
+        <OutputPath>../../1.7/Assemblies</OutputPath>
         <DefineConstants>DEBUG;TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
@@ -28,7 +29,7 @@
         <PlatformTarget>AnyCPU</PlatformTarget>
         <DebugType>none</DebugType>
         <Optimize>true</Optimize>
-        <OutputPath>../../1.6/Assemblies</OutputPath>
+        <OutputPath>../../1.7/Assemblies</OutputPath>
         <DefineConstants>TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
@@ -41,7 +42,7 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Krafs.Rimworld.Ref">
-            <Version>*-*</Version>
+            <Version>1.7.*-*</Version>
             <ExcludeAssets>runtime</ExcludeAssets>
             <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>

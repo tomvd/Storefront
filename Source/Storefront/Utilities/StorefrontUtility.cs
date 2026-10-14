@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using RimWorld;
 using Storefront.Shopping;
 using Storefront.Store;

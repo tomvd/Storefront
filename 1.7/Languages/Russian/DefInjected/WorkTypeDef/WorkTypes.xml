@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- EN: Selling -->
+  <Storefront_Selling.labelShort>Продавец</Storefront_Selling.labelShort>
+  <!-- EN: Cashier -->
+  <Storefront_Selling.pawnLabel>Кассир</Storefront_Selling.pawnLabel>
+  <!-- EN: selling -->
+  <Storefront_Selling.gerundLabel>продавать</Storefront_Selling.gerundLabel>
+  <!-- EN: Sell items to customers. -->
+  <Storefront_Selling.description>Продавать товары клиентам.</Storefront_Selling.description>
+  <!-- EN: Sell -->
+  <Storefront_Selling.verb>продавать</Storefront_Selling.verb>
+</LanguageData>

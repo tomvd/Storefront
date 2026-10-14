@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <Storefront_Sell.label>vendre</Storefront_Sell.label>
+  <Storefront_Sell.verb>vendre</Storefront_Sell.verb>
+  <Storefront_Sell.gerund>vente</Storefront_Sell.gerund>
+
+  <Storefront_StandBy.label>attendre</Storefront_StandBy.label>
+  <Storefront_StandBy.verb>attendre</Storefront_StandBy.verb>
+  <Storefront_StandBy.gerund>en attente</Storefront_StandBy.gerund>
+
+</LanguageData>
