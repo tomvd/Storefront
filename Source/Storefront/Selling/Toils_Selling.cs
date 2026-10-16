@@ -151,7 +151,18 @@ namespace Storefront.Selling
                 var item = targetItem.Thing;
                 var targetRegister = curJob.GetTarget(registerInd);
                 var register = targetRegister.Thing;
-                SellThing(actor, customer, item, register as Building_CashRegister);
+
+                // The customer may have switched jobs (or picked another item) during the wait
+                // after the announcement. Never read the count from an unrelated job — that job's
+                // count can be anything and would be charged as the purchase quantity.
+                if (customer?.jobs?.curDriver is not JobDriver_BuyItem buyDriver || buyDriver.job.targetA.Thing != item)
+                {
+                    Log.Warning($"Can't sell. {customer?.NameShortColored} is no longer buying {item?.LabelShort}.");
+                    actor.jobs.curDriver.EndJobWith(JobCondition.Incompletable);
+                    return;
+                }
+
+                SellThing(actor, customer, item, register as Building_CashRegister, buyDriver.job.count);
                 MoteMaker.MakeInteractionBubble(actor, customer, ThingDefOf.Mote_Speech, InteractionDefOf.BuildRapport.GetSymbol());
                 actor.skills.GetSkill(SkillDefOf.Social).Learn(150);
                 if (customer.jobs.curDriver is JobDriver_BuyItem buyJob)
@@ -159,9 +170,12 @@ namespace Storefront.Selling
             }
         }
 
-        private static void SellThing(Pawn salesperson, Pawn customer, Thing item, Building_CashRegister register)
+        private static void SellThing(Pawn salesperson, Pawn customer, Thing item, Building_CashRegister register, int count)
         {
             if (item.MarketValue <= 0) return;
+
+            // Charge only for what can actually change hands — SplitOff never takes more than the stack.
+            count = Mathf.Clamp(count, 1, item.stackCount);
 
             var inventory = customer.inventory.innerContainer;
 
@@ -170,7 +184,6 @@ namespace Storefront.Selling
             Thing silver = inventory.FirstOrDefault(i => i.def == ThingDefOf.Silver);
 
             var itemCost = StorefrontUtility.GetPurchasingCost(item, customer, salesperson);
-            int count = customer.jobs.curJob.count;
             var price = Mathf.CeilToInt(count * itemCost);
 
             var map = customer.MapHeld;
